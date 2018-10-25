@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<attr name="dataType">
+		<enum name="String" value="0" />
+        <enum name="Integer" value="1" />
+        <enum name="Numeric" value="2" />
+        <enum name="Money" value="3" />
+        <enum name="Date" value="4" />
+        <enum name="DateTime" value="5" />
+        <enum name="Guid" value="6" />
+        <enum name="Boolean" value="7" />
+        <enum name="Binary" value="8" />
+	</attr>
+
+	<!--<attr name="sign">-->
+		<!--<enum name="ForSave" value="1"/>-->
+		<!--<enum name="ForUpdate" value="2"/>-->
+		<!--<enum name="ForDel" value="3"/>-->
+		<!--<enum name="ForQuery" value="4"/>-->
+		<!--<enum name="ForQuery1" value="5"/>-->
+		<!--<enum name="ForChange" value="6"/>-->
+	<!--</attr>-->
+
+	<!--<attr name="collectSign">-->
+		<!--<enum name="ForSave" value="1"/>-->
+		<!--<enum name="ForUpdate" value="2"/>-->
+		<!--<enum name="ForDel" value="3"/>-->
+		<!--<enum name="ForQuery" value="4"/>-->
+		<!--<enum name="ForQuery1" value="5"/>-->
+		<!--<enum name="ForChange" value="6"/>-->
+	<!--</attr>-->
+
+	<!--<attr name="isRequired">-->
+		<!--<enum name="Yes" value="1" />-->
+		<!--<enum name="No" value="0" />-->
+	<!--</attr>-->
+
+	<!--<attr name="empty2Null">-->
+		<!--<enum name="Yes" value="1" />-->
+		<!--<enum name="No" value="0" />-->
+	<!--</attr>-->
+
+	<!--<attr name="automatic">-->
+		<!--<enum name="Yes" value="1" />-->
+		<!--<enum name="No" value="0" />-->
+	<!--</attr>-->
+
+	<!--<declare-styleable name="View">-->
+		<!--<attr name="dataType"></attr>-->
+		<!--&lt;!&ndash;采集标记&ndash;&gt;-->
+		<!--<attr name="collectSign" format="string"></attr>-->
+		<!--&lt;!&ndash;标记，配合collectSign使用&ndash;&gt;-->
+		<!--<attr name="sign" format="string"></attr>-->
+		<!--&lt;!&ndash;是否必填项&ndash;&gt;-->
+		<!--<attr name="isRequired" format="boolean"></attr>-->
+		<!--&lt;!&ndash;是否自动执行&ndash;&gt;-->
+		<!--<attr name="automatic" format="boolean"></attr>-->
+		<!--&lt;!&ndash;数据为空时用null代替&ndash;&gt;-->
+		<!--<attr name="empty2Null" format="boolean"></attr>-->
+		<!--&lt;!&ndash;执行的sql文件名称，书写时无后缀名.sql&ndash;&gt;-->
+		<!--<attr name="sql" format="string"></attr>-->
+	<!--</declare-styleable>-->
+
+	<!--采集标记-->
+	<attr name="collectSign" format="string"></attr>
+	<!--标记，配合collectSign使用-->
+	<attr name="sign" format="string"></attr>
+	<!--是否必填项-->
+	<attr name="isRequired" format="boolean"></attr>
+	<!--是否自动执行-->
+	<attr name="automatic" format="boolean"></attr>
+	<!--数据为空时用null代替-->
+	<attr name="empty2Null" format="boolean"></attr>
+	<!--执行的sql文件名称，书写时无后缀名.sql-->
+	<attr name="sql" format="string"></attr>
+
+	<declare-styleable name="ESActionLoadPage">
+		<!--数据类型-->
+		<attr name="dataType"></attr>
+		<!--标记，配合collectSign使用-->
+		<attr name="sign"></attr>
+		<!--执行的sql文件名称，书写时无后缀名.sql-->
+		<attr name="sql"></attr>
+		<!--是否自动执行-->
+		<attr name="automatic"></attr>
+	</declare-styleable>
+
+	<declare-styleable name="ESButton">
+		<!--标记，配合collectSign使用-->
+		<!--<attr name="sign"></attr>-->
+		<!--状态ViewID-->
+		<attr name="stateHiddenId" format="string"></attr>
+		<!--希望显示状态的值-->
+		<attr name="wantedStateValue" format="string"></attr>
+		<!--标记，配合collectSign使用-->
+		<attr name="sign"></attr>
+		<!--权限标记-->
+		<attr name="funcSign" format="string"></attr>
+		<!--目标屏幕标记-->
+		<attr name="open" format="string"></attr>
+		<!--是否自动关闭当前Activity-->
+		<attr name="isClosed" format="boolean"></attr>
+	</declare-styleable>
+
+
+
+	<declare-styleable name="ESButtonOpen">
+	</declare-styleable>
+
+	<declare-styleable name="ESCheckBox">
+		<attr name="dataType"></attr>
+		<attr name="isRequired"></attr>
+		<attr name="empty2Null"></attr>
+		<attr name="collectSign"></attr>
+	</declare-styleable>
+
+	<declare-styleable name="ESDatePicker">
+		<attr name="isRequired"></attr>
+		<attr name="empty2Null"></attr>
+		<attr name="collectSign"></attr>
+	</declare-styleable>
+
+	<declare-styleable name="ESDateTimeView">
+		<attr name="empty2Null"></attr>
+		<attr name="collectSign"></attr>
+	</declare-styleable>
+
+	<declare-styleable name="ESTimePicker">
+		<attr name="isRequired"></attr>
+		<attr name="empty2Null"></attr>
+		<attr name="collectSign"></attr>
+	</declare-styleable>
+
+	<declare-styleable name="ESHiddenFeild">
+	</declare-styleable>
+
+	<declare-styleable name="ESRadioGroup">
+		<attr name="dataType"></attr>
+		<attr name="isRequired"></attr>
+		<attr name="empty2Null"></attr>
+		<attr name="collectSign"></attr>
+	</declare-styleable>
+
+	<declare-styleable name="ESSpinner">
+		<!--采集标记-->
+		<attr name="collectSign"></attr>
+		<!--标记，配合collectSign使用-->
+		<attr name="sign"></attr>
+		<!--是否必填项-->
+		<attr name="isRequired"></attr>
+		<!--是否自动执行-->
+		<attr name="automatic"></attr>
+		<!--数据为空时用null代替-->
+		<attr name="empty2Null"></attr>
+		<!--执行的sql文件名称，书写时无后缀名.sql-->
+		<attr name="sql"></attr>
+		<!--采集标记名称-->
+		<attr name="collectName" format="string"></attr>
+		<!--绑定的显示字段名称-->
+		<attr name="displayValue" format="string"></attr>
+		<!--绑定的值字段名-->
+		<attr name="bindValue" format="string"></attr>
+		<attr name="isEmpty" format="boolean"></attr>
+	</declare-styleable>
+
+	<declare-styleable name="ESTextBox">
+		<attr name="dataType"></attr>
+		<attr name="isRequired"></attr>
+		<attr name="empty2Null"></attr>
+		<attr name="collectSign"></attr>
+		<!--必填项错误提示-->
+		<attr name="isRequiredTooltip" format="string"></attr>
+		<!--正则表达式-->
+		<attr name="regularExpression" format="string"></attr>
+		<!--正则表达式校验错误提示-->
+		<attr name="regularTooltip" format="string"></attr>
+	</declare-styleable>
+
+	<declare-styleable name="ESTextView">
+		<attr name="dataType"></attr>
+		<attr name="isRequired"></attr>
+		<attr name="empty2Null"></attr>
+		<attr name="collectSign"></attr>
+	</declare-styleable>
+
+
+
+<!--<declare-styleable name="View">-->
+	<!--&lt;!&ndash;数据类型&ndash;&gt;-->
+	<!--<attr name="dataType"></attr>-->
+	<!--&lt;!&ndash;是否必填项&ndash;&gt;-->
+	<!--<attr name="isRequired" format="boolean"></attr>-->
+	<!--&lt;!&ndash;采集标记&ndash;&gt;-->
+	<!--<attr name="collectSign" format="string"></attr>-->
+	<!--&lt;!&ndash;数据为空时用null代替&ndash;&gt;-->
+	<!--<attr name="empty2Null" format="boolean"></attr>-->
+	<!--&lt;!&ndash;采集标记名称&ndash;&gt;-->
+	<!--<attr name="collectName" format="string"></attr>-->
+	<!--&lt;!&ndash;标记，配合collectSign使用&ndash;&gt;-->
+	<!--<attr name="sign" format="string"></attr>-->
+	<!--&lt;!&ndash;执行的sql文件名称，书写时无后缀名.sql&ndash;&gt;-->
+	<!--<attr name="sql" format="string"></attr>-->
+	<!--&lt;!&ndash;是否自动关闭当前Activity&ndash;&gt;-->
+	<!--<attr name="isClosed" format="boolean"></attr>-->
+	<!--&lt;!&ndash;是否自动执行&ndash;&gt;-->
+	<!--<attr name="autoLoad" format="boolean"></attr>-->
+	<!--&lt;!&ndash;弹出的消息提示&ndash;&gt;-->
+	<!--<attr name="message" format="string"></attr>-->
+	<!--&lt;!&ndash;状态ViewID&ndash;&gt;-->
+	<!--<attr name="stateHiddenId" format="string"></attr>-->
+	<!--&lt;!&ndash;希望显示状态的值&ndash;&gt;-->
+	<!--<attr name="wantedStateValue" format="string"></attr>-->
+	<!--&lt;!&ndash;权限标记&ndash;&gt;-->
+	<!--<attr name="funcSign" format="string"></attr>-->
+	<!--&lt;!&ndash;目标屏幕路径&ndash;&gt;-->
+	<!--<attr name="open" format="string"></attr>-->
+	<!--&lt;!&ndash;绑定的显示字段名称&ndash;&gt;-->
+	<!--<attr name="displayValue" format="string"></attr>-->
+	<!--&lt;!&ndash;绑定的值字段名&ndash;&gt;-->
+	<!--<attr name="bindValue" format="string"></attr>-->
+	<!--<attr name="layoutID" format="string"></attr>-->
+	<!--<attr name="bindID" format="string"></attr>-->
+	<!--<attr name="isEmpty" format="boolean"></attr>-->
+	<!--&lt;!&ndash;文本字体值&ndash;&gt;-->
+	<!--<attr name="textSize" format="dimension"></attr>-->
+	<!--<attr name="clickedColor" format="color"></attr>-->
+
+	<!--&lt;!&ndash;ESTextBox专用属性&ndash;&gt;-->
+	<!--&lt;!&ndash;必填项错误提示&ndash;&gt;-->
+	<!--<attr name="isRequiredTooltip" format="string"></attr>-->
+	<!--&lt;!&ndash;正则表达式&ndash;&gt;-->
+	<!--<attr name="regularExpression" format="string"></attr>-->
+	<!--&lt;!&ndash;正则表达式校验错误提示&ndash;&gt;-->
+	<!--<attr name="regularTooltip" format="string"></attr>-->
+<!--</declare-styleable>-->
+
+	<!--<declare-styleable name="Themes">-->
+		<!--<attr name="birthstoneStyle" format="reference"/>-->
+	<!--</declare-styleable>-->
+</resources>

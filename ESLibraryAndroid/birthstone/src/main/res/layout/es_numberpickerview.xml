@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/root">
+    <ImageView
+            android:id="@+id/btn_num_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:padding="1dp"
+            android:src="@mipmap/btn_minus_nor" />
+
+    <com.birthstone.widgets.ESTextBoxNumber
+            android:id="@+id/number"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@null"
+            android:layout_weight="1"
+            android:text="1"
+            android:textColor="@color/es_black"/>
+
+    <ImageView
+            android:id="@+id/btn_num_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:padding="1dp"
+            android:src="@mipmap/btn_add" />
+
+</LinearLayout>

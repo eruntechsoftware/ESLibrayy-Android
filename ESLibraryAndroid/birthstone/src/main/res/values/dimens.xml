@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimen_dialog_to_top50dp">50dp</dimen>
+</resources>

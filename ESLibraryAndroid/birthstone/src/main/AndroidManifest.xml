@@ -1,0 +1,9 @@
+<!--<manifest package="com.github.eruntechsoftware.androidESLibrary">-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.birthstone">
+
+    <application>
+        <activity android:name=".widgets.photoView.ESPhotoView"
+            android:launchMode="singleTask"
+        />
+    </application>
+</manifest>

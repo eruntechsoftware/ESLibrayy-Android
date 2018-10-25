@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="es_colorPrimary">#3F51B5</color>
+    <color name="es_colorPrimaryDark">#303F9F</color>
+    <color name="es_colorAccent">#FF4081</color>
+
+    <!--<color name="color1">#40c3ff</color>-->
+
+
+    <color name="es_text_normal">#9da0a4</color>
+
+    <color name="es_text_blank">#4b4b4b</color>
+    <color name="es_text_gray">#7e7d7d</color>
+    <color name="es_divider_bar">#F5F5F5</color>
+    <color name="es_divider_line">#cfcfcf</color>
+    <color name="es_background_light_grey">#F5F5F5</color>
+
+    <color name="es_white">#ffffff</color><!--白色 -->
+    <color name="es_orange">#FFEC8006</color><!--橘红色 -->
+    <color name="es_black">#4b4b4b</color>
+    <color name="es_transparent">#00000000</color>
+    <color name="es_red">#FF4081</color>
+    <color name="es_qianhui">#F5F0F0</color>
+    <color name="es_huibai">#F5F5F5</color>
+    <color name="es_shenhui">#931e1e1e</color>
+    <color name="es_hui_pressed">#eeddddda</color>
+</resources>
