@@ -17,6 +17,7 @@ import com.birthstone.core.parse.Data;
 import com.birthstone.core.parse.DataCollection;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.File;
 import java.util.LinkedList;
 
 /**
@@ -28,6 +29,7 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 	protected Activity mActivity;
 	protected String mName;
 	protected String murl;
+	protected String muri;
 	protected int srcid;
 	public static String IMAGE_URL_HEAD = "";
 
@@ -60,8 +62,15 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 		this.setImageURI(Uri.parse(imageUrl));
 	}
 
+	public void setImageURI(String uri)
+	{
+		muri = uri;
+		super.setImageURI(uri);
+	}
+
 	public void dataInitialize ()
 	{
+
 		if (mActivity != null)
 		{
 			String classnameString = mActivity.getPackageName() + ".R$id";
@@ -96,8 +105,25 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 			if(!data.getStringValue().equals(""))
 			{
 				setImageURI(data.getStringValue());
+				murl = data.getStringValue();
 			}
 		}
+	}
+
+	/**
+	 *获取由URI返回的文件对象
+	 * **/
+	public File getURI2File()
+	{
+		if(murl!=null && murl.length()>0)
+		{
+			return new File(com.birthstone.core.helper.File.url2Bitmap(murl));
+		}
+		if(muri!=null && muri.length()>0)
+		{
+			return new File(muri);
+		}
+		return null;
 	}
 
 	public DataCollection collect ()

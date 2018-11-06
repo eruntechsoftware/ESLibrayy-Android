@@ -11,12 +11,10 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.InputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 
 /**
@@ -25,12 +23,19 @@ import java.text.SimpleDateFormat;
  **/
 public class File
 {
-
+    private static String SDPATH="";
+        private Context context;
     /**
      * File构造函数
      **/
     public File ()
     {
+    }
+
+    public File (Context context)
+    {
+        this.context = context;
+        SDPATH=getBitmapCachePath(context);
     }
 
 
@@ -413,5 +418,106 @@ public class File
             Log.e("Assets", ex.getMessage());
         }
         return fileBytes;
+    }
+
+    /**
+     * 根据图片的url路径获得File对象
+     *
+     * @param url
+     *
+     * @return
+     */
+    public static String url2Bitmap(String url)
+    {
+        URL fileUrl = null;
+        Bitmap bitmap = null;
+        String filePath = null;
+        try
+        {
+            fileUrl = new URL(url);
+        }
+        catch(MalformedURLException e)
+        {
+            e.printStackTrace();
+        }
+
+        try
+        {
+            HttpURLConnection conn = (HttpURLConnection) fileUrl.openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+            filePath = saveBitmap(bitmap, url2Name(url));
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return filePath;
+    }
+
+    /**
+     * 修改时间：2015年9月1日
+     *
+     * 作者；张景瑞
+     *
+     * 功能：保存照片到SDCard
+     */
+    public static String saveBitmap(Bitmap bm, String picName)
+    {
+        String filePath = SDPATH + picName;
+        try
+        {
+            // 判断文件是否存在
+            if(com.birthstone.core.helper.File.exists(filePath))
+            {
+                com.birthstone.core.helper.File.delete(filePath);
+            }
+
+            // 写入文件
+            com.birthstone.core.helper.File.write(filePath, bitmap2byte(bm));
+
+        }
+        catch(Exception ex)
+        {
+            Log.e("saveBitmap", ex.getMessage());
+        }
+        return filePath;
+    }
+
+    /***
+     * 获取APP SDCard缓冲区地址
+     * @return
+     */
+    public static String getBitmapCachePath(Context context)
+    {
+        String dir = File.getSDCardPath() + "//"+ context.getPackageName()+"//cache//";
+        java.io.File file = new java.io.File(dir);
+        if (!file.exists())
+        {
+            file.mkdirs();
+        }
+        return File.getSDCardPath() + "//"+ context.getPackageName()+"//cache//";
+    }
+
+    public static String url2Name(String url)
+    {
+        String name="";
+        if(url!=null && url.length()>0)
+        {
+            String[] cols = url.split("/");
+            if(cols!=null && cols.length>0)
+            {
+                String[] names = cols[cols.length-1].split(".");
+                if(names!=null && names.length>0)
+                {
+                    name = names[0];
+                }
+            }
+        }
+        return name;
     }
 }
