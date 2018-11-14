@@ -2,6 +2,7 @@
 package com.birthstone.core.interfaces;
 
 import com.birthstone.core.helper.ModeType;
+import com.birthstone.core.helper.ModeTypeHelper;
 
 public interface IStateProtected
 {

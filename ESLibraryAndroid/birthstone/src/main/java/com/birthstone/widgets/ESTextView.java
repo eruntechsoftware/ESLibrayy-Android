@@ -18,6 +18,8 @@ import com.birthstone.core.interfaces.IReleasable;
 import com.birthstone.core.interfaces.IValidatible;
 import com.birthstone.core.parse.Data;
 import com.birthstone.core.parse.DataCollection;
+import com.birthstone.core.helper.ModeType;
+import com.birthstone.core.helper.ModeTypeHelper;
 
 import java.util.LinkedList;
 
