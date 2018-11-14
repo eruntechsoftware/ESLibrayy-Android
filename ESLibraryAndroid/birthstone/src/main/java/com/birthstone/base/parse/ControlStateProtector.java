@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.birthstone.base.activity.Activity;
 import com.birthstone.base.security.ControlSearcher;
+import com.birthstone.core.helper.ModeType;
 import com.birthstone.core.interfaces.IChildView;
 import com.birthstone.core.interfaces.IControlSearcherHandler;
 import com.birthstone.core.interfaces.IReleasable;
@@ -16,9 +17,9 @@ import java.util.List;
 public class ControlStateProtector implements IControlSearcherHandler
 {
 	private IChildView childView;
-	private ESHiddenFeild hidden = null;
+	private ArrayList<String> hiddenFeilds = null;
 
-	public ControlStateProtector( )
+	public ControlStateProtector()
 	{
 	}
 
@@ -37,7 +38,7 @@ public class ControlStateProtector implements IControlSearcherHandler
 			Controllist.add(this);
 			new ControlSearcher(Controllist).search(activity);
 			Controllist.clear();
-			Controllist=null;
+			Controllist = null;
 		}
 		catch(Exception ex)
 		{
@@ -49,40 +50,29 @@ public class ControlStateProtector implements IControlSearcherHandler
 	{
 		try
 		{
-			if(childView == null)
+			if (childView == null)
 			{
-				if(obj instanceof IChildView)
+				if (obj instanceof IChildView)
 				{
 					childView = (IChildView) obj;
 				}
 			}
-			if(obj instanceof IStateProtected)
+			if (obj instanceof IStateProtected)
 			{
 				IStateProtected aprotected = (IStateProtected) obj;
-				if(aprotected != null)
+				if (aprotected != null)
 				{
-					String getValue = aprotected.getWantedStateValue();
-					if(getValue != null)
+					String[] getValue = aprotected.getWantedStateValue().replace("|!", "!").split("!");
+					if (getValue != null)
 					{
-						IReleasable release;
-						int size = childView.getViews().size();
-						if(hidden==null)
+						if (aprotected.getStateHiddenId().trim().length() > 0)
 						{
-							for (int i = 0; i < size; i++)
+							hiddenFeilds = getHiddenFeildList(aprotected.getStateHiddenId().replace("|!", "!").split("!"));
+							if (hiddenFeilds != null && hiddenFeilds.size() > 0)
 							{
-								if (childView.getViews().get(i) instanceof IReleasable)
-								{
-									release = (IReleasable) childView.getViews().get(i);
-									if (release.getName().equals(aprotected.getStateHiddenId()))
-									{
-										hidden = (ESHiddenFeild) childView.getViews().get(i);
-										break;
-									}
-								}
+								aprotected.protectState(this.stateIsMatched(aprotected.getModeType(),getValue, hiddenFeilds));
 							}
 						}
-						if(hidden == null) { throw new Exception("没找到 " + aprotected.getStateHiddenId() + "的State Hidden"); }
-						aprotected.protectState(this.stateIsMatched(getValue, hidden.getText().toString()));
 					}
 				}
 			}
@@ -95,26 +85,82 @@ public class ControlStateProtector implements IControlSearcherHandler
 
 	public Boolean isPicked(Object obj)
 	{
-		if(obj instanceof Activity) { return true; }
-		return(obj instanceof IStateProtected);
+		if (obj instanceof Activity)
+		{
+			return true;
+		}
+		return (obj instanceof IStateProtected);
 	}
 
-	public Boolean stateIsMatched(String wanted, String current)
+	public Boolean stateIsMatched(ModeType modeType,String[] wanted, ArrayList<String> current)
 	{
 		Boolean result = false;
-		if(wanted.equals(null)) { return true; }
-		// String[] strs = wanted.split(SplitString.Sep1.replace("|!", "!"));
-		String[] strs = wanted.replace("|!", "!").split("!");
-		int size = strs.length;
-		for(int i = 0; i < size; i++)
+		if (wanted.equals(null))
 		{
-			if(strs[i].equals(current))
+			return true;
+		}
+		int size = wanted.length;
+		if(modeType==ModeType.AND)
+		{
+			for (int i = 0; i < size; i++)
 			{
-				result = true;
-				break;
+				if (current.contains(wanted[i]))
+				{
+					result = true;
+				}
+				else
+				{
+					result = false;
+					break;
+				}
+			}
+		}
+		if(modeType==ModeType.OR)
+		{
+			for (int i = 0; i < size; i++)
+			{
+				if (current.contains(wanted[i]))
+				{
+					result = true;
+					break;
+				}
 			}
 		}
 		return result;
+	}
+
+	private ArrayList<String> getHiddenFeildList(String[] nameList)
+	{
+		ArrayList<String> hiddenFeilds = new ArrayList<>();
+		try
+		{
+			if (nameList != null && nameList.length > 0)
+			{
+				for (String name : nameList)
+				{
+					int size = childView.getViews().size();
+					for (int i = 0; i < size; i++)
+					{
+						if (childView.getViews().get(i) instanceof IReleasable)
+						{
+							IReleasable release = (IReleasable) childView.getViews().get(i);
+							if (release.getName().equals(name))
+							{
+								ESHiddenFeild hidden = (ESHiddenFeild) childView.getViews().get(i);
+								hiddenFeilds.add(hidden.getText().toString());
+								break;
+							}
+						}
+					}
+				}
+
+			}
+		}
+		catch(Exception ex)
+		{
+
+		}
+		return hiddenFeilds;
 	}
 
 }

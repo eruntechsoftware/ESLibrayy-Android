@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import com.birthstone.R;
@@ -26,6 +27,9 @@ public class ESTextView extends android.widget.TextView implements ICollectible,
 	protected Boolean mIsRequired;
 	protected DataType mDataType;
 	protected String mCollectSign;
+	protected String mStateHiddenId;
+	protected String mWantedStateValue;
+	protected ModeType mModeType;
 	protected Boolean mEmpty2Null = true;
 	protected Activity mActivity;
 	protected String mName;
@@ -37,10 +41,13 @@ public class ESTextView extends android.widget.TextView implements ICollectible,
 		try
 		{
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ESTextView);
-			mIsRequired = a.getBoolean(R.styleable.ESTextView_isRequired, false);
-			mCollectSign = a.getString(R.styleable.ESTextView_collectSign);
-			mEmpty2Null = a.getBoolean(R.styleable.ESTextView_empty2Null,true);
+			this.mIsRequired = a.getBoolean(R.styleable.ESTextView_isRequired, false);
+			this.mCollectSign = a.getString(R.styleable.ESTextView_collectSign);
+			this.mEmpty2Null = a.getBoolean(R.styleable.ESTextView_empty2Null,true);
 			this.mDataType = DataTypeHelper.valueOf(a.getInt(R.styleable.ESTextView_dataType,0));
+			this.mStateHiddenId = a.getString(R.styleable.ESTextView_stateHiddenId);
+			this.mWantedStateValue = a.getString(R.styleable.ESTextView_wantedStateValue);
+			this.mModeType = ModeTypeHelper.valueOf(a.getInt(R.styleable.ESTextView_modeType, 0));
 			a.recycle();
 		}
 		catch(Exception e)
@@ -211,5 +218,45 @@ public class ESTextView extends android.widget.TextView implements ICollectible,
 	{
 		Animation shake = AnimationUtils.loadAnimation(this.getContext(), R.anim.es_shake);
 		this.startAnimation(shake);
+	}
+
+	public String getStateHiddenId() {
+		return mStateHiddenId;
+	}
+
+	public String getWantedStateValue() {
+		return mWantedStateValue;
+	}
+
+	public void setStateHiddenId(String stateHiddenId)
+	{
+		this.mStateHiddenId = stateHiddenId;
+	}
+
+	public void setWantedStateValue(String wantedStateValue)
+	{
+		this.mWantedStateValue = wantedStateValue;
+	}
+
+	public void protectState(Boolean arg0)
+	{
+		if (arg0)
+		{
+			this.setVisibility(View.VISIBLE);
+		}
+		else
+		{
+			this.setVisibility(View.GONE);
+		}
+	}
+
+	public void setModeType(ModeType modeType)
+	{
+		this.mModeType = modeType;
+	}
+
+	public ModeType getModeType()
+	{
+		return mModeType;
 	}
 }

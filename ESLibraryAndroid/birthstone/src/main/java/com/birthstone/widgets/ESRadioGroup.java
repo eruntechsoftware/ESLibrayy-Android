@@ -7,33 +7,30 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.widget.RadioButton;
 
 import com.birthstone.R;
 import com.birthstone.base.activity.Activity;
 import com.birthstone.base.event.OnCheckedChangedListener;
 import com.birthstone.base.helper.InitializeHelper;
-import com.birthstone.core.helper.DataType;
-import com.birthstone.core.helper.DataTypeHelper;
-import com.birthstone.core.helper.StringToArray;
-import com.birthstone.core.helper.ToastHelper;
-import com.birthstone.core.interfaces.ICellTitleStyleRequire;
-import com.birthstone.core.interfaces.ICollectible;
-import com.birthstone.core.interfaces.IDataInitialize;
-import com.birthstone.core.interfaces.IReleasable;
-import com.birthstone.core.interfaces.IValidatible;
+import com.birthstone.core.helper.*;
+import com.birthstone.core.interfaces.*;
 import com.birthstone.core.parse.Data;
 import com.birthstone.core.parse.DataCollection;
 
 import java.util.LinkedList;
 
-public class ESRadioGroup extends android.widget.RadioGroup implements ICollectible, IValidatible, IReleasable, ICellTitleStyleRequire, IDataInitialize
+public class ESRadioGroup extends android.widget.RadioGroup implements ICollectible, IValidatible, IReleasable, IStateProtected, ICellTitleStyleRequire, IDataInitialize
 {
 
 	private DataType mDataType;
 	private Boolean mIsRequired;
 	private String mCollectSign;
 	private Boolean mEmpty2Null = true;
+	protected String mStateHiddenId;
+	protected String mWantedStateValue;
+	protected ModeType mModeType;
 	private Activity mActivity;
 	private String mName;
 	private Object mSelectItemValue = null;
@@ -51,9 +48,12 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ESRadioGroup);
 			String dataType = a.getString(R.styleable.ESRadioGroup_dataType);
 			this.mDataType = DataTypeHelper.valueOf(a.getInt(R.styleable.ESRadioGroup_dataType,0));
-			mIsRequired = a.getBoolean(R.styleable.ESRadioGroup_isRequired,false);
-			mEmpty2Null = a.getBoolean(R.styleable.ESRadioGroup_empty2Null, true);
-			mCollectSign = a.getString(R.styleable.ESRadioGroup_collectSign);
+			this.mIsRequired = a.getBoolean(R.styleable.ESRadioGroup_isRequired,false);
+			this.mEmpty2Null = a.getBoolean(R.styleable.ESRadioGroup_empty2Null, true);
+			this.mCollectSign = a.getString(R.styleable.ESRadioGroup_collectSign);
+			this.mStateHiddenId = a.getString(R.styleable.ESRadioGroup_stateHiddenId);
+			this.mWantedStateValue = a.getString(R.styleable.ESRadioGroup_wantedStateValue);
+			this.mModeType = ModeTypeHelper.valueOf(a.getInt(R.styleable.ESRadioGroup_modeType, 0));
 			this.setOnCheckedChangeListener(onCheckedChangeListener);
 			a.recycle();
 		}
@@ -314,11 +314,48 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	{
 		this.mName = name;
 	}
+
+	public String getStateHiddenId() {
+		return mStateHiddenId;
+	}
+
+	public String getWantedStateValue() {
+		return mWantedStateValue;
+	}
+
+	public void setStateHiddenId(String stateHiddenId)
+	{
+		this.mStateHiddenId = stateHiddenId;
+	}
+
+	public void setWantedStateValue(String wantedStateValue)
+	{
+		this.mWantedStateValue = wantedStateValue;
+	}
+
+	public void protectState(Boolean arg0)
+	{
+		if (arg0)
+		{
+			this.setVisibility(View.VISIBLE);
+		}
+		else
+		{
+			this.setVisibility(View.GONE);
+		}
+	}
+
+	public void setModeType(ModeType modeType)
+	{
+		this.mModeType = modeType;
+	}
+
+	public ModeType getModeType()
+	{
+		return mModeType;
+	}
 	
-	/**
-	 * ѡеİ
-	 * @return ѡеİ
-	 */
+
 	public RadioButton getSelectedRadioButton()
 	{
 		return mSelectedRadioButton;

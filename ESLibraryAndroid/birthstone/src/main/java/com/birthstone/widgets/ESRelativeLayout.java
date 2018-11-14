@@ -11,6 +11,8 @@ import com.birthstone.base.activity.Activity;
 import com.birthstone.base.event.OnClickedListener;
 import com.birthstone.base.event.OnClickingListener;
 import com.birthstone.base.helper.InitializeHelper;
+import com.birthstone.core.helper.ModeType;
+import com.birthstone.core.helper.ModeTypeHelper;
 import com.birthstone.core.helper.StringToArray;
 import com.birthstone.core.interfaces.IDataInitialize;
 import com.birthstone.core.interfaces.IFunctionProtected;
@@ -31,6 +33,7 @@ public class ESRelativeLayout extends android.widget.RelativeLayout implements I
     public String mFuncSign;
     protected String mStateHiddenId;
     protected String mWantedStateValue;
+    protected ModeType mModeType;
     protected String mName;
     protected Activity mActivity;
     /**单击事件执行前执行事件，并返回是否终止单击事件的执行参数**/
@@ -47,6 +50,7 @@ public class ESRelativeLayout extends android.widget.RelativeLayout implements I
             mFuncSign = a.getString(R.styleable.ESRelativeLayout_funcSign);
             mStateHiddenId = a.getString(R.styleable.ESRelativeLayout_stateHiddenId);
             mWantedStateValue = a.getString(R.styleable.ESRelativeLayout_wantedStateValue);
+            mModeType = ModeTypeHelper.valueOf(a.getInt(R.styleable.ESRelativeLayout_modeType, 0));
             a.recycle();
         }catch (Exception ex){
             Log.e(ESRelativeLayout.this.toString(), ex.getMessage());
@@ -199,6 +203,16 @@ public class ESRelativeLayout extends android.widget.RelativeLayout implements I
 
     public void setClickListener(OnClickListener clickListener) {
         this.clickListener = clickListener;
+    }
+
+    public void setModeType(ModeType modeType)
+    {
+        this.mModeType = modeType;
+    }
+
+    public ModeType getModeType()
+    {
+        return mModeType;
     }
 
 }

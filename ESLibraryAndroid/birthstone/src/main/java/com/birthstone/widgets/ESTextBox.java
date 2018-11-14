@@ -21,11 +21,7 @@ import com.birthstone.base.activity.Activity;
 import com.birthstone.base.event.OnTextBoxChangedListener;
 import com.birthstone.base.helper.InitializeHelper;
 import com.birthstone.core.helper.*;
-import com.birthstone.core.interfaces.ICellTitleStyleRequire;
-import com.birthstone.core.interfaces.ICollectible;
-import com.birthstone.core.interfaces.IDataInitialize;
-import com.birthstone.core.interfaces.IReleasable;
-import com.birthstone.core.interfaces.IValidatible;
+import com.birthstone.core.interfaces.*;
 import com.birthstone.core.parse.Data;
 import com.birthstone.core.parse.DataCollection;
 
@@ -34,11 +30,14 @@ import java.util.LinkedList;
 import static android.text.InputType.*;
 
 
-public class ESTextBox extends EditText implements ICollectible, IValidatible, IReleasable, ICellTitleStyleRequire, IDataInitialize, View.OnFocusChangeListener, TextWatcher
+public class ESTextBox extends EditText implements ICollectible, IValidatible, IReleasable, IStateProtected,ICellTitleStyleRequire, IDataInitialize, View.OnFocusChangeListener, TextWatcher
 {
     protected DataType mDataType;
     protected Boolean mIsRequired;
     protected String mCollectSign;
+    protected String mStateHiddenId;
+    protected String mWantedStateValue;
+    protected ModeType mModeType;
     protected Boolean mEmpty2Null = true;
     protected Boolean mached = true;
     protected Boolean isEmpty = true;
@@ -65,17 +64,20 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         try
         {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ESTextBox);
-            mIsRequiredTooltip = a.getString(R.styleable.ESTextBox_isRequiredTooltip);
-            mRegularExpression = a.getString(R.styleable.ESTextBox_regularExpression);
+            this.mIsRequiredTooltip = a.getString(R.styleable.ESTextBox_isRequiredTooltip);
+            this.mRegularExpression = a.getString(R.styleable.ESTextBox_regularExpression);
             if (mRegularExpression == null || "".equals(mRegularExpression))
             {
                 mRegularExpression = "*";
             }
-            mRegularTooltip = a.getString(R.styleable.ESTextBox_regularTooltip);
-            mIsRequired = a.getBoolean(R.styleable.ESTextBox_isRequired, false);
-            mCollectSign = a.getString(R.styleable.ESTextBox_collectSign);
-            mEmpty2Null = a.getBoolean(R.styleable.ESTextBox_empty2Null, true);
-			hintTextSize = a.getDimensionPixelOffset(R.styleable.ESTextBox_hintTextSize,12);
+            this.mRegularTooltip = a.getString(R.styleable.ESTextBox_regularTooltip);
+            this.mIsRequired = a.getBoolean(R.styleable.ESTextBox_isRequired, false);
+            this.mCollectSign = a.getString(R.styleable.ESTextBox_collectSign);
+            this.mEmpty2Null = a.getBoolean(R.styleable.ESTextBox_empty2Null, true);
+            this.hintTextSize = a.getDimensionPixelOffset(R.styleable.ESTextBox_hintTextSize,12);
+            this.mStateHiddenId = a.getString(R.styleable.ESTextBox_stateHiddenId);
+            this.mWantedStateValue = a.getString(R.styleable.ESTextBox_wantedStateValue);
+            this.mModeType = ModeTypeHelper.valueOf(a.getInt(R.styleable.ESTextBox_modeType, 0));
             this.addTextChangedListener(this);
             this.setOnFocusChangeListener(this);
             int value = a.getInt(R.styleable.ESTextBox_dataType, 0);
@@ -477,5 +479,46 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
     public void setOnTextBoxChangedListener (OnTextBoxChangedListener onTextBoxChangedListener)
     {
         this.onTextBoxChangedListener = onTextBoxChangedListener;
+    }
+
+
+    public String getStateHiddenId() {
+        return mStateHiddenId;
+    }
+
+    public String getWantedStateValue() {
+        return mWantedStateValue;
+    }
+
+    public void setStateHiddenId(String stateHiddenId)
+    {
+        this.mStateHiddenId = stateHiddenId;
+    }
+
+    public void setWantedStateValue(String wantedStateValue)
+    {
+        this.mWantedStateValue = wantedStateValue;
+    }
+
+    public void protectState(Boolean arg0)
+    {
+        if (arg0)
+        {
+            this.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            this.setVisibility(View.GONE);
+        }
+    }
+
+    public void setModeType(ModeType modeType)
+    {
+        this.mModeType = modeType;
+    }
+
+    public ModeType getModeType()
+    {
+        return mModeType;
     }
 }

@@ -11,6 +11,9 @@ import com.birthstone.base.activity.Activity;
 import com.birthstone.base.event.OnClickedListener;
 import com.birthstone.base.event.OnClickingListener;
 import com.birthstone.base.helper.InitializeHelper;
+import com.birthstone.core.helper.DataTypeHelper;
+import com.birthstone.core.helper.ModeType;
+import com.birthstone.core.helper.ModeTypeHelper;
 import com.birthstone.core.helper.StringToArray;
 import com.birthstone.core.interfaces.IDataInitialize;
 import com.birthstone.core.interfaces.IFunctionProtected;
@@ -25,180 +28,243 @@ import java.util.LinkedList;
 /**
  * @author 杜明悦
  * ESLinearLayout
- * */
-public class ESLinearLayout extends android.widget.LinearLayout implements IFunctionProtected, IReleasable, IStateProtected, IDataInitialize {
+ * */ public class ESLinearLayout extends android.widget.LinearLayout implements IFunctionProtected, IReleasable, IStateProtected, IDataInitialize
+{
 
-    public String mFuncSign;
-    protected String mStateHiddenId;
-    protected String mWantedStateValue;
-    protected String mName;
-    protected Activity mActivity;
-    /**单击事件执行前执行事件，并返回是否终止单击事件的执行参数**/
-    public OnClickingListener onClickingListener;
-    /**单击事件执行完成后执行的事件**/
-    public OnClickedListener onClickedListener;
-    public String mNameSpace = "http://schemas.android.com/res/com.birthStone.widgets";
+	public String mFuncSign;
+	protected String mStateHiddenId;
+	protected String mWantedStateValue;
+	protected ModeType mModeType;
+	protected String mName;
+	protected Activity mActivity;
+	/**
+	 * 单击事件执行前执行事件，并返回是否终止单击事件的执行参数
+	 **/
+	public OnClickingListener onClickingListener;
+	/**
+	 * 单击事件执行完成后执行的事件
+	 **/
+	public OnClickedListener onClickedListener;
+	public String mNameSpace = "http://schemas.android.com/res/com.birthStone.widgets";
 
-    public ESLinearLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        try {
-            setOnClickListener(clickListener);
-            TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.ESLinearLayout);
-            mFuncSign = a.getString(R.styleable.ESLinearLayout_funcSign);
-            mStateHiddenId = a.getString(R.styleable.ESLinearLayout_stateHiddenId);
-            mWantedStateValue = a.getString(R.styleable.ESLinearLayout_wantedStateValue);
-            a.recycle();
-        }catch (Exception ex){
-            Log.e(ESLinearLayout.this.toString(), ex.getMessage());
-        }
-    }
+	public ESLinearLayout(Context context, AttributeSet attrs)
+	{
+		super(context, attrs);
+		try
+		{
+			setOnClickListener(clickListener);
+			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ESLinearLayout);
+			this.mFuncSign = a.getString(R.styleable.ESLinearLayout_funcSign);
+			this.mStateHiddenId = a.getString(R.styleable.ESLinearLayout_stateHiddenId);
+			this.mWantedStateValue = a.getString(R.styleable.ESLinearLayout_wantedStateValue);
+			this.mModeType = ModeTypeHelper.valueOf(a.getInt(R.styleable.ESLinearLayout_modeType, 0));
+			a.recycle();
+		}
+		catch(Exception ex)
+		{
+			Log.e(ESLinearLayout.this.toString(), ex.getMessage());
+		}
+	}
 
-    public ESLinearLayout(Context context, AttributeSet attrs, int defStyle)
-    {
-        super(context, attrs, defStyle);
-    }
+	public ESLinearLayout(Context context, AttributeSet attrs, int defStyle)
+	{
+		super(context, attrs, defStyle);
+	}
 
-    public void click() {
-    }
+	public void click()
+	{
+	}
 
-    protected OnClickListener clickListener = new OnClickListener() {
-        public Boolean onClicking() {
-            if (onClickingListener != null) {
-                return onClickingListener.onClicking();
-            }
-            return false;
-        }
+	protected OnClickListener clickListener = new OnClickListener()
+	{
+		public Boolean onClicking()
+		{
+			if (onClickingListener != null)
+			{
+				return onClickingListener.onClicking();
+			}
+			return false;
+		}
 
-        public void onClick(View v) {
-            if (onClicking()) {
-                return;
-            }
-            click();
-            onClicked();
-        }
+		public void onClick(View v)
+		{
+			if (onClicking())
+			{
+				return;
+			}
+			click();
+			onClicked();
+		}
 
-        public void onClicked() {
-            if (onClickedListener != null) {
-                onClickedListener.onClicked();
-            }
-        }
-    };
+		public void onClicked()
+		{
+			if (onClickedListener != null)
+			{
+				onClickedListener.onClicked();
+			}
+		}
+	};
 
-    public void dataInitialize() {
-        if (mActivity != null) {
-            String classnameString = mActivity.getPackageName() + ".R$id";
-            mName = InitializeHelper.getName(classnameString, getId());
-        }
-    }
+	public void dataInitialize()
+	{
+		if (mActivity != null)
+		{
+			String classnameString = mActivity.getPackageName() + ".R$id";
+			mName = InitializeHelper.getName(classnameString, getId());
+		}
+	}
 
-    public LinkedList<String> getRequest() {
-        LinkedList<String> list = new LinkedList<String>();
-        list.add(mName);
-        return list;
-    }
+	public LinkedList<String> getRequest()
+	{
+		LinkedList<String> list = new LinkedList<String>();
+		list.add(mName);
+		return list;
+	}
 
-    /** 
-     * 发布数据到UIView 
-     *  @param dataName 数据名称 
-     *  @param data 数据对象 
-     * * **/
-    public void release(String dataName, Data data) {
-        if (dataName.toUpperCase().equals(mName.toUpperCase()) && data != null) {
-            if (data.getValue() == null) {
+	/**
+	 *   发布数据到UIView
+	 *
+	 * @param dataName 数据名称
+	 * @param data     数据对象  *
+	 **/
+	public void release(String dataName, Data data)
+	{
+		if (dataName.toUpperCase().equals(mName.toUpperCase()) && data != null)
+		{
+			if (data.getValue() == null)
+			{
 
-                return;
-            } else {
+				return;
+			}
+			else
+			{
 
-            }
-        }
-    }
+			}
+		}
+	}
 
-    public String getName() {
-        return mName;
-    }
+	public String getName()
+	{
+		return mName;
+	}
 
-    public Object getActivity() {
-        return mActivity;
-    }
+	public Object getActivity()
+	{
+		return mActivity;
+	}
 
-    public void setActivity(Object arg0) {
-        if (arg0 instanceof Activity) {
-            mActivity = (Activity) arg0;
-        }
-    }
+	public void setActivity(Object arg0)
+	{
+		if (arg0 instanceof Activity)
+		{
+			mActivity = (Activity) arg0;
+		}
+	}
 
-    public void protectState(Boolean arg0) {
-        if (arg0) {
-            this.setVisibility(View.VISIBLE);
-        } else {
-            this.setVisibility(View.GONE);
-        }
-    }
+	public void protectState(Boolean arg0)
+	{
+		if (arg0)
+		{
+			this.setVisibility(View.VISIBLE);
+		}
+		else
+		{
+			this.setVisibility(View.GONE);
+		}
+	}
 
-    public String getStateHiddenId() {
-        return mStateHiddenId;
-    }
+	public String getStateHiddenId()
+	{
+		return mStateHiddenId;
+	}
 
-    public String getWantedStateValue() {
-        return mWantedStateValue;
-    }
+	public String getWantedStateValue()
+	{
+		return mWantedStateValue;
+	}
 
-    public OnClickingListener getOnClickingListener() {
-        return onClickingListener;
-    }
+	public OnClickingListener getOnClickingListener()
+	{
+		return onClickingListener;
+	}
 
-    public void setOnClickingListener(OnClickingListener onClickingListener) {
-        this.onClickingListener = onClickingListener;
-    }
+	public void setOnClickingListener(OnClickingListener onClickingListener)
+	{
+		this.onClickingListener = onClickingListener;
+	}
 
-    public OnClickedListener getOnClickedListener() {
-        return onClickedListener;
-    }
+	public OnClickedListener getOnClickedListener()
+	{
+		return onClickedListener;
+	}
 
-    public void setOnClickedListener(OnClickedListener onClickedListener) {
-        this.onClickedListener = onClickedListener;
-    }
-
-
-    public void setVisible(Boolean arg0) {
-        if (arg0) {
-            setVisibility(View.VISIBLE);
-        } else {
-            setVisibility(View.GONE);
-        }
-    }
-
-    public void setStateHiddenId(String stateHiddenId) {
-        this.mStateHiddenId = stateHiddenId;
-    }
-
-    public void setWantedStateValue(String wantedStateValue) {
-        this.mWantedStateValue = wantedStateValue;
-    }
+	public void setOnClickedListener(OnClickedListener onClickedListener)
+	{
+		this.onClickedListener = onClickedListener;
+	}
 
 
-    public String[] getFuncSign() {
-        return StringToArray.stringConvertArray(this.mFuncSign);
-    }
+	public void setVisible(Boolean arg0)
+	{
+		if (arg0)
+		{
+			setVisibility(View.VISIBLE);
+		}
+		else
+		{
+			setVisibility(View.GONE);
+		}
+	}
 
-    public void setFuncSign(String funcSign) {
-        this.mFuncSign = funcSign;
-    }
+	public void setStateHiddenId(String stateHiddenId)
+	{
+		this.mStateHiddenId = stateHiddenId;
+	}
 
-    public String getNameSpace() {
-        return mNameSpace;
-    }
+	public void setWantedStateValue(String wantedStateValue)
+	{
+		this.mWantedStateValue = wantedStateValue;
+	}
 
-    public void setNameSpace(String nameSpace) {
-        this.mNameSpace = nameSpace;
-    }
 
-    public OnClickListener getClickListener() {
-        return clickListener;
-    }
+	public String[] getFuncSign()
+	{
+		return StringToArray.stringConvertArray(this.mFuncSign);
+	}
 
-    public void setClickListener(OnClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
+	public void setFuncSign(String funcSign)
+	{
+		this.mFuncSign = funcSign;
+	}
+
+	public String getNameSpace()
+	{
+		return mNameSpace;
+	}
+
+	public void setNameSpace(String nameSpace)
+	{
+		this.mNameSpace = nameSpace;
+	}
+
+	public OnClickListener getClickListener()
+	{
+		return clickListener;
+	}
+
+	public void setClickListener(OnClickListener clickListener)
+	{
+		this.clickListener = clickListener;
+	}
+
+	public void setModeType(ModeType modeType)
+	{
+		this.mModeType = modeType;
+	}
+
+	public ModeType getModeType()
+	{
+		return mModeType;
+	}
 
 }

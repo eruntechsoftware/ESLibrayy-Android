@@ -5,28 +5,25 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import android.view.View;
 import com.birthstone.R;
 import com.birthstone.base.activity.Activity;
 import com.birthstone.base.helper.InitializeHelper;
-import com.birthstone.core.helper.DataType;
-import com.birthstone.core.helper.DataTypeHelper;
-import com.birthstone.core.helper.StringToArray;
-import com.birthstone.core.helper.ToastHelper;
-import com.birthstone.core.interfaces.ICellTitleStyleRequire;
-import com.birthstone.core.interfaces.ICollectible;
-import com.birthstone.core.interfaces.IDataInitialize;
-import com.birthstone.core.interfaces.IReleasable;
-import com.birthstone.core.interfaces.IValidatible;
+import com.birthstone.core.helper.*;
+import com.birthstone.core.interfaces.*;
 import com.birthstone.core.parse.Data;
 import com.birthstone.core.parse.DataCollection;
 
 import java.util.LinkedList;
 
 
-public class ESCheckBox extends android.widget.CheckBox implements ICollectible, IValidatible, IReleasable, ICellTitleStyleRequire, IDataInitialize
+public class ESCheckBox extends android.widget.CheckBox implements ICollectible, IValidatible, IReleasable, IStateProtected, ICellTitleStyleRequire, IDataInitialize
 {
 	protected DataType mDataType;
 	protected Boolean mIsRequired;
+	protected String mStateHiddenId;
+	protected String mWantedStateValue;
+	protected ModeType mModeType;
 	protected Boolean mEmpty2Null = true;
 	protected String mCollectSign;
 	protected Activity mActivity;
@@ -42,9 +39,12 @@ public class ESCheckBox extends android.widget.CheckBox implements ICollectible,
 			int value = a.getInt(R.styleable.ESCheckBox_dataType,1);
 			this.mDataType = DataTypeHelper.valueOf(value);
 
-			mIsRequired = a.getBoolean(R.styleable.ESCheckBox_isRequired,false);
-			mEmpty2Null = a.getBoolean(R.styleable.ESCheckBox_empty2Null, true);
-			mCollectSign = a.getString(R.styleable.ESCheckBox_collectSign);
+			this.mIsRequired = a.getBoolean(R.styleable.ESCheckBox_isRequired,false);
+			this.mEmpty2Null = a.getBoolean(R.styleable.ESCheckBox_empty2Null, true);
+			this.mCollectSign = a.getString(R.styleable.ESCheckBox_collectSign);
+			this.mStateHiddenId = a.getString(R.styleable.ESRadioGroup_stateHiddenId);
+			this.mWantedStateValue = a.getString(R.styleable.ESRadioGroup_wantedStateValue);
+			this.mModeType = ModeTypeHelper.valueOf(a.getInt(R.styleable.ESRadioGroup_modeType, 0));
 			a.recycle();
 		}
 		catch(Exception ex)
@@ -207,5 +207,45 @@ public class ESCheckBox extends android.widget.CheckBox implements ICollectible,
 	public void setCollectSign(String collectSign)
 	{
 		this.mCollectSign = collectSign;
+	}
+
+	public String getStateHiddenId() {
+		return mStateHiddenId;
+	}
+
+	public String getWantedStateValue() {
+		return mWantedStateValue;
+	}
+
+	public void setStateHiddenId(String stateHiddenId)
+	{
+		this.mStateHiddenId = stateHiddenId;
+	}
+
+	public void setWantedStateValue(String wantedStateValue)
+	{
+		this.mWantedStateValue = wantedStateValue;
+	}
+
+	public void protectState(Boolean arg0)
+	{
+		if (arg0)
+		{
+			this.setVisibility(View.VISIBLE);
+		}
+		else
+		{
+			this.setVisibility(View.GONE);
+		}
+	}
+
+	public void setModeType(ModeType modeType)
+	{
+		this.mModeType = modeType;
+	}
+
+	public ModeType getModeType()
+	{
+		return mModeType;
 	}
 }

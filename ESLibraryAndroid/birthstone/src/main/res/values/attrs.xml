@@ -25,6 +25,12 @@
         <!--<enum name="Mobile" value="Mobile" />-->
     </attr>
 
+    <!--声明的数据类型枚举-->
+    <attr name="modeType" format="enum">
+        <enum name="And" value="0"/>
+        <enum name="Or" value="1"/>
+    </attr>
+
     <!--<attr name="sign">-->
     <!--<enum name="ForSave" value="1"/>-->
     <!--<enum name="ForUpdate" value="2"/>-->
@@ -97,6 +103,8 @@
         <attr name="stateHiddenId" format="string"></attr>
         <!--希望显示状态的值-->
         <attr name="wantedStateValue" format="string"></attr>
+        <!--条件类型-->
+        <attr name="modeType"></attr>
         <!--标记，配合collectSign使用-->
         <attr name="sign"></attr>
         <!--权限标记-->
@@ -121,6 +129,12 @@
         <attr name="isRequired"></attr>
         <attr name="empty2Null"></attr>
         <attr name="collectSign"></attr>
+        <!--状态ViewID-->
+        <attr name="stateHiddenId"></attr>
+        <!--希望显示状态的值-->
+        <attr name="wantedStateValue"></attr>
+        <!--条件类型-->
+        <attr name="modeType"></attr>
     </declare-styleable>
 
     <declare-styleable name="ESDatePicker">
@@ -148,6 +162,12 @@
         <attr name="isRequired"></attr>
         <attr name="empty2Null"></attr>
         <attr name="collectSign"></attr>
+        <!--状态ViewID-->
+        <attr name="stateHiddenId"></attr>
+        <!--希望显示状态的值-->
+        <attr name="wantedStateValue"></attr>
+        <!--条件类型-->
+        <attr name="modeType"></attr>
     </declare-styleable>
 
     <declare-styleable name="ESSpinner">
@@ -184,6 +204,12 @@
         <!--正则表达式校验错误提示-->
         <attr name="regularTooltip"></attr>
         <attr name="hintTextSize" format="dimension"></attr>
+        <!--状态ViewID-->
+        <attr name="stateHiddenId"></attr>
+        <!--希望显示状态的值-->
+        <attr name="wantedStateValue"></attr>
+        <!--条件类型-->
+        <attr name="modeType"></attr>
     </declare-styleable>
 
     <!--<declare-styleable name="ESTextBoxMobile">-->
@@ -204,6 +230,12 @@
         <attr name="isRequired"></attr>
         <attr name="empty2Null"></attr>
         <attr name="collectSign"></attr>
+        <!--状态ViewID-->
+        <attr name="stateHiddenId"></attr>
+        <!--希望显示状态的值-->
+        <attr name="wantedStateValue"></attr>
+        <!--条件类型-->
+        <attr name="modeType"></attr>
     </declare-styleable>
 
     <declare-styleable name="ESRelativeLayout">
@@ -211,6 +243,8 @@
         <attr name="stateHiddenId"></attr>
         <!--希望显示状态的值-->
         <attr name="wantedStateValue"></attr>
+        <!--条件类型-->
+        <attr name="modeType"></attr>
         <!--权限标记-->
         <attr name="funcSign"></attr>
     </declare-styleable>
@@ -222,6 +256,8 @@
         <attr name="wantedStateValue"></attr>
         <!--权限标记-->
         <attr name="funcSign"></attr>
+        <!--条件类型-->
+        <attr name="modeType"></attr>
     </declare-styleable>
 
     <declare-styleable name="ESMaterialTabHost">
