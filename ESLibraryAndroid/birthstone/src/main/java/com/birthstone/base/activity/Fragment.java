@@ -484,7 +484,7 @@ public class Fragment extends android.support.v4.app.Fragment implements IChildV
 	 */
 	public void initStateControlWithView()
 	{
-		ControlStateProtector.createControlStateProtector().setStateControl(this);
+		ControlStateProtector.createControlStateProtector().stateProtector(this);
 	}
 
 

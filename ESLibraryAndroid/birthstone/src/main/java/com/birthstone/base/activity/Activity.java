@@ -539,7 +539,7 @@ public class Activity extends android.app.Activity implements IUINavigationBar, 
      */
     public void initStateControlWithView ()
     {
-        ControlStateProtector.createControlStateProtector().setStateControl(this);
+        ControlStateProtector.createControlStateProtector().stateProtector(this);
     }
 
     /*

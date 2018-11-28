@@ -3,6 +3,7 @@ package com.birthstone.base.activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -47,6 +48,11 @@ public class UINavigationBar extends RelativeLayout implements View.OnClickListe
 	 * 标题栏的左侧返回按钮
 	 */
 	public static int LEFT_IMAGE_RESID = 0;
+
+	/**
+	 * 返回按钮颜色
+	 * **/
+	public static int LEFT_IMAGE_TINT_COLOR=0;
 
 	/**
 	 * 标题文字颜色
@@ -148,24 +154,40 @@ public class UINavigationBar extends RelativeLayout implements View.OnClickListe
 		{
 			LEFT_IMAGE_RESID=R.drawable.es_icon_back;
 		}
+		if(LEFT_IMAGE_TINT_COLOR==0)
+		{
+			LEFT_IMAGE_TINT_COLOR=R.color.es_white;
+		}
+
 
 		/**加载布局文件*/
 		View.inflate(context, R.layout.es_actionbar, this);
 		mRelativeLayout = (RelativeLayout) findViewById(R.id.relay_background);
+
 		mIvLeft = (ImageView) findViewById(R.id.iv_left);
 		mIvLeft.setImageResource( LEFT_IMAGE_RESID);
 		mIvLeft.setOnClickListener(this);
+
+		Drawable icon = getResources().getDrawable(LEFT_IMAGE_RESID);
+		Drawable tintIcon = DrawableCompat.wrap(icon);
+		DrawableCompat.setTintList(tintIcon, getResources().getColorStateList(LEFT_IMAGE_TINT_COLOR));
+		mIvLeft.setImageDrawable(tintIcon);
+
 		mTvLeft = (TextView) findViewById(R.id.tv_left);
 		mTvLeft.setTextColor(getResources().getColor(BUTTON_TEXT_COLOR));
 		mTvLeft.setOnClickListener(this);
+
 		mTvTilte = (TextView) findViewById(R.id.tv_title);
 		mTvTilte.setTextColor(getResources().getColor(TITLE_TEXT_COLOR));
+
 		mTvRight = (TextView) findViewById(R.id.tv_right);
 		mTvRight.setTextColor(getResources().getColor(BUTTON_TEXT_COLOR));
 		mTvRight.setOnClickListener(this);
 		mIvRight = (ImageView) findViewById(R.id.iv_right);
 		mIvRight.setOnClickListener(this);
+
 		line = findViewById(R.id.line);
+
 		mRelativeLayout.setBackgroundColor(BACKGROUND_COLOR);
 	}
 
@@ -209,6 +231,11 @@ public class UINavigationBar extends RelativeLayout implements View.OnClickListe
 	public static void setLeftImageResid(int leftImageResid)
 	{
 		LEFT_IMAGE_RESID=leftImageResid;
+	}
+
+	public static void setLeftImageTintColor(int drawabledColorID)
+	{
+		LEFT_IMAGE_TINT_COLOR = drawabledColorID;
 	}
 
 	/**

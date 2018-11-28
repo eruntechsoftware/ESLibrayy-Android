@@ -527,7 +527,7 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity im
 	 */
 	public void initStateControlWithView()
 	{
-		ControlStateProtector.createControlStateProtector().setStateControl(this);
+		ControlStateProtector.createControlStateProtector().stateProtector(this);
 	}
 
 	/**

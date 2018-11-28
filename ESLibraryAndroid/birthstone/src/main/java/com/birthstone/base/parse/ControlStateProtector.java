@@ -29,7 +29,7 @@ public class ControlStateProtector implements IControlSearcherHandler
 		return ControlStateProtector;
 	}
 
-	public void setStateControl(Object activity)
+	public void stateProtector(Object activity)
 	{
 		try
 		{
