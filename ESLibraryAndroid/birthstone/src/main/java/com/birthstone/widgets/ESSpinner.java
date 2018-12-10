@@ -24,7 +24,7 @@ import com.birthstone.core.interfaces.*;
 import com.birthstone.core.parse.Data;
 import com.birthstone.core.parse.DataCollection;
 import com.birthstone.core.parse.DataTable;
-import com.birthstone.core.sqlite.SQLiteDatabase;
+import com.birthstone.core.Sqlite.SQLiteDatabase;
 
 import java.util.LinkedList;
 
