@@ -174,14 +174,14 @@ public class UINavigationBar extends RelativeLayout implements View.OnClickListe
 		mIvLeft.setImageDrawable(tintIcon);
 
 		mTvLeft = (TextView) findViewById(R.id.tv_left);
-		mTvLeft.setTextColor(getResources().getColor(BUTTON_TEXT_COLOR));
+		mTvLeft.setTextColor(BUTTON_TEXT_COLOR);
 		mTvLeft.setOnClickListener(this);
 
 		mTvTilte = (TextView) findViewById(R.id.tv_title);
-		mTvTilte.setTextColor(getResources().getColor(TITLE_TEXT_COLOR));
+		mTvTilte.setTextColor(TITLE_TEXT_COLOR);
 
 		mTvRight = (TextView) findViewById(R.id.tv_right);
-		mTvRight.setTextColor(getResources().getColor(BUTTON_TEXT_COLOR));
+		mTvRight.setTextColor(BUTTON_TEXT_COLOR);
 		mTvRight.setOnClickListener(this);
 		mIvRight = (ImageView) findViewById(R.id.iv_right);
 		mIvRight.setOnClickListener(this);
@@ -258,11 +258,11 @@ public class UINavigationBar extends RelativeLayout implements View.OnClickListe
 	/**
 	 * 设置标题栏文本
 	 * @param tilte 标题文本
-	 * @param rescolor 标题颜色，res下的资源
+	 * @param color 标题颜色，res下的资源
 	 * **/
-	public void setTitle(String tilte, int rescolor)
+	public void setTitle(String tilte, int color)
 	{
-		mTvTilte.setTextColor(getResources().getColor(rescolor));
+		mTvTilte.setTextColor(color);
 		if (TextUtils.isEmpty(tilte))
 		{
 			mTvTilte.setVisibility(GONE);
@@ -281,7 +281,7 @@ public class UINavigationBar extends RelativeLayout implements View.OnClickListe
 	 * **/
 	public void setLeftText(String text)
 	{
-		mTvLeft.setTextColor(getResources().getColor(BUTTON_TEXT_COLOR));
+		mTvLeft.setTextColor(BUTTON_TEXT_COLOR);
 		if (TextUtils.isEmpty(text))
 		{
 			mTvLeft.setVisibility(GONE);
@@ -301,7 +301,7 @@ public class UINavigationBar extends RelativeLayout implements View.OnClickListe
 	 * **/
 	public void setLeftText(String text, int rescolor)
 	{
-		mTvLeft.setTextColor(getResources().getColor(rescolor));
+		mTvLeft.setTextColor(rescolor);
 		if (TextUtils.isEmpty(text))
 		{
 			mTvLeft.setVisibility(GONE);

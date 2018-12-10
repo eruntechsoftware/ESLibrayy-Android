@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.birthstone.core.sqlite;
+package com.birthstone.core.Sqlite;
 
 
 import android.content.Context;
@@ -153,10 +153,10 @@ public class SqlParserToos
 							{
 								m.appendReplacement(result, data.getValue().toString().replace("\'", "\'\'"));
 							}
-							else
-							{
-								m.appendReplacement(result, "\'" + data.getValue().toString().replace("\'", "\'\'").replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r") + "\'");
-							}
+//							else
+//							{
+//								m.appendReplacement(result, "\'" + data.getValue().toString().replace("\'", "\'\'").replaceAll("\\n", "\\\\n").replaceAll("\\r", "\\\\r") + "\'");
+//							}
 						}
 						else
 						{

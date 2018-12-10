@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.birthstone.core.sqlite;
+package com.birthstone.core.Sqlite;
 
 import java.util.ArrayList;
 import java.util.Iterator;
