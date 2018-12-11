@@ -613,4 +613,8 @@ public class ESMaterialTabHost extends LinearLayout implements View.OnClickListe
 		}
 	}
 
+	public ArrayList<Fragment> getFragmentList()
+	{
+		return fragmentList;
+	}
 }
