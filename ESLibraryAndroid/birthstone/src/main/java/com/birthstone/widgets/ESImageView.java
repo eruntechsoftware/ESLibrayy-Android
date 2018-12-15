@@ -15,6 +15,9 @@ import com.birthstone.core.interfaces.IReleasable;
 import com.birthstone.core.interfaces.IValidatible;
 import com.birthstone.core.parse.Data;
 import com.birthstone.core.parse.DataCollection;
+import com.facebook.binaryresource.FileBinaryResource;
+import com.facebook.cache.common.SimpleCacheKey;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;
@@ -28,8 +31,7 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 	protected String mCollectSign;
 	protected Activity mActivity;
 	protected String mName;
-	protected String murl;
-	protected String muri;
+	protected String mURI;
 	protected int srcid;
 	public static String IMAGE_URL_HEAD = "";
 
@@ -64,8 +66,8 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 
 	public void setImageURI(String uri)
 	{
-		muri = uri;
-		super.setImageURI(uri);
+		mURI = uri;
+		super.setImageURI(mURI);
 	}
 
 	public void dataInitialize ()
@@ -105,7 +107,7 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 			if(!data.getStringValue().equals(""))
 			{
 				setImageURI(data.getStringValue());
-				murl = data.getStringValue();
+				mURI = data.getStringValue();
 			}
 		}
 	}
@@ -113,30 +115,33 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 	/**
 	 *获取由URI返回的文件对象
 	 * **/
-	public File getURI2File()
+	public File getImageFile()
 	{
-		if(murl!=null && murl.length()>0)
+		File file = null;
+		if(mURI!=null && mURI.length()>0)
 		{
-			return new File(com.birthstone.core.helper.File.url2Bitmap(murl));
+			FileBinaryResource resource = (FileBinaryResource)Fresco.getImagePipelineFactory().getMainFileCache().getResource(new SimpleCacheKey(mURI.toString()));
+			file = resource.getFile();
 		}
-		if(muri!=null && muri.length()>0)
+		if(file==null)
 		{
-			return new File(muri);
+			return new File(mURI);
 		}
-		return null;
+
+		return file;
 	}
 
 	public DataCollection collect ()
 	{
 		DataCollection datas = new DataCollection();
-		if (this.murl.equals(""))
-		{
-			datas.add(new Data(this.mName, ""));
-		}
-		else
-		{
-			datas.add(new Data(mName, murl, DataType.String));
-		}
+//		if (this.mURI.equals(""))
+//		{
+//			datas.add(new Data(this.mName, ""));
+//		}
+//		else
+//		{
+//			datas.add(new Data(mName, mURI, DataType.String));
+//		}
 		return datas;
 	}
 
