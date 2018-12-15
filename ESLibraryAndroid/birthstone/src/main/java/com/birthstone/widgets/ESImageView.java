@@ -17,6 +17,7 @@ import com.birthstone.core.parse.Data;
 import com.birthstone.core.parse.DataCollection;
 import com.facebook.binaryresource.FileBinaryResource;
 import com.facebook.cache.common.SimpleCacheKey;
+import com.facebook.cache.disk.FileCache;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -34,6 +35,7 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 	protected String mURI;
 	protected int srcid;
 	public static String IMAGE_URL_HEAD = "";
+	private FileCache fileCache;
 
 	public ESImageView(Context context, AttributeSet attrs)
 	{
@@ -64,10 +66,10 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 		this.setImageURI(Uri.parse(imageUrl));
 	}
 
-	public void setImageURI(String uri)
+	public void setImageURI(Uri uri)
 	{
-		mURI = uri;
-		super.setImageURI(mURI);
+		mURI = uri.toString();
+		super.setImageURI(uri);
 	}
 
 	public void dataInitialize ()
@@ -78,6 +80,7 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 			String classnameString = mActivity.getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 		}
+		fileCache = Fresco.getImagePipelineFactory().getMainFileCache();
 	}
 
 	public Object getActivity ()
@@ -120,7 +123,7 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 		File file = null;
 		if(mURI!=null && mURI.length()>0)
 		{
-			FileBinaryResource resource = (FileBinaryResource)Fresco.getImagePipelineFactory().getMainFileCache().getResource(new SimpleCacheKey(mURI.toString()));
+			FileBinaryResource resource = (FileBinaryResource)fileCache.getResource(new SimpleCacheKey(mURI.toString()));
 			file = resource.getFile();
 		}
 		if(file==null)
