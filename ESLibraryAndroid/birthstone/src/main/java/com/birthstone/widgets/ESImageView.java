@@ -124,7 +124,10 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 		if(mURI!=null && mURI.length()>0)
 		{
 			FileBinaryResource resource = (FileBinaryResource)fileCache.getResource(new SimpleCacheKey(mURI.toString()));
-			file = resource.getFile();
+			if(resource!=null)
+			{
+				file = resource.getFile();
+			}
 		}
 		if(file==null)
 		{
