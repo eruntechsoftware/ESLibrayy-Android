@@ -81,9 +81,9 @@
     <!--必填项错误提示-->
     <attr name="isRequiredTooltip" format="string"></attr>
     <!--正则表达式-->
-    <attr name="regularExpression" format="string"></attr>
+    <attr name="expression" format="string"></attr>
     <!--正则表达式校验错误提示-->
-    <attr name="regularTooltip" format="string"></attr>
+    <attr name="Message" format="string"></attr>
 
     <declare-styleable name="ESActionLoadPage">
         <!--数据类型-->
@@ -200,9 +200,9 @@
         <!--必填项错误提示-->
         <attr name="isRequiredTooltip"></attr>
         <!--正则表达式-->
-        <attr name="regularExpression"></attr>
+        <attr name="expression"></attr>
         <!--正则表达式校验错误提示-->
-        <attr name="regularTooltip"></attr>
+        <attr name="message"></attr>
         <attr name="hintTextSize" format="dimension"></attr>
         <!--状态ViewID-->
         <attr name="stateHiddenId"></attr>
@@ -220,9 +220,9 @@
     <!--&lt;!&ndash;必填项错误提示&ndash;&gt;-->
     <!--<attr name="isRequiredTooltip"></attr>-->
     <!--&lt;!&ndash;正则表达式&ndash;&gt;-->
-    <!--<attr name="regularExpression"></attr>-->
+    <!--<attr name="expression"></attr>-->
     <!--&lt;!&ndash;正则表达式校验错误提示&ndash;&gt;-->
-    <!--<attr name="regularTooltip"></attr>-->
+    <!--<attr name="Message"></attr>-->
     <!--</declare-styleable>-->
 
     <declare-styleable name="ESTextView">
@@ -303,11 +303,11 @@
         <!--必填项错误提示-->
         <attr name="isRequiredTooltip"></attr>
         <!--正则表达式-->
-        <attr name="regularExpression"></attr>
+        <attr name="expression"></attr>
         <!--必填项提示-->
         <attr name="hint" format="string"></attr>
         <!--正则表达式校验错误提示-->
-        <attr name="regularTooltip"></attr>
+        <attr name="Message"></attr>
     </declare-styleable>
 
     <declare-styleable name="ESRatingBarBase">

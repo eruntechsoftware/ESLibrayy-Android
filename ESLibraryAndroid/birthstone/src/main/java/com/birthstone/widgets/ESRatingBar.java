@@ -41,8 +41,8 @@ public class ESRatingBar extends ESRatingBarBase implements ICollectible, IValid
     protected Activity mActivity;
     protected String mName;
     protected String mIsRequiredTooltip = "";
-    protected String mRegularExpression = "";
-    protected String mRegularTooltip = "";
+    protected String mExpression = "";
+    protected String mMessage = "";
     protected String hint;
     protected String mNameSpace = "http://schemas.android.com/res/com.birthstone.widgets";
 
@@ -54,12 +54,12 @@ public class ESRatingBar extends ESRatingBarBase implements ICollectible, IValid
         {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ESRatingBar);
             mIsRequiredTooltip = a.getString(R.styleable.ESRatingBar_isRequiredTooltip);
-            mRegularExpression = a.getString(R.styleable.ESRatingBar_regularExpression);
-            if (mRegularExpression == null || "".equals(mRegularExpression))
+            mExpression = a.getString(R.styleable.ESRatingBar_expression);
+            if (mExpression == null || "".equals(mExpression))
             {
-                mRegularExpression = "*";
+                mExpression = "*";
             }
-            mRegularTooltip = a.getString(R.styleable.ESRatingBar_regularTooltip);
+            mMessage = a.getString(R.styleable.ESRatingBar_Message);
             mIsRequired = a.getBoolean(R.styleable.ESRatingBar_isRequired, false);
             mCollectSign = a.getString(R.styleable.ESRatingBar_collectSign);
             mEmpty2Null = a.getBoolean(R.styleable.ESRatingBar_empty2Null, true);
@@ -214,7 +214,7 @@ public class ESRatingBar extends ESRatingBarBase implements ICollectible, IValid
     public void setTipText (String tipText)
     {
         this.mIsRequiredTooltip = tipText;
-        this.mRegularExpression = tipText;
+        this.mExpression = tipText;
     }
 
     public String getNameSpace ()

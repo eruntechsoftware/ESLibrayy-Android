@@ -171,9 +171,9 @@
 		<!--必填项错误提示-->
 		<attr name="isRequiredTooltip" format="string"></attr>
 		<!--正则表达式-->
-		<attr name="regularExpression" format="string"></attr>
+		<attr name="Expression" format="string"></attr>
 		<!--正则表达式校验错误提示-->
-		<attr name="regularTooltip" format="string"></attr>
+		<attr name="Message" format="string"></attr>
 	</declare-styleable>
 
 	<declare-styleable name="ESTextView">
@@ -229,9 +229,9 @@
 	<!--&lt;!&ndash;必填项错误提示&ndash;&gt;-->
 	<!--<attr name="isRequiredTooltip" format="string"></attr>-->
 	<!--&lt;!&ndash;正则表达式&ndash;&gt;-->
-	<!--<attr name="regularExpression" format="string"></attr>-->
+	<!--<attr name="Expression" format="string"></attr>-->
 	<!--&lt;!&ndash;正则表达式校验错误提示&ndash;&gt;-->
-	<!--<attr name="regularTooltip" format="string"></attr>-->
+	<!--<attr name="Message" format="string"></attr>-->
 <!--</declare-styleable>-->
 
 	<!--<declare-styleable name="Themes">-->

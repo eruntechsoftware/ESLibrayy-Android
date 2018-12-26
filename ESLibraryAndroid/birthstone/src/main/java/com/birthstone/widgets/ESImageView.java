@@ -131,7 +131,7 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 		}
 		if(file==null && mURI!=null && mURI.trim().length()>0)
 		{
-			return new File(mURI);
+			return new File(mURI.replace("file:",""));
 		}
 
 		return file;

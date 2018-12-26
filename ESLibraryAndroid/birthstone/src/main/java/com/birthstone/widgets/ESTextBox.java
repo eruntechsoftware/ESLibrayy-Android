@@ -47,8 +47,8 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
     protected Activity mActivity;
     protected String mName;
     protected String mIsRequiredTooltip = "";
-    protected String mRegularExpression = "";
-    protected String mRegularTooltip = "";
+    protected String mExpression = "";
+    protected String mMessage = "";
     protected String mNameSpace = "http://schemas.android.com/res/com.birthstone.widgets";
 
     private OnTextBoxChangedListener onTextBoxChangedListener;
@@ -67,12 +67,12 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ESTextBox);
             this.mIsRequiredTooltip = a.getString(R.styleable.ESTextBox_isRequiredTooltip);
-            this.mRegularExpression = a.getString(R.styleable.ESTextBox_regularExpression);
-            if (mRegularExpression == null || "".equals(mRegularExpression))
+            this.mExpression = a.getString(R.styleable.ESTextBox_expression);
+            if (mExpression == null || "".equals(mExpression))
             {
-                mRegularExpression = "*";
+                mExpression = "*";
             }
-            this.mRegularTooltip = a.getString(R.styleable.ESTextBox_regularTooltip);
+            this.mMessage = a.getString(R.styleable.ESTextBox_message);
             this.mIsRequired = a.getBoolean(R.styleable.ESTextBox_isRequired, false);
             this.mCollectSign = a.getString(R.styleable.ESTextBox_collectSign);
             this.mEmpty2Null = a.getBoolean(R.styleable.ESTextBox_empty2Null, true);
@@ -119,44 +119,44 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         {
             case 0:
 //                ESTextBox.this.setInputType(TYPE_CLASS_TEXT |TYPE_TEXT_VARIATION_NORMAL);
-                mRegularExpression="";
+                mExpression="";
                 break;
             case 1:
                 ESTextBox.this.setInputType(InputType.TYPE_CLASS_NUMBER);
-                mRegularExpression = DataTypeExpression.integer();
+                mExpression = DataTypeExpression.integer();
                 break;
             case 2:
                 ESTextBox.this.setInputType(TYPE_CLASS_NUMBER |TYPE_NUMBER_FLAG_DECIMAL);
-                mRegularExpression = DataTypeExpression.numeric();
+                mExpression = DataTypeExpression.numeric();
                 break;
             case 3:
                 ESTextBox.this.setInputType(InputType.TYPE_CLASS_DATETIME);
-                mRegularExpression = DataTypeExpression.date();
+                mExpression = DataTypeExpression.date();
                 break;
             case 4:
                 ESTextBox.this.setInputType(InputType.TYPE_CLASS_DATETIME);
-                mRegularExpression = DataTypeExpression.dateTime();
+                mExpression = DataTypeExpression.dateTime();
                 break;
             case 5:
                 ESTextBox.this.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-                mRegularExpression = DataTypeExpression.eMail();
+                mExpression = DataTypeExpression.eMail();
                 break;
             case 6:
                 ESTextBox.this.setInputType(TYPE_CLASS_TEXT |TYPE_TEXT_VARIATION_URI);
-                mRegularExpression = DataTypeExpression.URL();
+                mExpression = DataTypeExpression.URL();
                 break;
             case 7:
                 ESTextBox.this.setSingleLine(true);
                 ESTextBox.this.setInputType(TYPE_CLASS_TEXT);
-                mRegularExpression = DataTypeExpression.idCard();
+                mExpression = DataTypeExpression.idCard();
                 break;
             case 8:
                 ESTextBox.this.setInputType(InputType.TYPE_CLASS_PHONE);
-                mRegularExpression = DataTypeExpression.phone();
+                mExpression = DataTypeExpression.phone();
                 break;
             case 9:
                 ESTextBox.this.setInputType(InputType.TYPE_CLASS_PHONE);
-                mRegularExpression = DataTypeExpression.mobile();
+                mExpression = DataTypeExpression.mobile();
                 break;
         }
     }
@@ -174,7 +174,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         }
         if (!hasFocus && mDataType!=DataType.String)
         {
-            mached = !ValidatorHelper.isMached(mRegularExpression, getText().toString());
+            mached = !ValidatorHelper.isMached(mExpression, getText().toString());
         }
     }
 
@@ -197,7 +197,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
 
     public void afterTextChanged (Editable s)
     {
-        mached = ValidatorHelper.isMached(mRegularExpression, getText().toString());
+        mached = ValidatorHelper.isMached(mExpression, getText().toString());
 
         if (onTextBoxChangedListener != null)
         {
@@ -216,9 +216,13 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
                     isEmpty = true;
                     return false;
                 }
-                mached = ValidatorHelper.isMached(mRegularExpression, getText().toString());
+                mached = ValidatorHelper.isMached(mExpression, getText().toString());
                 if(!mached)
                 {
+//                    if(mMessage!=null && mMessage.trim().length()>0)
+//                    {
+//                        ToastHelper.toastShow(this.getContext(), getHint().toString());
+//                    }
                     invalidate();
                 }
                 return mached;
@@ -263,34 +267,34 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         switch (arg0)
         {
             case String:
-                this.mRegularExpression = "*";
+                this.mExpression = "*";
                 break;
             case Integer:
-                this.mRegularExpression = DataTypeExpression.integer();
+                this.mExpression = DataTypeExpression.integer();
                 break;
             case Numeric:
-                this.mRegularExpression = DataTypeExpression.numeric();
+                this.mExpression = DataTypeExpression.numeric();
                 break;
             case Date:
-                this.mRegularExpression = DataTypeExpression.date();
+                this.mExpression = DataTypeExpression.date();
                 break;
             case DateTime:
-                this.mRegularExpression = DataTypeExpression.dateTime();
+                this.mExpression = DataTypeExpression.dateTime();
                 break;
             case EMail:
-                this.mRegularExpression = DataTypeExpression.eMail();
+                this.mExpression = DataTypeExpression.eMail();
                 break;
             case URL:
-                this.mRegularExpression = DataTypeExpression.URL();
+                this.mExpression = DataTypeExpression.URL();
                 break;
             case IDCard:
-                this.mRegularExpression = DataTypeExpression.idCard();
+                this.mExpression = DataTypeExpression.idCard();
                 break;
             case Phone:
-                this.mRegularExpression = DataTypeExpression.phone();
+                this.mExpression = DataTypeExpression.phone();
                 break;
             case Mobile:
-                this.mRegularExpression = DataTypeExpression.mobile();
+                this.mExpression = DataTypeExpression.mobile();
                 break;
         }
     }
@@ -385,9 +389,9 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         super.onDraw(canvas);
     }
 
-    public void drawRegularExpression (Canvas canvas)
+    public void drawExpression (Canvas canvas)
     {
-        if (mRegularExpression != null && !"".equals(mRegularExpression))
+        if (mExpression != null && !"".equals(mExpression))
         {
             Paint mPaint = new Paint();
             mPaint.setColor(Color.RED);
@@ -395,8 +399,8 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
             mPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
             mPaint.setStyle(Paint.Style.FILL);
             Rect rect = new Rect();
-            mPaint.getTextBounds(mRegularExpression, 0, mRegularExpression.length(), rect);
-            canvas.drawText(mRegularExpression, this.getWidth() - rect.width() - 8, this.getHeight() / 2 + rect
+            mPaint.getTextBounds(mExpression, 0, mExpression.length(), rect);
+            canvas.drawText(mExpression, this.getWidth() - rect.width() - 8, this.getHeight() / 2 + rect
                     .height() / 2, mPaint);
         }
     }
@@ -445,7 +449,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
     public void setTipText (String tipText)
     {
         this.mIsRequiredTooltip = tipText;
-        this.mRegularExpression = tipText;
+        this.mExpression = tipText;
     }
 
     public String getNameSpace ()

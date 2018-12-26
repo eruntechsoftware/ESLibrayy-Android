@@ -39,8 +39,8 @@ public class ESNumberPickerView extends LinearLayout implements ICollectible, IV
 	protected Activity mActivity;
 	protected String mName;
 	protected String mIsRequiredTooltip = "";
-	protected String mRegularExpression = "";
-	protected String mRegularTooltip = "";
+	protected String mExpression = "";
+	protected String mMessage = "";
 	protected String mNameSpace = "http://schemas.android.com/res/com.birthstone.widgets";
 
 	//当前输入框可输入的值（默认为不限制）
@@ -440,7 +440,7 @@ public class ESNumberPickerView extends LinearLayout implements ICollectible, IV
 				isEmpty = true;
 				return false;
 			}
-			mached = ValidatorHelper.isMached(mRegularExpression, getText().toString());
+			mached = ValidatorHelper.isMached(mExpression, getText().toString());
 			if (!mached)
 			{
 				invalidate();
@@ -485,34 +485,34 @@ public class ESNumberPickerView extends LinearLayout implements ICollectible, IV
 		switch (arg0)
 		{
 			case String:
-				this.mRegularExpression = "*";
+				this.mExpression = "*";
 				break;
 			case Integer:
-				this.mRegularExpression = DataTypeExpression.integer();
+				this.mExpression = DataTypeExpression.integer();
 				break;
 			case Numeric:
-				this.mRegularExpression = DataTypeExpression.numeric();
+				this.mExpression = DataTypeExpression.numeric();
 				break;
 			case Date:
-				this.mRegularExpression = DataTypeExpression.date();
+				this.mExpression = DataTypeExpression.date();
 				break;
 			case DateTime:
-				this.mRegularExpression = DataTypeExpression.dateTime();
+				this.mExpression = DataTypeExpression.dateTime();
 				break;
 			case EMail:
-				this.mRegularExpression = DataTypeExpression.eMail();
+				this.mExpression = DataTypeExpression.eMail();
 				break;
 			case URL:
-				this.mRegularExpression = DataTypeExpression.URL();
+				this.mExpression = DataTypeExpression.URL();
 				break;
 			case IDCard:
-				this.mRegularExpression = DataTypeExpression.idCard();
+				this.mExpression = DataTypeExpression.idCard();
 				break;
 			case Phone:
-				this.mRegularExpression = DataTypeExpression.phone();
+				this.mExpression = DataTypeExpression.phone();
 				break;
 			case Mobile:
-				this.mRegularExpression = DataTypeExpression.mobile();
+				this.mExpression = DataTypeExpression.mobile();
 				break;
 		}
 	}
@@ -626,7 +626,7 @@ public class ESNumberPickerView extends LinearLayout implements ICollectible, IV
 	public void setTipText (String tipText)
 	{
 		this.mIsRequiredTooltip = tipText;
-		this.mRegularExpression = tipText;
+		this.mExpression = tipText;
 	}
 
 	public String getNameSpace ()
