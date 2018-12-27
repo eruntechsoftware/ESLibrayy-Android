@@ -16,11 +16,7 @@ import com.birthstone.core.helper.DataType;
 import com.birthstone.core.helper.StringToArray;
 import com.birthstone.core.helper.ToastHelper;
 import com.birthstone.core.helper.ValidatorHelper;
-import com.birthstone.core.interfaces.ICellTitleStyleRequire;
-import com.birthstone.core.interfaces.ICollectible;
-import com.birthstone.core.interfaces.IDataInitialize;
-import com.birthstone.core.interfaces.IReleasable;
-import com.birthstone.core.interfaces.IValidatible;
+import com.birthstone.core.interfaces.*;
 import com.birthstone.core.parse.Data;
 import com.birthstone.core.parse.DataCollection;
 
@@ -35,7 +31,7 @@ public class ESDatePicker extends android.widget.DatePicker implements ICollecti
     protected Boolean mIsRequired;
     protected String mCollectSign;
     protected Boolean mEmpty2Null = true;
-    protected Activity mActivity;
+    protected IChildView mActivity;
     protected String mName;
     protected String mTime;
     protected String mTipText = "";
@@ -106,7 +102,7 @@ public class ESDatePicker extends android.widget.DatePicker implements ICollecti
         Date date = Calendar.getInstance().getTime();
         this.init(date.getYear(), date.getMonth(), date.getDay(), ChangedListener);
         if (mActivity != null) {
-            String classnameString = mActivity.getPackageName() + ".R$id";
+            String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
             mName = InitializeHelper.getName(classnameString, getId());
         }
     }
@@ -157,11 +153,11 @@ public class ESDatePicker extends android.widget.DatePicker implements ICollecti
         return mName;
     }
 
-    public Object getActivity() {
+    public Object getChildView() {
         return mActivity;
     }
 
-    public void setActivity(Object obj) {
+    public void setChildView(Object obj) {
         if (obj instanceof Activity) {
             mActivity = (Activity) obj;
         }

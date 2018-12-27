@@ -15,10 +15,7 @@ import com.birthstone.base.helper.InitializeHelper;
 import com.birthstone.core.helper.ModeType;
 import com.birthstone.core.helper.ModeTypeHelper;
 import com.birthstone.core.helper.StringToArray;
-import com.birthstone.core.interfaces.IDataInitialize;
-import com.birthstone.core.interfaces.IFunctionProtected;
-import com.birthstone.core.interfaces.IReleasable;
-import com.birthstone.core.interfaces.IStateProtected;
+import com.birthstone.core.interfaces.*;
 import com.birthstone.core.parse.Data;
 
 import java.util.LinkedList;
@@ -39,7 +36,7 @@ import java.util.LinkedList;
 	protected String mOpen;
 	protected Boolean mIsClosed = false;
 	protected String mName;
-	protected Activity mActivity;
+	protected IChildView mActivity;
 	/**
 	 * 单击事件执行前执行事件，并返回是否终止单击事件的执行参数
 	 **/
@@ -113,11 +110,8 @@ import java.util.LinkedList;
 
 	public void dataInitialize()
 	{
-		if (mActivity != null)
-		{
-			String classnameString = mActivity.getPackageName() + ".R$id";
-			mName = InitializeHelper.getName(classnameString, getId());
-		}
+		String classnameString = this.getContext().getPackageName() + ".R$id";
+		mName = InitializeHelper.getName(classnameString, getId());
 	}
 
 	public LinkedList<String> getRequest()
@@ -154,12 +148,12 @@ import java.util.LinkedList;
 		return mName;
 	}
 
-	public Object getActivity()
+	public Object getChildView()
 	{
 		return mActivity;
 	}
 
-	public void setActivity(Object arg0)
+	public void setChildView(Object arg0)
 	{
 		if (arg0 instanceof Activity)
 		{

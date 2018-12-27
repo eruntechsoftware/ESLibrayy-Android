@@ -13,9 +13,13 @@ public interface IChildView
 {
     public List<View> getViews();
 
+    public DataCollection collect(String sign);
+
     public void release(DataCollection params);
 
     public void release(int tag,DataCollection params);
 
     public void release(int tag,DataTable table);
+
+    public void finish();
 }

@@ -14,6 +14,7 @@ import com.birthstone.base.event.OnClickingListener;
 import com.birthstone.base.helper.InitializeHelper;
 import com.birthstone.base.parse.CollectController;
 import com.birthstone.core.helper.StringToArray;
+import com.birthstone.core.interfaces.IChildView;
 import com.birthstone.core.interfaces.IDataInitialize;
 import com.birthstone.core.interfaces.IFunctionProtected;
 import com.birthstone.core.parse.DataCollection;
@@ -22,7 +23,7 @@ import com.birthstone.core.parse.DataCollection;
 @SuppressLint("HandlerLeak")
 public class ESButtonClose extends ESButton implements IDataInitialize, IFunctionProtected
 {
-	protected Activity mActivity;
+	protected IChildView mActivity;
 	protected OnClickingListener onClickingListener;
 	protected OnClickedListener onClickedListener;
 	//protected ESProgressDialog alter;
@@ -68,7 +69,7 @@ public class ESButtonClose extends ESButton implements IDataInitialize, IFunctio
 	public void dataInitialize()
 	{
 		if (mActivity != null) {
-			String classnameString = mActivity.getPackageName() + ".R$id";
+			String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 		}
 	}
@@ -105,9 +106,9 @@ public class ESButtonClose extends ESButton implements IDataInitialize, IFunctio
 			{
 				CollectController collectController = new CollectController(mActivity, mSign);
 				DataCollection dataCollection = collectController.collect();
-				if(mActivity.getParentActivity() != null)
+				if(mActivity != null)
 				{
-					mActivity.getParentActivity().release(dataCollection);
+					mActivity.release(dataCollection);
 					return true;
 				}
 				return false;
@@ -164,12 +165,12 @@ public class ESButtonClose extends ESButton implements IDataInitialize, IFunctio
 		}
 	};
 
-	public Object getActivity()
+	public Object getChildView()
 	{
 		return mActivity;
 	}
 
-	public void setActivity(Object arg0)
+	public void setChildView(Object arg0)
 	{
 		if(arg0 instanceof Activity)
 		{

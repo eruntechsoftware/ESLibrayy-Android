@@ -28,7 +28,7 @@ public class ESCheckBox extends android.widget.CheckBox implements ICollectible,
 	protected ModeType mModeType;
 	protected Boolean mEmpty2Null = true;
 	protected String mCollectSign;
-	protected Activity mActivity;
+	 protected IChildView mActivity;
 	protected String mName;
 	protected String mNameSpace = "http://schemas.android.com/res/com.birthstone.widgets";
 
@@ -64,7 +64,7 @@ public class ESCheckBox extends android.widget.CheckBox implements ICollectible,
 	{
 		if(mActivity != null)
 		{
-			String classnameString = mActivity.getPackageName() + ".R$id";
+			String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 		}
 	}
@@ -138,12 +138,12 @@ public class ESCheckBox extends android.widget.CheckBox implements ICollectible,
 		return datas;
 	}
 
-	public Object getActivity()
+	public Object getChildView()
 	{
 		return mActivity;
 	}
 
-	public void setActivity(Object obj)
+	public void setChildView(Object obj)
 	{
 		if(obj instanceof Activity)
 		{

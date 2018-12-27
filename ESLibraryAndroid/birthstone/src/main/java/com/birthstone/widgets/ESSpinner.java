@@ -38,7 +38,7 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 	protected String mSign = "ForQuery";
 	protected Boolean mEmpty2Null = true;
 	protected Boolean mIsEmpty = false;
-	protected Activity mActivity;
+	 protected IChildView mActivity;
 	protected String mName;
 	protected String mDisplayValue;
 	protected String mBindValue;
@@ -100,7 +100,7 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 	{
 		if(mActivity != null)
 		{
-			String classnameString = mActivity.getPackageName() + ".R$id";
+			String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 			if(mCollectName == null || mCollectName.equals(""))
 			{
@@ -177,7 +177,7 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 			{
 				if(adapter == null)
 				{
-					adapter = new SpinnerItemAdapter(mActivity, dataTable);
+					adapter = new SpinnerItemAdapter((Context) mActivity, dataTable);
 					setAdapter(adapter);
 				}
 				else
@@ -487,12 +487,12 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 	}
 
 	@Override
-	public Object getActivity()
+	public Object getChildView()
 	{
 		return mActivity;
 	}
 
-	public void setActivity(Object arg0)
+	public void setChildView(Object arg0)
 	{
 		if(arg0 instanceof Activity)
 		{

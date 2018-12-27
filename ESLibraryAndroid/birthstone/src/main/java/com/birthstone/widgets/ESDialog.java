@@ -43,6 +43,12 @@ public class ESDialog extends Dialog implements IChildView
         return view;
     }
 
+    @Override
+    public DataCollection collect(String sign)
+    {
+        return new DataCollection();
+    }
+
     /**
      *发布数据集到当前屏幕
      * */
@@ -81,6 +87,12 @@ public class ESDialog extends Dialog implements IChildView
 
     @Override
     public void release(int tag, DataTable table)
+    {
+
+    }
+
+    @Override
+    public void finish()
     {
 
     }

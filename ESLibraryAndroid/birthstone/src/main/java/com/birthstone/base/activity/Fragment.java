@@ -364,6 +364,12 @@ public class Fragment extends android.support.v4.app.Fragment implements IChildV
 		}
 	}
 
+	@Override
+	public void finish()
+	{
+
+	}
+
 	/**
 	 * 数据发布前处理方法
 	 */

@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.birthstone.base.activity.Activity;
+import com.birthstone.base.activity.Fragment;
+import com.birthstone.base.activity.FragmentActivity;
 import com.birthstone.base.event.OnClickedListener;
 import com.birthstone.base.event.OnClickingListener;
 import com.birthstone.base.helper.ActivityHelper;
@@ -94,11 +96,34 @@ public class ESButtonOpen extends ESButton implements IDataInitialize, IFunction
 						// String.valueOf(Form.Controls.size()));
 						if(mOpen.contains("."))
 						{
-							formHelper.open(mActivity, mOpen, datas);
+							if(mActivity instanceof Activity)
+							{
+								formHelper.open((Activity) mActivity, mOpen, datas);
+							}
+							if(mActivity instanceof FragmentActivity)
+							{
+								formHelper.open((FragmentActivity) mActivity, mOpen, datas);
+							}
+							if(mActivity instanceof Fragment)
+							{
+								formHelper.open((Fragment) mActivity, mOpen, datas);
+							}
 						}
 						else
 						{
-							formHelper.open(mActivity, mActivity.getClass().getPackage().getName() + "." + mOpen, datas);
+							if(mActivity instanceof Activity)
+							{
+								formHelper.open((Activity)mActivity, mActivity.getClass().getPackage().getName() + "." + mOpen, datas);
+							}
+							if(mActivity instanceof FragmentActivity)
+							{
+								formHelper.open((FragmentActivity)mActivity, mActivity.getClass().getPackage().getName() + "." + mOpen, datas);
+							}
+							if(mActivity instanceof Fragment)
+							{
+								formHelper.open((Fragment)mActivity, mActivity.getClass().getPackage().getName() + "." + mOpen, datas);
+							}
+
 						}
 					}
 					else
@@ -107,16 +132,38 @@ public class ESButtonOpen extends ESButton implements IDataInitialize, IFunction
 						{
 							if(mOpen.contains("."))
 							{
-								formHelper.open(mActivity, mOpen);
+								if(mActivity instanceof Activity)
+								{
+									formHelper.open((Activity) mActivity, mOpen);
+								}
+								if(mActivity instanceof FragmentActivity)
+								{
+									formHelper.open((FragmentActivity) mActivity, mOpen);
+								}
+								if(mActivity instanceof Fragment)
+								{
+									formHelper.open((Fragment) mActivity, mOpen,null);
+								}
 							}
 							else
 							{
-								formHelper.open(mActivity, mActivity.getClass().getPackage().getName() + "." + mOpen);
+								if(mActivity instanceof Activity)
+								{
+									formHelper.open((Activity)mActivity, mActivity.getClass().getPackage().getName() + "." + mOpen);
+								}
+								if(mActivity instanceof FragmentActivity)
+								{
+									formHelper.open((FragmentActivity)mActivity, mActivity.getClass().getPackage().getName() + "." + mOpen);
+								}
+								if(mActivity instanceof Fragment)
+								{
+									formHelper.open((Fragment)mActivity, mActivity.getClass().getPackage().getName() + "." + mOpen,null);
+								}
 							}
 						}
 						else
 						{
-							Toast.makeText(mActivity, "δָActivity", Toast.LENGTH_SHORT).show();
+							Toast.makeText((Context) mActivity, "未设置跳转目标", Toast.LENGTH_SHORT).show();
 						}
 					}
 					if(mIsClosed)
@@ -148,12 +195,12 @@ public class ESButtonOpen extends ESButton implements IDataInitialize, IFunction
 		return mWantedStateValue;
 	}
 
-	public Object getActivity()
+	public Object getChildView()
 	{
 		return mActivity;
 	}
 
-	public void setActivity(Object arg0)
+	public void setChildView(Object arg0)
 	{
 		if(arg0 instanceof Activity)
 		{

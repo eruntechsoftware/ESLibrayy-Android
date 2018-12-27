@@ -14,10 +14,7 @@ import com.birthstone.base.helper.InitializeHelper;
 import com.birthstone.core.helper.ModeType;
 import com.birthstone.core.helper.ModeTypeHelper;
 import com.birthstone.core.helper.StringToArray;
-import com.birthstone.core.interfaces.IDataInitialize;
-import com.birthstone.core.interfaces.IFunctionProtected;
-import com.birthstone.core.interfaces.IReleasable;
-import com.birthstone.core.interfaces.IStateProtected;
+import com.birthstone.core.interfaces.*;
 import com.birthstone.core.parse.Data;
 
 import java.util.LinkedList;
@@ -35,7 +32,7 @@ public class ESRelativeLayout extends android.widget.RelativeLayout implements I
     protected String mWantedStateValue;
     protected ModeType mModeType;
     protected String mName;
-    protected Activity mActivity;
+    protected IChildView mActivity;
     /**单击事件执行前执行事件，并返回是否终止单击事件的执行参数**/
     public OnClickingListener onClickingListener;
     /**单击事件执行完成后执行的事件**/
@@ -90,7 +87,7 @@ public class ESRelativeLayout extends android.widget.RelativeLayout implements I
 
     public void dataInitialize() {
         if (mActivity != null) {
-            String classnameString = mActivity.getPackageName() + ".R$id";
+            String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
             mName = InitializeHelper.getName(classnameString, getId());
         }
     }
@@ -121,11 +118,11 @@ public class ESRelativeLayout extends android.widget.RelativeLayout implements I
         return mName;
     }
 
-    public Object getActivity() {
+    public Object getChildView() {
         return mActivity;
     }
 
-    public void setActivity(Object arg0) {
+    public void setChildView(Object arg0) {
         if (arg0 instanceof Activity) {
             mActivity = (Activity) arg0;
         }

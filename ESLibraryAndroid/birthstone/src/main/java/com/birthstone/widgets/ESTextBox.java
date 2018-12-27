@@ -44,7 +44,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
     protected Boolean mached = true;
     protected Boolean isEmpty = true;
     protected int hintTextSize=12;
-    protected Activity mActivity;
+    protected IChildView mActivity;
     protected String mName;
     protected String mIsRequiredTooltip = "";
     protected String mExpression = "";
@@ -306,19 +306,16 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
 
     public void dataInitialize ()
     {
-        if (mActivity != null)
-        {
-            String classnameString = mActivity.getPackageName() + ".R$id";
-            mName = InitializeHelper.getName(classnameString, getId());
-        }
+        String classnameString = this.getContext().getPackageName() + ".R$id";
+        mName = InitializeHelper.getName(classnameString, getId());
     }
 
-    public Object getActivity ()
+    public Object getChildView ()
     {
         return mActivity;
     }
 
-    public void setActivity (Object arg0)
+    public void setChildView (Object arg0)
     {
         if (arg0 instanceof Activity)
         {

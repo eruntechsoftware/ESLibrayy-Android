@@ -107,7 +107,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	{
 		if(mActivity != null)
 		{
-			String classnameString = mActivity.getPackageName() + ".R$id";
+			String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 		}
 	}
@@ -214,12 +214,12 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 		canvas.drawText(mTipText, 8, this.getHeight() / 2 + 5, mPaint);
 	}
 
-	public Object getActivity()
+	public Object getChildView()
 	{
 		return mActivity;
 	}
 
-	public void setActivity(Object obj)
+	public void setChildView(Object obj)
 	{
 		if(obj instanceof Activity)
 		{

@@ -36,7 +36,7 @@ public class ESNumberPickerView extends LinearLayout implements ICollectible, IV
 	protected Boolean mEmpty2Null = true;
 	protected Boolean mached = true;
 	protected Boolean isEmpty = true;
-	protected Activity mActivity;
+	 protected IChildView mActivity;
 	protected String mName;
 	protected String mIsRequiredTooltip = "";
 	protected String mExpression = "";
@@ -526,17 +526,17 @@ public class ESNumberPickerView extends LinearLayout implements ICollectible, IV
 	{
 		if (mActivity != null)
 		{
-			String classnameString = mActivity.getPackageName() + ".R$id";
+			String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 		}
 	}
 
-	public Object getActivity ()
+	public Object getChildView ()
 	{
 		return mActivity;
 	}
 
-	public void setActivity (Object arg0)
+	public void setChildView (Object arg0)
 	{
 		if (arg0 instanceof Activity)
 		{

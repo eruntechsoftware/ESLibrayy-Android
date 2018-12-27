@@ -9,10 +9,7 @@ import com.birthstone.R;
 import com.birthstone.base.activity.Activity;
 import com.birthstone.base.helper.InitializeHelper;
 import com.birthstone.core.helper.*;
-import com.birthstone.core.interfaces.ICollectible;
-import com.birthstone.core.interfaces.IDataInitialize;
-import com.birthstone.core.interfaces.IReleasable;
-import com.birthstone.core.interfaces.IValidatible;
+import com.birthstone.core.interfaces.*;
 import com.birthstone.core.parse.Data;
 import com.birthstone.core.parse.DataCollection;
 import com.facebook.binaryresource.FileBinaryResource;
@@ -30,7 +27,7 @@ import java.util.LinkedList;
 public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICollectible, IValidatible, IReleasable
 {
 	protected String mCollectSign;
-	protected Activity mActivity;
+	 protected IChildView mActivity;
 	protected String mName;
 	protected String mURI;
 	protected int srcid;
@@ -77,18 +74,18 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 
 		if (mActivity != null)
 		{
-			String classnameString = mActivity.getPackageName() + ".R$id";
+			String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 		}
 		fileCache = Fresco.getImagePipelineFactory().getMainFileCache();
 	}
 
-	public Object getActivity ()
+	public Object getChildView ()
 	{
 		return mActivity;
 	}
 
-	public void setActivity (Object arg0)
+	public void setChildView (Object arg0)
 	{
 		if (arg0 instanceof Activity)
 		{

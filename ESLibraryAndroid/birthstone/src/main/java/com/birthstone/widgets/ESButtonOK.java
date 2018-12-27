@@ -78,7 +78,6 @@ public class ESButtonOK extends ESButton implements IDataInitialize, IFunctionPr
 	{
 		try
 		{
-			mAlter = ProgressDialog.show(mActivity, "ر", "ڹرմ壬Ժ...", true);
 			if(mThread.getState().equals(Thread.State.WAITING))
 			{
 				mThread.run();
@@ -107,9 +106,10 @@ public class ESButtonOK extends ESButton implements IDataInitialize, IFunctionPr
 				CollectController collectController = new CollectController(mActivity, mSign);
 				DataCollection dataCollection = collectController.collect();
 				dataCollection.add(new Data("BtnQuery", 1));
-				if(mActivity.getParentActivity() != null)
+
+				if(mActivity != null)
 				{
-					mActivity.getParentActivity().release(dataCollection);
+					mActivity.release(dataCollection);
 					return true;
 				}
 				return false;
@@ -119,9 +119,9 @@ public class ESButtonOK extends ESButton implements IDataInitialize, IFunctionPr
 				DataCollection dataCollection = new DataCollection();
 				dataCollection.add(new Data("noBill", DateTimeHelper.getNow()));
 				dataCollection.add(new Data("BtnQuery", 1));
-				if(mActivity.getParentActivity() != null)
+				if(mActivity != null)
 				{
-					mActivity.getParentActivity().release(dataCollection);
+					mActivity.release(dataCollection);
 					return true;
 				}
 			}
@@ -203,12 +203,12 @@ public class ESButtonOK extends ESButton implements IDataInitialize, IFunctionPr
 		}
 	}
 
-	public Object getActivity()
+	public Object getChildView()
 	{
 		return mActivity;
 	}
 
-	public void setActivity(Object arg0)
+	public void setChildView(Object arg0)
 	{
 
 		if(arg0 instanceof Activity)

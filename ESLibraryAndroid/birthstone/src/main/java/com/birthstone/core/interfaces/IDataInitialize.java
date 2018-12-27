@@ -5,8 +5,8 @@ package com.birthstone.core.interfaces;
 
 public interface IDataInitialize
 {
-	Object getActivity();
-	void setActivity(Object obj);
+	Object getChildView();
+	void setChildView(Object obj);
     void dataInitialize();
 }
 

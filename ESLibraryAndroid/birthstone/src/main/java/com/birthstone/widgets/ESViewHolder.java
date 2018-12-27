@@ -25,6 +25,12 @@ public class ESViewHolder extends RecyclerView.ViewHolder implements IChildView
         super(itemView);
     }
 
+    @Override
+    public DataCollection collect(String sign)
+    {
+        return new DataCollection();
+    }
+
     /**
      *发布数据集到当前屏幕
      * */
@@ -63,6 +69,12 @@ public class ESViewHolder extends RecyclerView.ViewHolder implements IChildView
 
     @Override
     public void release(int tag, DataTable table)
+    {
+
+    }
+
+    @Override
+    public void finish()
     {
 
     }

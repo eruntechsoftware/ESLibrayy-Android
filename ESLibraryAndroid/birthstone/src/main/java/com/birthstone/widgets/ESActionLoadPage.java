@@ -18,10 +18,7 @@ import com.birthstone.base.parse.ReleaseController;
 import com.birthstone.core.Sqlite.SQLiteDatabase;
 import com.birthstone.core.helper.DataType;
 import com.birthstone.core.helper.DataTypeHelper;
-import com.birthstone.core.interfaces.ICollector;
-import com.birthstone.core.interfaces.IDataInitialize;
-import com.birthstone.core.interfaces.IDataQuery;
-import com.birthstone.core.interfaces.IReleaser;
+import com.birthstone.core.interfaces.*;
 import com.birthstone.core.parse.DataTable;
 
 /**
@@ -31,7 +28,7 @@ import com.birthstone.core.parse.DataTable;
 public class ESActionLoadPage extends TextView implements IDataInitialize, IDataQuery, IReleaser
 {
 	private SQLiteDatabase mSqlDb;
-	protected Activity mActivity;
+	protected IChildView mActivity;
 	protected Boolean mAutomatic = true;
 	protected String mSql;
 	protected String mSign = "ForQuery";
@@ -72,7 +69,7 @@ public class ESActionLoadPage extends TextView implements IDataInitialize, IData
 
 	private Boolean onInit()
 	{
-		mSqlDb = new SQLiteDatabase(mActivity.getApplicationContext());
+		mSqlDb = new SQLiteDatabase(this.getContext());
 		this.mSqlDb.getCollectors().add(new CollectController(mActivity, mSign));
 		this.mSqlDb.getReleasers().add(new ReleaseController(mActivity));
 		mSqlDb.setSql(mSql);
@@ -206,7 +203,7 @@ public class ESActionLoadPage extends TextView implements IDataInitialize, IData
 	 * */
 	public void dataInitialize()
 	{
-		String classnameString = mActivity.getPackageName() + ".R$id";
+		String classnameString = this.getContext().getPackageName() + ".R$id";
 		this.setText(InitializeHelper.getName(classnameString, getId()));
 		// Release();
 	}
@@ -235,12 +232,12 @@ public class ESActionLoadPage extends TextView implements IDataInitialize, IData
 		query();
 	}
 
-	public Object getActivity()
+	public Object getChildView()
 	{
 		return mActivity;
 	}
 
-	public void setActivity(Object obj)
+	public void setChildView(Object obj)
 	{
 		if(obj instanceof Activity)
 		{

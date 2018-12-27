@@ -52,7 +52,7 @@ public class ESButtonCountDown extends ESButton implements OnClickingListener
 		}
 		else
 		{
-			Activity activity = (Activity) this.getActivity();
+			Activity activity = (Activity) this.getChildView();
 			DataCollection params = activity.collect(mSign);
 			if(params==null || params.size()==0)
 			{

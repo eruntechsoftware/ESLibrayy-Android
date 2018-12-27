@@ -14,6 +14,7 @@ import com.birthstone.base.helper.InitializeHelper;
 import com.birthstone.core.helper.DataType;
 import com.birthstone.core.helper.DateTimeHelper;
 import com.birthstone.core.helper.StringToArray;
+import com.birthstone.core.interfaces.IChildView;
 import com.birthstone.core.interfaces.ICollectible;
 import com.birthstone.core.interfaces.IDataInitialize;
 import com.birthstone.core.parse.Data;
@@ -25,7 +26,7 @@ public class ESDateTimeView extends EditText implements ICollectible, IDataIniti
 	protected DataType mDataType;
 	protected String mCollectSign;
 	protected Boolean mEmpty2Null = true;
-	protected Activity mActivity;
+	 protected IChildView mActivity;
 	protected String mName;
 	protected String mNameSpace = "http://schemas.android.com/res/com.birthStone.widgets";
 
@@ -96,12 +97,12 @@ public class ESDateTimeView extends EditText implements ICollectible, IDataIniti
 		}
 	}
 
-	public Object getActivity()
+	public Object getChildView()
 	{
 		return mActivity;
 	}
 
-	public void setActivity(Object obj)
+	public void setChildView(Object obj)
 	{
 		if(obj instanceof Activity)
 		{
@@ -123,7 +124,7 @@ public class ESDateTimeView extends EditText implements ICollectible, IDataIniti
 	{
 		if(mActivity != null)
 		{
-			String classnameString = mActivity.getPackageName() + ".R$id";
+			String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 			invalidate();
 		}

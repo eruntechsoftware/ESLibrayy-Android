@@ -43,7 +43,7 @@ public class InitializeController implements IControlSearcherHandler
 			if(obj instanceof IDataInitialize)
 			{
 				IDataInitialize Initidata = (IDataInitialize) obj;
-				Initidata.setActivity(childView);
+				Initidata.setChildView(childView);
 				Initidata.dataInitialize();
 			}
 		}
