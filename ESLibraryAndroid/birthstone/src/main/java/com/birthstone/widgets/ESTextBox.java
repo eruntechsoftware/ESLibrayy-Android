@@ -317,10 +317,8 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
 
     public void setChildView (Object arg0)
     {
-        if (arg0 instanceof Activity)
-        {
-            mActivity = (Activity) arg0;
-        }
+        mActivity = (IChildView) arg0;
+
     }
 
     public LinkedList<String> getRequest ()

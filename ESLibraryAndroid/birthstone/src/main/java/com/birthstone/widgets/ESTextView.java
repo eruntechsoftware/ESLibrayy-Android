@@ -138,7 +138,7 @@ public class ESTextView extends android.widget.TextView implements ICollectible,
 	public void setChildView(Object arg0)
 	{
 
-		if(arg0 instanceof Activity)
+		if(arg0 instanceof IChildView)
 		{
 			mActivity = (Activity) arg0;
 		}

@@ -26,11 +26,11 @@ public class ESDateTimeView extends EditText implements ICollectible, IDataIniti
 	protected DataType mDataType;
 	protected String mCollectSign;
 	protected Boolean mEmpty2Null = true;
-	 protected IChildView mActivity;
+	protected IChildView mActivity;
 	protected String mName;
 	protected String mNameSpace = "http://schemas.android.com/res/com.birthStone.widgets";
 
-	public ESDateTimeView(Context context, AttributeSet attrs )
+	public ESDateTimeView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 		try
@@ -56,12 +56,12 @@ public class ESDateTimeView extends EditText implements ICollectible, IDataIniti
 
 	/**
 	 * 数据收集，返回DataCollection
-	 * **/
+	 **/
 	public DataCollection collect()
 	{
 		DataCollection datas = new DataCollection();
 		Log.v("DateTimeView--Collect", getText().toString());
-		if(this.getText().equals("") && mEmpty2Null.equals(true))
+		if (this.getText().equals("") && mEmpty2Null.equals(true))
 		{
 			datas.add(new Data(this.mName, null, mDataType));
 		}
@@ -104,10 +104,7 @@ public class ESDateTimeView extends EditText implements ICollectible, IDataIniti
 
 	public void setChildView(Object obj)
 	{
-		if(obj instanceof Activity)
-		{
-			mActivity = (Activity) obj;
-		}
+		mActivity = (IChildView) obj;
 	}
 
 	public void setDataType(DataType dataType)
@@ -122,9 +119,9 @@ public class ESDateTimeView extends EditText implements ICollectible, IDataIniti
 
 	public void dataInitialize()
 	{
-		if(mActivity != null)
+		if (mActivity != null)
 		{
-			String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
+			String classnameString = ((Context) mActivity).getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 			invalidate();
 		}

@@ -195,10 +195,8 @@ public class ESTimePicker extends android.widget.TimePicker implements ICollecti
 
 	public void setChildView(Object obj)
 	{
-		if(obj instanceof Activity)
-		{
-			mActivity = (Activity) obj;
-		}
+
+		mActivity = (IChildView)obj;
 	}
 
 	public void setDataType(DataType dataType)

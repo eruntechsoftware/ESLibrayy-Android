@@ -239,10 +239,7 @@ public class ESActionLoadPage extends TextView implements IDataInitialize, IData
 
 	public void setChildView(Object obj)
 	{
-		if(obj instanceof Activity)
-		{
-			mActivity = (Activity) obj;
-		}
+		mActivity = (IChildView)obj;
 	}
 
 	public Boolean getAutomatic()

@@ -52,8 +52,7 @@ public class ESButtonCountDown extends ESButton implements OnClickingListener
 		}
 		else
 		{
-			Activity activity = (Activity) this.getChildView();
-			DataCollection params = activity.collect(mSign);
+			DataCollection params = mActivity.collect(mSign);
 			if(params==null || params.size()==0)
 			{
 				new ESMessageBox(ESButtonCountDown.this.getContext(),"验证码","请设置验证码文本框采集属性（collectSign='ForKeyword'）").show();

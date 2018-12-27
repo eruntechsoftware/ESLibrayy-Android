@@ -158,8 +158,8 @@ public class ESDatePicker extends android.widget.DatePicker implements ICollecti
     }
 
     public void setChildView(Object obj) {
-        if (obj instanceof Activity) {
-            mActivity = (Activity) obj;
+        if (obj instanceof IChildView) {
+            mActivity = (IChildView) obj;
         }
     }
 

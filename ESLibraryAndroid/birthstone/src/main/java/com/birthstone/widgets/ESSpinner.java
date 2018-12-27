@@ -494,9 +494,9 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 
 	public void setChildView(Object arg0)
 	{
-		if(arg0 instanceof Activity)
+		if(arg0 instanceof IChildView)
 		{
-			mActivity = (Activity) arg0;
+			mActivity = (IChildView) arg0;
 		}
 	}
 

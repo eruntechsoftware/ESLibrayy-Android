@@ -24,10 +24,10 @@ import java.util.LinkedList;
 /**
  * 图片显示控件
  */
-public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICollectible, IValidatible, IReleasable
+public class ESImageView extends SimpleDraweeView implements IDataInitialize, ICollectible, IValidatible, IReleasable
 {
 	protected String mCollectSign;
-	 protected IChildView mActivity;
+	protected IChildView mActivity;
 	protected String mName;
 	protected String mURI;
 	protected int srcid;
@@ -39,7 +39,7 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 		super(context, attrs);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ESImageView);
 		mCollectSign = a.getString(R.styleable.ESImageView_collectSign);
-		srcid = a.getResourceId(R.styleable.ESImageView_srcid,0);
+		srcid = a.getResourceId(R.styleable.ESImageView_srcid, 0);
 		setImageResource(srcid);
 		a.recycle();
 	}
@@ -69,42 +69,39 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 		super.setImageURI(uri);
 	}
 
-	public void dataInitialize ()
+	public void dataInitialize()
 	{
-
 		if (mActivity != null)
 		{
-			String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
+			String classnameString = ((Context) mActivity).getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 		}
 		fileCache = Fresco.getImagePipelineFactory().getMainFileCache();
 	}
 
-	public Object getChildView ()
+	public Object getChildView()
 	{
 		return mActivity;
 	}
 
-	public void setChildView (Object arg0)
+	public void setChildView(Object arg0)
 	{
-		if (arg0 instanceof Activity)
-		{
-			mActivity = (Activity) arg0;
-		}
+		mActivity = (IChildView) arg0;
+
 	}
 
-	public LinkedList<String> getRequest ()
+	public LinkedList<String> getRequest()
 	{
 		LinkedList<String> list = new LinkedList<String>();
 		list.add(mName);
 		return list;
 	}
 
-	public void release (String dataName, Data data)
+	public void release(String dataName, Data data)
 	{
 		if (dataName.toUpperCase().equals(mName.toUpperCase()) && data != null)
 		{
-			if(!data.getStringValue().equals(""))
+			if (!data.getStringValue().equals(""))
 			{
 				setImageURI(data.getStringValue());
 				mURI = data.getStringValue();
@@ -113,42 +110,42 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 	}
 
 	/**
-	 *获取由URI返回的文件对象
-	 * **/
+	 * 获取由URI返回的文件对象
+	 **/
 	public File getImageFile()
 	{
 		File file = null;
-		if(mURI!=null && mURI.length()>0)
+		if (mURI != null && mURI.length() > 0)
 		{
-			FileBinaryResource resource = (FileBinaryResource)fileCache.getResource(new SimpleCacheKey(mURI.toString()));
-			if(resource!=null)
+			FileBinaryResource resource = (FileBinaryResource) fileCache.getResource(new SimpleCacheKey(mURI.toString()));
+			if (resource != null)
 			{
 				file = resource.getFile();
 			}
 		}
-		if(file==null && mURI!=null && mURI.trim().length()>0)
+		if (file == null && mURI != null && mURI.trim().length() > 0)
 		{
-			return new File(mURI.replace("file:",""));
+			return new File(mURI.replace("file:", ""));
 		}
 
 		return file;
 	}
 
-	public DataCollection collect ()
+	public DataCollection collect()
 	{
 		DataCollection datas = new DataCollection();
-//		if (this.mURI.equals(""))
-//		{
-//			datas.add(new Data(this.mName, ""));
-//		}
-//		else
-//		{
-//			datas.add(new Data(mName, mURI, DataType.String));
-//		}
+		//		if (this.mURI.equals(""))
+		//		{
+		//			datas.add(new Data(this.mName, ""));
+		//		}
+		//		else
+		//		{
+		//			datas.add(new Data(mName, mURI, DataType.String));
+		//		}
 		return datas;
 	}
 
-	public String[] getCollectSign ()
+	public String[] getCollectSign()
 	{
 		return StringToArray.stringConvertArray(this.mCollectSign);
 	}
@@ -172,9 +169,9 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize,ICo
 
 	/**
 	 * 提示校验错误
-	 * **/
+	 **/
 	public void hint()
 	{
-//		ToastHelper.toastShow(this.getContext(),getHint().toString());
+		//		ToastHelper.toastShow(this.getContext(),getHint().toString());
 	}
 }

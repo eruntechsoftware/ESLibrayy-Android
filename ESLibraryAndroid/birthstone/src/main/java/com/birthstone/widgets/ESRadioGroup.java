@@ -33,7 +33,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	protected String mStateHiddenId;
 	protected String mWantedStateValue;
 	protected ModeType mModeType;
-	private Activity mActivity;
+	private IChildView mActivity;
 	private String mName;
 	private Object mSelectItemValue = null;
 	private Object mSelectItemText = null;
@@ -221,10 +221,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 
 	public void setChildView(Object obj)
 	{
-		if(obj instanceof Activity)
-		{
-			mActivity = (Activity) obj;
-		}
+		mActivity = (IChildView)obj;
 	}
 
 	public String getName()

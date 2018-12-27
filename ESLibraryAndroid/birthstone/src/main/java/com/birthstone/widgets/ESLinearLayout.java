@@ -152,7 +152,7 @@ import java.util.LinkedList;
 
 	public void setChildView(Object arg0)
 	{
-		if (arg0 instanceof Activity)
+
 		{
 			mActivity = (Activity) arg0;
 		}

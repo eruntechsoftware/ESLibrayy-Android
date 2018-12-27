@@ -15,6 +15,7 @@ import com.birthstone.base.event.OnClickingListener;
 import com.birthstone.base.helper.ActivityHelper;
 import com.birthstone.base.parse.CollectController;
 import com.birthstone.core.helper.StringToArray;
+import com.birthstone.core.interfaces.IChildView;
 import com.birthstone.core.interfaces.IDataInitialize;
 import com.birthstone.core.interfaces.IFunctionProtected;
 import com.birthstone.core.interfaces.IStateProtected;
@@ -202,9 +203,9 @@ public class ESButtonOpen extends ESButton implements IDataInitialize, IFunction
 
 	public void setChildView(Object arg0)
 	{
-		if(arg0 instanceof Activity)
+		if(arg0 instanceof IChildView)
 		{
-			mActivity = (Activity) arg0;
+			mActivity = (IChildView) arg0;
 		}
 	}
 
