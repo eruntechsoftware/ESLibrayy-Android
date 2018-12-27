@@ -431,7 +431,7 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity im
 	 */
 	public DataCollection collect(String collectSign)
 	{
-		CollectController collecter = new CollectController((Activity) this.getBaseContext(), collectSign);
+		CollectController collecter = new CollectController(this, collectSign);
 		return collecter.collect();
 	}
 
@@ -461,7 +461,7 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity im
 		{
 			if(this != null)
 			{
-				dataQueryController = new DataQueryController((Activity) this.getBaseContext());
+				dataQueryController = new DataQueryController(this);
 				dataQueryController.query();
 			}
 		}
@@ -478,7 +478,7 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity im
 	 */
 	public Boolean validator()
 	{
-		ValidatorController validatorForm = new ValidatorController((Activity) this.getBaseContext());
+		ValidatorController validatorForm = new ValidatorController(this);
 		try
 		{
 			return validatorForm.validator();
