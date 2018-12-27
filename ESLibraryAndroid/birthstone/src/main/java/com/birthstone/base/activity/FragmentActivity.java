@@ -963,9 +963,16 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity im
 	/**
 	 * 左侧按钮单击事件
 	 **/
-	public void onLeftClick()
+	public void onLeftClick ()
 	{
-
+		try
+		{
+			finish();
+		}
+		catch (Exception ex)
+		{
+			Log.e("Activity", ex.getMessage());
+		}
 	}
 
 	/**
