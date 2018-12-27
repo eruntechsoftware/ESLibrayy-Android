@@ -278,7 +278,7 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity im
 	{
 		try
 		{
-			InitializeController initializeForm = new InitializeController((Activity) this.getBaseContext());
+			InitializeController initializeForm = new InitializeController(this);
 			initializeForm.initialize();
 		}
 		catch(Exception ex)
