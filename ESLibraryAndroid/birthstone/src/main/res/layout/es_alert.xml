@@ -29,6 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="0.10"
+                    android:layout_marginLeft="2dp"
                     android:background="@drawable/es_button_white_item"
                     android:text="取消"
                     android:textColor="#000000"
@@ -47,6 +48,7 @@
                     android:layout_weight="0.10"
                     android:background="@drawable/es_button_white_item"
                     android:text="确定"
+                    android:layout_marginRight="2dp"
                     android:textColor="#1E88E5"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
