@@ -39,7 +39,7 @@ public class ESTextBoxIDCard extends ESTextBox
 				String cardId = getText().toString().trim();
 				if (cardId.length() == 15 || cardId.length() == 18)
 				{
-					if(!RxRegTool.isIDCard15(cardId))
+					if(!RxRegTool.isIDCard15(cardId) &&  !RxRegTool.isIDCard18(cardId))
 					{
 						mached=false;
 						mMessage = "15位或18位身份证号码不正确";
