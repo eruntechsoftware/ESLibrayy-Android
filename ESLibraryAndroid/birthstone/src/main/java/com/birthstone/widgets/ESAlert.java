@@ -106,6 +106,7 @@ public class ESAlert extends ESDialog
 
 		contentDialog = (RelativeLayout) findViewById(R.id.contentDialog);
 		contentDialog.setBackgroundColor(contentDialogBackgroundColor);
+		contentDialog.setBackgroundResource(R.drawable.es_background_alert);
 		backView = (RelativeLayout) findViewById(R.id.dialog_rootView);
 		backView.setOnTouchListener(new OnTouchListener()
 		{
