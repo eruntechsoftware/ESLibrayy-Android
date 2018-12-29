@@ -8,6 +8,7 @@ import android.util.Log;
 import com.birthstone.core.helper.DataTypeExpression;
 import com.birthstone.core.helper.ToastHelper;
 import com.birthstone.core.helper.ValidatorHelper;
+import com.vondear.rxtool.RxRegTool;
 
 /**
  * 身份证号输入文本框
@@ -27,7 +28,7 @@ public class ESTextBoxIDCard extends ESTextBox
 	{
 		try
 		{
-
+			mMessage = getHint().toString();
 			if (mIsRequired)
 			{
 				if (getText().toString().trim().equals(""))
@@ -38,21 +39,23 @@ public class ESTextBoxIDCard extends ESTextBox
 				String cardId = getText().toString().trim();
 				if (cardId.length() == 15 || cardId.length() == 18)
 				{
-					mached = this.cardCodeVerifySimple(cardId);
-					if (!mached)
+					if(!RxRegTool.isIDCard15(cardId))
 					{
+						mached=false;
 						mMessage = "15位或18位身份证号码不正确";
 					}
 					else
 					{
 						if (cardId.length() == 18 && !this.cardCodeVerify(cardId))
 						{
+							mached=false;
 							mMessage ="18位身份证号码不符合国家规范";
 						}
 					}
 				}
 				else
 				{
+					mached=false;
 					mMessage = "身份证号码长度必须等于15或18位";
 				}
 				return mached;
