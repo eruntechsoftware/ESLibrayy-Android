@@ -14,48 +14,50 @@ public class ValidatorHelper
 
 	/**
 	 * 输入值的数据类型校验
+	 *
 	 * @param datatype 数据类型
-	 * @param value 输入值
+	 * @param value    输入值
+	 *
 	 * @return 校验不通过的错误描述
-	 * */
+	 */
 	public static String dataTypeValidator(DataType datatype, String value) throws Exception
 	{
 		expression = "";
-		if(datatype == null)
+		if (datatype == null)
 		{
 			err = "";
 		}
-		if(datatype == DataType.Integer)
+		if (datatype == DataType.Integer)
 		{
 			err = "请输入整数类型";
 			expression = DataTypeExpression.integer();
 		}
-		if(datatype == DataType.Numeric)
+		if (datatype == DataType.Numeric)
 		{
 			err = "请输入小数或整数类型";
 			expression = DataTypeExpression.numeric();
 		}
-		if(datatype == DataType.Date)
+		if (datatype == DataType.Date)
 		{
 			err = "请输入yyyy-MM-dd格式的日期";
 			expression = DataTypeExpression.date();
 		}
-		if(datatype == DataType.DateTime)
+		if (datatype == DataType.DateTime)
 		{
 			err = "请输入yyyy-MM-dd HH:mm:ss格式的时间";
 			expression = DataTypeExpression.date();
 		}
-		if(datatype == DataType.EMail)
+		if (datatype == DataType.EMail)
 		{
 			err = "请输入正确的电子邮箱格式";
 			expression = DataTypeExpression.eMail();
 		}
-		if(datatype == DataType.URL)
+		if (datatype == DataType.URL)
 		{
 			err = "请输入正确的URL地址";
 			expression = DataTypeExpression.URL();
 		}
-		if(isMached(expression, value))
+		if (isMached(expression, value))
 		{
 			err = "";
 		}
@@ -64,19 +66,21 @@ public class ValidatorHelper
 
 	/**
 	 * 校验输入的正则表达式和输入值
+	 *
 	 * @param expression 正则表达式
-	 * @param value 输入值
+	 * @param value      输入值
+	 *
 	 * @return 是否合法
 	 */
 	public static Boolean isMached(String expression, String value)
 	{
 		try
 		{
-			if(TextUtils.isEmpty(expression)) { return true; }
-			Pattern p = Pattern.compile(expression);
-			Matcher m = p.matcher(value);
-			boolean b = m.matches();
-			return b;
+			if (TextUtils.isEmpty(expression))
+			{
+				return true;
+			}
+			return Pattern.matches(expression, value);
 		}
 		catch(Exception ex)
 		{
