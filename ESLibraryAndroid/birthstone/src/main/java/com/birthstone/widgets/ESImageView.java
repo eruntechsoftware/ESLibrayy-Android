@@ -117,6 +117,10 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize, IC
 		File file = null;
 		if (mURI != null && mURI.length() > 0)
 		{
+			if(fileCache == null )
+			{
+				fileCache = Fresco.getImagePipelineFactory().getMainFileCache();
+			}
 			FileBinaryResource resource = (FileBinaryResource) fileCache.getResource(new SimpleCacheKey(mURI.toString()));
 			if (resource != null)
 			{
