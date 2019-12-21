@@ -123,7 +123,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         switch (value)
         {
             case 0:
-                
+
                 break;
             case 1:
                 ESTextBox.this.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -268,8 +268,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         switch (arg0)
         {
             case String:
-
-                this.mExpression = "*";
+                
                 break;
             case Integer:
                 this.mExpression = DataTypeExpression.integer();
