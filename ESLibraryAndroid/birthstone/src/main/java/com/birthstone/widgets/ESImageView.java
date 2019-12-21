@@ -31,7 +31,7 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize, IC
 	protected Boolean mIsRequired;
 	protected Boolean isEmpty = true;
 	protected String mName;
-	protected String mURI;
+	protected String mImage_Uri;
 	protected String mMessage="";
 	protected int srcid;
 	public static String IMAGE_URL_HEAD = "";
@@ -49,13 +49,13 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize, IC
 		{
 			isEmpty=false;
 		}
-		mURI = a.getString(R.styleable.ESImageView_uri);
+		mImage_Uri = a.getString(R.styleable.ESImageView_image_uri);
 		setImageResource(srcid);
-		if(!"".equals(mURI.trim()))
+		if(!"".equals(mImage_Uri.trim()))
 		{
 			isEmpty=false;
 		}
-		super.setImageURI(mURI);
+		super.setImageURI(mImage_Uri);
 		a.recycle();
 	}
 
@@ -81,7 +81,7 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize, IC
 
 	public void setImageURI(Uri uri)
 	{
-		mURI = uri.toString();
+		mImage_Uri = uri.toString();
 		super.setImageURI(uri);
 		isEmpty=false;
 	}
@@ -121,7 +121,7 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize, IC
 			if (!data.getStringValue().equals(""))
 			{
 				setImageURI(data.getStringValue());
-				mURI = data.getStringValue();
+				mImage_Uri = data.getStringValue();
 			}
 		}
 	}
@@ -132,21 +132,21 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize, IC
 	public File getImageFile()
 	{
 		File file = null;
-		if (mURI != null && mURI.length() > 0)
+		if (mImage_Uri != null && mImage_Uri.length() > 0)
 		{
 			if(fileCache == null )
 			{
 				fileCache = Fresco.getImagePipelineFactory().getMainFileCache();
 			}
-			FileBinaryResource resource = (FileBinaryResource) fileCache.getResource(new SimpleCacheKey(mURI.toString()));
+			FileBinaryResource resource = (FileBinaryResource) fileCache.getResource(new SimpleCacheKey(mImage_Uri.toString()));
 			if (resource != null)
 			{
 				file = resource.getFile();
 			}
 		}
-		if (file == null && mURI != null && mURI.trim().length() > 0)
+		if (file == null && mImage_Uri != null && mImage_Uri.trim().length() > 0)
 		{
-			return new File(mURI.replace("file:", ""));
+			return new File(mImage_Uri.replace("file:", ""));
 		}
 
 		return file;

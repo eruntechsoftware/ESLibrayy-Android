@@ -83,7 +83,9 @@
     <!--正则表达式-->
     <attr name="expression" format="string"></attr>
     <!--正则表达式校验错误提示-->
-    <attr name="Message" format="string"></attr>
+    <attr name="message" format="string"></attr>
+
+    <attr name="image_uri" format="string"></attr>
 
     <declare-styleable name="ESActionLoadPage">
         <!--数据类型-->
@@ -117,7 +119,7 @@
 
     <declare-styleable name="ESButtonCountDown">
         <!--弹出ESMessageBox消息提示-->
-        <attr name="message" format="string"></attr>
+        <attr name="message"></attr>
     </declare-styleable>
 
 
@@ -187,12 +189,12 @@
         <!--执行的sql文件名称，书写时无后缀名.sql-->
         <attr name="sql"></attr>
         <!--采集标记名称-->
-        <attr name="collectName" format="string"></attr>
+        <attr name="collectName"></attr>
         <!--绑定的显示字段名称-->
-        <attr name="displayValue" format="string"></attr>
+        <attr name="displayValue"></attr>
         <!--绑定的值字段名-->
-        <attr name="bindValue" format="string"></attr>
-        <attr name="isEmpty" format="boolean"></attr>
+        <attr name="bindValue"></attr>
+        <attr name="isEmpty"></attr>
     </declare-styleable>
 
     <declare-styleable name="ESTextBox">
@@ -299,7 +301,7 @@
 
     <declare-styleable name="ESImageView">
         <attr name="srcid" format="reference"></attr>
-        <attr name="uri" format="reference"></attr>
+        <attr name="image_uri"></attr>
         <attr name="isRequired"></attr>
         <attr name="collectSign"></attr>
         <!--非空错误提示-->
@@ -316,7 +318,7 @@
         <!--正则表达式-->
         <attr name="expression"></attr>
         <!--必填项提示-->
-        <attr name="hint" format="string"></attr>
+        <attr name="hint"></attr>
         <!--正则表达式校验错误提示-->
         <attr name="message"></attr>
     </declare-styleable>
