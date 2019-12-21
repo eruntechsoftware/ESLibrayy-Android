@@ -123,8 +123,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         switch (value)
         {
             case 0:
-//                ESTextBox.this.setInputType(TYPE_CLASS_TEXT |TYPE_TEXT_VARIATION_NORMAL);
-                mExpression="";
+                
                 break;
             case 1:
                 ESTextBox.this.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -269,6 +268,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         switch (arg0)
         {
             case String:
+
                 this.mExpression = "*";
                 break;
             case Integer:
@@ -375,6 +375,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
 
     protected void onDraw (Canvas canvas)
     {
+        super.onDraw(canvas);
         if (isEmpty && mIsRequired)
         {
             drawRequired(canvas);
@@ -383,7 +384,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         {
             drawError(canvas);
         }
-        super.onDraw(canvas);
+
     }
 
     public void drawExpression (Canvas canvas)
