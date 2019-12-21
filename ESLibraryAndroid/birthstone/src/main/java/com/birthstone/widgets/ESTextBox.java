@@ -69,12 +69,14 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ESTextBox);
             this.mExpressionMessage = a.getString(R.styleable.ESTextBox_expressionMessage);
+            this.mExpressionMessage = this.mExpressionMessage==null?"":mExpressionMessage;
+
             this.mExpression = a.getString(R.styleable.ESTextBox_expression);
-            if (mExpression == null || "".equals(mExpression))
-            {
-                mExpression = "*";
-            }
+            this.mExpression = this.mExpression==null?"*":mExpression;
+
             this.mMessage = a.getString(R.styleable.ESTextBox_message);
+            this.mMessage = this.mMessage==null?"":mMessage;
+
             this.mIsRequired = a.getBoolean(R.styleable.ESTextBox_isRequired, false);
             this.mIsErrorDrawable = a.getBoolean(R.styleable.ESTextBox_isErrorDrawable, false);
             this.mCollectSign = a.getString(R.styleable.ESTextBox_collectSign);
@@ -93,7 +95,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
             errorDrawable = this.getResources().getDrawable(R.mipmap.es_error);
             requiredDrawable = this.getResources().getDrawable(R.mipmap.es_required);
 
-            hintStr = this.mMessage.trim().equals("")?getHint().toString():this.mMessage.trim();
+            hintStr = getHint().toString();
 			SpannableString spannableString =  new SpannableString(hintStr);
 			AbsoluteSizeSpan ass = new AbsoluteSizeSpan(hintTextSize, true);
 			spannableString.setSpan(ass, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -532,7 +534,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
      * **/
     public void message()
     {
-        ToastHelper.toastShow(this.getContext(),hintStr);
+        ToastHelper.toastShow(this.getContext(),mMessage.equals("")?hintStr:mMessage);
     }
 
     @Override

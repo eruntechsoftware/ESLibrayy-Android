@@ -45,17 +45,19 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize, IC
 		mMessage = a.getString(R.styleable.ESTextBox_message);
 		mIsRequired = a.getBoolean(R.styleable.ESTextBox_isRequired, false);
 		srcid = a.getResourceId(R.styleable.ESImageView_srcid, 0);
+		setImageResource(srcid);
 		if(srcid>0)
 		{
 			isEmpty=false;
 		}
-		mImage_Uri = a.getString(R.styleable.ESImageView_image_uri);
-		setImageResource(srcid);
+		this.mImage_Uri = a.getString(R.styleable.ESImageView_image_uri);
+		this.mImage_Uri = this.mImage_Uri==null?"":mImage_Uri;
 		if(!"".equals(mImage_Uri.trim()))
 		{
 			isEmpty=false;
 		}
 		super.setImageURI(mImage_Uri);
+
 		a.recycle();
 	}
 
