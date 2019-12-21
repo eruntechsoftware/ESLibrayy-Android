@@ -38,8 +38,8 @@ public class ESNumberPickerView extends LinearLayout implements ICollectible, IV
 	protected Boolean isEmpty = true;
 	protected IChildView mActivity;
 	protected String mName;
-	protected String mIsRequiredTooltip = "";
-	protected String mExpression = "";
+	protected String mExpressionMessage = "";
+	protected String mExpression = "^.{0,5}$";
 	protected String mMessage = "";
 	protected String mNameSpace = "http://schemas.android.com/res/com.birthstone.widgets";
 
@@ -104,7 +104,9 @@ public class ESNumberPickerView extends LinearLayout implements ICollectible, IV
 		btn_num_add.setImageResource(addResourceId);
 		btn_num_minus.setImageResource(subResourceId);
 
+		mIsRequired = typedArray.getBoolean(R.styleable.ESNumberPickerView_isRequired,false);
 		mCollectSign = typedArray.getString(R.styleable.ESNumberPickerView_collectSign);
+		mMessage = typedArray.getString(R.styleable.ESNumberPickerView_message);
 
 		//最大值
 		maxValue = typedArray.getInteger(R.styleable.ESNumberPickerView_maxValue, 99);
@@ -479,6 +481,21 @@ public class ESNumberPickerView extends LinearLayout implements ICollectible, IV
 		return mIsRequired;
 	}
 
+	@Override
+	public Boolean getIsEmpty() {
+		return isEmpty;
+	}
+
+	@Override
+	public void message() {
+		ToastHelper.toastShow(this.getContext(),mMessage);
+	}
+
+	@Override
+	public void expressionMessage() {
+		ToastHelper.toastShow(this.getContext(),mExpressionMessage.equals("")?mMessage:mExpressionMessage);
+	}
+
 	public void setDataType (DataType arg0)
 	{
 		mDataType = arg0;
@@ -617,13 +634,12 @@ public class ESNumberPickerView extends LinearLayout implements ICollectible, IV
 
 	public String getTipText ()
 	{
-		return mIsRequiredTooltip;
+		return mExpressionMessage;
 	}
 
 	public void setTipText (String tipText)
 	{
-		this.mIsRequiredTooltip = tipText;
-		this.mExpression = tipText;
+		this.mExpressionMessage = tipText;
 	}
 
 	public String getNameSpace ()

@@ -34,7 +34,9 @@ public class ESDatePicker extends android.widget.DatePicker implements ICollecti
     protected IChildView mActivity;
     protected String mName;
     protected String mTime;
-    protected String mTipText = "";
+    protected String mExpressionMessage = "";
+    protected String mExpression = "";
+    protected String mMessage = "";
     protected String mNameSpace = "http://schemas.android.com/res/com.birthStone.widgets";
 
     public ESDatePicker(Context context, AttributeSet attrs) {
@@ -43,6 +45,9 @@ public class ESDatePicker extends android.widget.DatePicker implements ICollecti
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ESDatePicker);
             mIsRequired = a.getBoolean(R.styleable.ESDatePicker_isRequired,false);
             mEmpty2Null = a.getBoolean(R.styleable.ESDatePicker_empty2Null, true);
+            mExpressionMessage = a.getString(R.styleable.ESDatePicker_expressionMessage);
+            //mExpression = a.getString(R.styleable.ESDatePicker_expression);
+            mMessage = a.getString(R.styleable.ESDatePicker_message);
             mCollectSign = a.getString(R.styleable.ESDatePicker_collectSign);
             mDataType = com.birthstone.core.helper.DataType.DateTime;
             a.recycle();
@@ -59,6 +64,7 @@ public class ESDatePicker extends android.widget.DatePicker implements ICollecti
     protected OnDateChangedListener ChangedListener = new OnDateChangedListener() {
 
         public void onDateChanged(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
         }
     };
 
@@ -115,14 +121,14 @@ public class ESDatePicker extends android.widget.DatePicker implements ICollecti
      **/
     public Boolean dataValidator() {
         try {
-            mTipText = ValidatorHelper.dataTypeValidator(mDataType, mTime);
-            Log.v("DataTypeValidator", mTipText);
+            mExpressionMessage = ValidatorHelper.dataTypeValidator(mDataType, mTime);
+            Log.v("DataTypeValidator", mExpressionMessage);
 //            if (mIsRequired) {
 //                Log.v("IsRequiredValidator", mTipText);
 //                mTipText = ValidatorHelper.requiredValidator(mTime);
 //            }
             invalidate();
-            if (mTipText.length() != 0) {
+            if (mExpressionMessage.length() != 0) {
                 return false;
             }
         } catch (Exception ex) {
@@ -146,7 +152,7 @@ public class ESDatePicker extends android.widget.DatePicker implements ICollecti
 
         mPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         // ַ
-        canvas.drawText(mTipText, 8, this.getHeight() / 2 + 5, mPaint);
+        canvas.drawText(mExpressionMessage, 8, this.getHeight() / 2 + 5, mPaint);
     }
 
     public String getName() {
@@ -179,12 +185,27 @@ public class ESDatePicker extends android.widget.DatePicker implements ICollecti
         return mIsRequired;
     }
 
+    @Override
+    public Boolean getIsEmpty() {
+        return false;
+    }
+
+    @Override
+    public void message() {
+        ToastHelper.toastShow(this.getContext(),mMessage);
+    }
+
+    @Override
+    public void expressionMessage() {
+        ToastHelper.toastShow(this.getContext(),mExpressionMessage);
+    }
+
     public String getTipText() {
-        return mTipText;
+        return mExpressionMessage;
     }
 
     public void setTipText(String tipText) {
-        this.mTipText = tipText;
+        this.mExpressionMessage = tipText;
     }
 
     public String getNameSpace() {

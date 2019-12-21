@@ -36,6 +36,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
 {
     protected DataType mDataType;
     protected Boolean mIsRequired;
+    protected Boolean mIsErrorDrawable;
     protected String mCollectSign;
     protected String mStateHiddenId;
     protected String mWantedStateValue;
@@ -44,9 +45,10 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
     protected Boolean mached = true;
     protected Boolean isEmpty = true;
     protected int hintTextSize=12;
+    protected String hintStr="";
     protected IChildView mActivity;
     protected String mName;
-    protected String mIsRequiredTooltip = "";
+    protected String mExpressionMessage = "";
     protected String mExpression = "";
     protected String mMessage = "";
     protected String mNameSpace = "http://schemas.android.com/res/com.birthstone.widgets";
@@ -66,7 +68,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         try
         {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ESTextBox);
-            this.mIsRequiredTooltip = a.getString(R.styleable.ESTextBox_isRequiredTooltip);
+            this.mExpressionMessage = a.getString(R.styleable.ESTextBox_expressionMessage);
             this.mExpression = a.getString(R.styleable.ESTextBox_expression);
             if (mExpression == null || "".equals(mExpression))
             {
@@ -74,6 +76,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
             }
             this.mMessage = a.getString(R.styleable.ESTextBox_message);
             this.mIsRequired = a.getBoolean(R.styleable.ESTextBox_isRequired, false);
+            this.mIsErrorDrawable = a.getBoolean(R.styleable.ESTextBox_isErrorDrawable, false);
             this.mCollectSign = a.getString(R.styleable.ESTextBox_collectSign);
             this.mEmpty2Null = a.getBoolean(R.styleable.ESTextBox_empty2Null, true);
             this.hintTextSize = a.getDimensionPixelOffset(R.styleable.ESTextBox_hintTextSize,12);
@@ -90,7 +93,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
             errorDrawable = this.getResources().getDrawable(R.mipmap.es_error);
             requiredDrawable = this.getResources().getDrawable(R.mipmap.es_required);
 
-			String hintStr = getHint().toString();
+            hintStr = this.mMessage.trim().equals("")?getHint().toString():this.mMessage.trim();
 			SpannableString spannableString =  new SpannableString(hintStr);
 			AbsoluteSizeSpan ass = new AbsoluteSizeSpan(hintTextSize, true);
 			spannableString.setSpan(ass, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -236,13 +239,6 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         return true;
     }
 
-    /**
-     * 提示校验错误
-     * **/
-    public void hint()
-    {
-        ToastHelper.toastShow(this.getContext(),getHint().toString());
-    }
 
     private void shakeAnimation ()
     {
@@ -250,6 +246,10 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         this.startAnimation(shake);
     }
 
+    @Override
+    public Boolean getIsEmpty() {
+        return isEmpty;
+    }
 
     public DataType getDataType ()
     {
@@ -402,23 +402,27 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
 
     public void drawError (Canvas canvas)
     {
-        int width = 48;
-        int height = 48;
-        int textWidth = this.getWidth();
-        int textHeight = this.getHeight();
-        errorDrawable.setBounds(textWidth - width*2, textHeight/2-height/2, textWidth - width, textHeight/2 + height/2);
-        errorDrawable.draw(canvas);
+        if(this.mIsErrorDrawable) {
+            int width = 48;
+            int height = 48;
+            int textWidth = this.getWidth();
+            int textHeight = this.getHeight();
+            errorDrawable.setBounds(textWidth - width * 2, textHeight / 2 - height / 2, textWidth - width, textHeight / 2 + height / 2);
+            errorDrawable.draw(canvas);
+        }
     }
 
     public void drawRequired (Canvas canvas)
     {
-        int width = 48;
-        int height = 48;
-        int textWidth = this.getWidth();
-        int textHeight = this.getHeight();
+        if(this.mIsErrorDrawable) {
+            int width = 48;
+            int height = 48;
+            int textWidth = this.getWidth();
+            int textHeight = this.getHeight();
 //        requiredDrawable.setBounds(textWidth - width-8, textHeight / 2, textWidth, textHeight/2 + height/2);
-        requiredDrawable.setBounds(textWidth - width*2, textHeight/2-height/2, textWidth - width, textHeight/2 + height/2);
-        requiredDrawable.draw(canvas);
+            requiredDrawable.setBounds(textWidth - width * 2, textHeight / 2 - height / 2, textWidth - width, textHeight / 2 + height / 2);
+            requiredDrawable.draw(canvas);
+        }
     }
 
     public String[] getCollectSign ()
@@ -438,12 +442,12 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
 
     public String getTipText ()
     {
-        return mIsRequiredTooltip;
+        return mExpressionMessage;
     }
 
     public void setTipText (String tipText)
     {
-        this.mIsRequiredTooltip = tipText;
+        this.mExpressionMessage = tipText;
         this.mExpression = tipText;
     }
 
@@ -521,5 +525,18 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
     public ModeType getModeType()
     {
         return mModeType;
+    }
+
+    /**
+     * 提示校验错误
+     * **/
+    public void message()
+    {
+        ToastHelper.toastShow(this.getContext(),hintStr);
+    }
+
+    @Override
+    public void expressionMessage() {
+        ToastHelper.toastShow(this.getContext(),mExpressionMessage.equals("")?hintStr:mExpressionMessage);
     }
 }

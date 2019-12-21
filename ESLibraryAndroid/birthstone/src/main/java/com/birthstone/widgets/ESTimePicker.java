@@ -219,6 +219,21 @@ public class ESTimePicker extends android.widget.TimePicker implements ICollecti
 		return mIsRequired;
 	}
 
+	@Override
+	public Boolean getIsEmpty() {
+		return null;
+	}
+
+	@Override
+	public void message() {
+
+	}
+
+	@Override
+	public void expressionMessage() {
+
+	}
+
 	public Boolean getEmpty2Null()
 	{
 		return mEmpty2Null;

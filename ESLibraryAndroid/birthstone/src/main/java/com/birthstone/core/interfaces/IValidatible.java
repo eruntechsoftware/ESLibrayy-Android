@@ -7,8 +7,17 @@ public interface IValidatible {
 	 * **/
 	Boolean dataValidator();
 
+	Boolean getIsRequired();
+
+	Boolean getIsEmpty();
+
 	/**
-	 * 提示校验错误
+	 * 非空提示
 	 * **/
-	void hint();
+	void message();
+
+	/**
+	 * 校验正则表达式错误
+	 * **/
+	void expressionMessage();
 }

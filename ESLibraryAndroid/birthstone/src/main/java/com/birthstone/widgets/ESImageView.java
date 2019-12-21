@@ -28,8 +28,11 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize, IC
 {
 	protected String mCollectSign;
 	protected IChildView mActivity;
+	protected Boolean mIsRequired;
+	protected Boolean isEmpty = true;
 	protected String mName;
 	protected String mURI;
+	protected String mMessage="";
 	protected int srcid;
 	public static String IMAGE_URL_HEAD = "";
 	private FileCache fileCache;
@@ -39,8 +42,20 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize, IC
 		super(context, attrs);
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ESImageView);
 		mCollectSign = a.getString(R.styleable.ESImageView_collectSign);
+		mMessage = a.getString(R.styleable.ESTextBox_message);
+		mIsRequired = a.getBoolean(R.styleable.ESTextBox_isRequired, false);
 		srcid = a.getResourceId(R.styleable.ESImageView_srcid, 0);
+		if(srcid>0)
+		{
+			isEmpty=false;
+		}
+		mURI = a.getString(R.styleable.ESImageView_uri);
 		setImageResource(srcid);
+		if(!"".equals(mURI.trim()))
+		{
+			isEmpty=false;
+		}
+		super.setImageURI(mURI);
 		a.recycle();
 	}
 
@@ -61,12 +76,14 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize, IC
 	{
 		String imageUrl = IMAGE_URL_HEAD + urlBody;
 		this.setImageURI(Uri.parse(imageUrl));
+		isEmpty=false;
 	}
 
 	public void setImageURI(Uri uri)
 	{
 		mURI = uri.toString();
 		super.setImageURI(uri);
+		isEmpty=false;
 	}
 
 	public void dataInitialize()
@@ -171,11 +188,28 @@ public class ESImageView extends SimpleDraweeView implements IDataInitialize, IC
 		return true;
 	}
 
+	@Override
+	public Boolean getIsRequired() {
+		return mIsRequired;
+	}
+
+	@Override
+	public Boolean getIsEmpty() {
+		return isEmpty;
+	}
+
 	/**
 	 * 提示校验错误
 	 **/
-	public void hint()
+	public void message()
 	{
-		//		ToastHelper.toastShow(this.getContext(),getHint().toString());
+		ToastHelper.toastShow(this.getContext(),mMessage);
 	}
+
+	@Override
+	public void expressionMessage() {
+		//ToastHelper.toastShow(this.getContext(),mExpressionMessage);
+	}
+
+
 }

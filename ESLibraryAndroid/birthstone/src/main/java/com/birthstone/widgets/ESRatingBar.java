@@ -40,8 +40,8 @@ public class ESRatingBar extends ESRatingBarBase implements ICollectible, IValid
 	protected Boolean isEmpty = true;
 	protected IChildView mActivity;
 	protected String mName;
-	protected String mIsRequiredTooltip = "";
 	protected String mExpression = "";
+	protected String mExpressionMessage="";
 	protected String mMessage = "";
 	protected String hint;
 	protected String mNameSpace = "http://schemas.android.com/res/com.birthstone.widgets";
@@ -53,17 +53,18 @@ public class ESRatingBar extends ESRatingBarBase implements ICollectible, IValid
 		try
 		{
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ESRatingBar);
-			mIsRequiredTooltip = a.getString(R.styleable.ESRatingBar_isRequiredTooltip);
 			mExpression = a.getString(R.styleable.ESRatingBar_expression);
 			if (mExpression == null || "".equals(mExpression))
 			{
 				mExpression = "*";
 			}
-			mMessage = a.getString(R.styleable.ESRatingBar_Message);
+			mMessage = a.getString(R.styleable.ESRatingBar_message);
+			mExpressionMessage = a.getString(R.styleable.ESRatingBar_expressionMessage);
 			mIsRequired = a.getBoolean(R.styleable.ESRatingBar_isRequired, false);
 			mCollectSign = a.getString(R.styleable.ESRatingBar_collectSign);
 			mEmpty2Null = a.getBoolean(R.styleable.ESRatingBar_empty2Null, true);
 			hint = a.getString(R.styleable.ESRatingBar_hint);
+			mMessage = mMessage.equals("")?hint:"";
 
 			int value = a.getInt(R.styleable.ESTextBox_dataType, 0);
 			this.setDataType(DataTypeHelper.valueOf(value));
@@ -98,13 +99,6 @@ public class ESRatingBar extends ESRatingBarBase implements ICollectible, IValid
 		return true;
 	}
 
-	/**
-	 * 提示校验错误
-	 **/
-	public void hint()
-	{
-		ToastHelper.toastShow(this.getContext(), getHint().toString());
-	}
 
 	private void shakeAnimation()
 	{
@@ -128,6 +122,7 @@ public class ESRatingBar extends ESRatingBarBase implements ICollectible, IValid
 	{
 		return mIsRequired;
 	}
+
 
 	public void setIsRequired(Boolean arg0)
 	{
@@ -205,13 +200,12 @@ public class ESRatingBar extends ESRatingBarBase implements ICollectible, IValid
 
 	public String getTipText()
 	{
-		return mIsRequiredTooltip;
+		return mMessage;
 	}
 
 	public void setTipText(String tipText)
 	{
-		this.mIsRequiredTooltip = tipText;
-		this.mExpression = tipText;
+		this.mMessage = tipText;
 	}
 
 	public String getNameSpace()
@@ -247,5 +241,27 @@ public class ESRatingBar extends ESRatingBarBase implements ICollectible, IValid
 	public void setHint(String hint)
 	{
 		this.hint = hint;
+	}
+
+	@Override
+	public Boolean getIsEmpty() {
+		if(getRating()>0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 提示校验错误
+	 * **/
+	public void message()
+	{
+		ToastHelper.toastShow(this.getContext(),mMessage);
+	}
+
+	@Override
+	public void expressionMessage() {
+		ToastHelper.toastShow(this.getContext(),mExpressionMessage.equals("")?mMessage:mExpressionMessage);
 	}
 }

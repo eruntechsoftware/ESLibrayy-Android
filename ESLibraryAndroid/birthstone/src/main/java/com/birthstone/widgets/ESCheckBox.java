@@ -168,6 +168,21 @@ public class ESCheckBox extends android.widget.CheckBox implements ICollectible,
 		return mIsRequired;
 	}
 
+	@Override
+	public Boolean getIsEmpty() {
+		return null;
+	}
+
+	@Override
+	public void message() {
+
+	}
+
+	@Override
+	public void expressionMessage() {
+
+	}
+
 	public String getName()
 	{
 		return mName;

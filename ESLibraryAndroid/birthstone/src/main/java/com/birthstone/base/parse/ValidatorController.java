@@ -49,11 +49,18 @@ public class ValidatorController implements IValidator, IControlSearcherHandler
 			if (result)
 			{
 				IValidatible validatible = (IValidatible) obj;
-				result = validatible.dataValidator();
-				if (!result)
+				//非空判断，如果为空则弹出提示
+				if(validatible.getIsRequired() && validatible.getIsEmpty())
 				{
-					validatible.hint();
+					validatible.message();
 					validatorResult = false;
+				}
+				else {
+					result = validatible.dataValidator();
+					if (!result) {
+						validatible.expressionMessage();
+						validatorResult = false;
+					}
 				}
 			}
 		}

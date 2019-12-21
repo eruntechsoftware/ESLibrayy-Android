@@ -205,6 +205,26 @@ public class ESTextView extends android.widget.TextView implements ICollectible,
 		return true;
 	}
 
+	@Override
+	public Boolean getIsRequired() {
+		return false;
+	}
+
+	@Override
+	public Boolean getIsEmpty() {
+		return false;
+	}
+
+	@Override
+	public void message() {
+
+	}
+
+	@Override
+	public void expressionMessage() {
+
+	}
+
 	/**
 	 * 提示校验错误
 	 * **/

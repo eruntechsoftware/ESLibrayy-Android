@@ -79,7 +79,7 @@
     <!--执行的sql文件名称，书写时无后缀名.sql-->
     <attr name="sql" format="string"></attr>
     <!--必填项错误提示-->
-    <attr name="isRequiredTooltip" format="string"></attr>
+    <attr name="expressionMessage" format="string"></attr>
     <!--正则表达式-->
     <attr name="expression" format="string"></attr>
     <!--正则表达式校验错误提示-->
@@ -141,6 +141,8 @@
         <attr name="isRequired"></attr>
         <attr name="empty2Null"></attr>
         <attr name="collectSign"></attr>
+        <attr name="expressionMessage"></attr>
+        <attr name="message"></attr>
     </declare-styleable>
 
     <declare-styleable name="ESDateTimeView">
@@ -161,6 +163,7 @@
         <attr name="dataType"></attr>
         <attr name="isRequired"></attr>
         <attr name="empty2Null"></attr>
+        <attr name="message"></attr>
         <attr name="collectSign"></attr>
         <!--状态ViewID-->
         <attr name="stateHiddenId"></attr>
@@ -195,13 +198,14 @@
     <declare-styleable name="ESTextBox">
         <attr name="dataType"></attr>
         <attr name="isRequired"></attr>
+        <attr name="isErrorDrawable"></attr>
         <attr name="empty2Null"></attr>
         <attr name="collectSign"></attr>
         <!--必填项错误提示-->
-        <attr name="isRequiredTooltip"></attr>
+        <attr name="expressionMessage"></attr>
         <!--正则表达式-->
         <attr name="expression"></attr>
-        <!--正则表达式校验错误提示-->
+        <!--是否为空错误提示-->
         <attr name="message"></attr>
         <attr name="hintTextSize" format="dimension"></attr>
         <!--状态ViewID-->
@@ -210,6 +214,7 @@
         <attr name="wantedStateValue"></attr>
         <!--条件类型-->
         <attr name="modeType"></attr>
+
     </declare-styleable>
 
     <!--<declare-styleable name="ESTextBoxMobile">-->
@@ -218,7 +223,7 @@
     <!--<attr name="empty2Null"></attr>-->
     <!--<attr name="collectSign"></attr>-->
     <!--&lt;!&ndash;必填项错误提示&ndash;&gt;-->
-    <!--<attr name="isRequiredTooltip"></attr>-->
+    <!--<attr name="expressionMessage"></attr>-->
     <!--&lt;!&ndash;正则表达式&ndash;&gt;-->
     <!--<attr name="expression"></attr>-->
     <!--&lt;!&ndash;正则表达式校验错误提示&ndash;&gt;-->
@@ -287,12 +292,18 @@
         <attr name="editable" format="boolean"></attr>
         <attr name="maxValue" format="integer"></attr>
         <attr name="minValue" format="integer"></attr>
+        <attr name="isRequired"></attr>
+        <attr name="message"></attr>
         <attr name="collectSign"></attr>
     </declare-styleable>
 
     <declare-styleable name="ESImageView">
         <attr name="srcid" format="reference"></attr>
+        <attr name="uri" format="reference"></attr>
+        <attr name="isRequired"></attr>
         <attr name="collectSign"></attr>
+        <!--非空错误提示-->
+        <attr name="message"></attr>
     </declare-styleable>
 
     <declare-styleable name="ESRatingBar">
@@ -301,13 +312,13 @@
         <attr name="empty2Null"></attr>
         <attr name="collectSign"></attr>
         <!--必填项错误提示-->
-        <attr name="isRequiredTooltip"></attr>
+        <attr name="expressionMessage"></attr>
         <!--正则表达式-->
         <attr name="expression"></attr>
         <!--必填项提示-->
         <attr name="hint" format="string"></attr>
         <!--正则表达式校验错误提示-->
-        <attr name="Message"></attr>
+        <attr name="message"></attr>
     </declare-styleable>
 
     <declare-styleable name="ESRatingBarBase">

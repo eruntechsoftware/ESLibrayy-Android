@@ -1,5 +1,6 @@
 package com.birthstone.widgets;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -34,6 +35,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	protected String mWantedStateValue;
 	protected ModeType mModeType;
 	private IChildView mActivity;
+	protected String mMessage = "";
 	private String mName;
 	private Object mSelectItemValue = null;
 	private Object mSelectItemText = null;
@@ -41,6 +43,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	private RadioButton mSelectedRadioButton;
 	private OnCheckedChangedListener onCheckedChangedListener;
 	public String mNameSpace = "http://schemas.android.com/res/com.birthStone.widgets";
+	private boolean isEmpty;
 
 	public ESRadioGroup(Context context, AttributeSet attrs )
 	{
@@ -52,6 +55,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 			this.mDataType = DataTypeHelper.valueOf(a.getInt(R.styleable.ESRadioGroup_dataType,0));
 			this.mIsRequired = a.getBoolean(R.styleable.ESRadioGroup_isRequired,false);
 			this.mEmpty2Null = a.getBoolean(R.styleable.ESRadioGroup_empty2Null, true);
+			this.mMessage = a.getString(R.styleable.ESRadioGroup_message);
 			this.mCollectSign = a.getString(R.styleable.ESRadioGroup_collectSign);
 			this.mStateHiddenId = a.getString(R.styleable.ESRadioGroup_stateHiddenId);
 			this.mWantedStateValue = a.getString(R.styleable.ESRadioGroup_wantedStateValue);
@@ -173,25 +177,27 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	 * 数据类型校验，并返回是否成功 
 	 * @return 是否校验成功 
 	 * **/
+	@SuppressLint("ResourceType")
 	public Boolean dataValidator()
 	{
 		try
 		{
 			if(mIsRequired)
 			{
+				//如果没选中，返回-1
 				if(this.getCheckedRadioButtonId() <= 0)
 				{
-					mTipText = "ѡ!";
+					//空的，什么也没选
+					isEmpty=true;
 				}
 			}
 			invalidate();
-			if(mTipText.length() != 0) { return false; }
 		}
 		catch(Exception ex)
 		{
 			Log.e("Validator", ex.getMessage());
 		}
-		return true;
+		return !isEmpty;
 	}
 
 	/**
@@ -247,6 +253,21 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	public Boolean getIsRequired()
 	{
 		return mIsRequired;
+	}
+
+	@Override
+	public Boolean getIsEmpty() {
+		return isEmpty;
+	}
+
+	@Override
+	public void message() {
+		ToastHelper.toastShow(this.getContext(),mMessage);
+	}
+
+	@Override
+	public void expressionMessage() {
+
 	}
 
 	public String[] getCollectSign()
