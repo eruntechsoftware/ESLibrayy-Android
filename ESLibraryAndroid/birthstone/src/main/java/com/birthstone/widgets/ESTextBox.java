@@ -249,6 +249,14 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
 
     @Override
     public Boolean getIsEmpty() {
+        if(getText().toString().trim().equals(""))
+        {
+            isEmpty = true;
+        }
+        else
+        {
+            isEmpty = false;
+        }
         return isEmpty;
     }
 
@@ -268,7 +276,7 @@ public class ESTextBox extends EditText implements ICollectible, IValidatible, I
         switch (arg0)
         {
             case String:
-                
+
                 break;
             case Integer:
                 this.mExpression = DataTypeExpression.integer();

@@ -132,6 +132,27 @@ public class Database
 							}
 						}
 					}
+					if (this.sqlSplit.getAction().equals("Join"))
+					{
+						Cursor cursor = this.db.rawQuery(this.sqlSplit.getSql(),null);
+						if (cursor != null && cursor.getCount() > 0 && !cursor.isClosed())
+						{
+							this.indexer.loadDataSource(cursor);
+							if (charcode != null && !charcode.equals(""))
+							{
+								table = this.indexer.getAllData(charcode);
+							}
+							else
+							{
+								table = this.indexer.getAllData();
+							}
+
+							if (cursor != null)
+							{
+								cursor.close();
+							}
+						}
+					}
 					else
 					{
 						this.db.execSQL(ex);
