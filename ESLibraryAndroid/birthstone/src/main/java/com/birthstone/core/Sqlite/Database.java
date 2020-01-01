@@ -98,7 +98,7 @@ public class Database
 		try
 		{
 			this.sqlSplit.setDatas(datas);
-			String ex = "";
+			String sql = "";
 			if (this.sqlSplit.readSql(fileName))
 			{
 				this.lock.lock();
@@ -107,10 +107,10 @@ public class Database
 
 				for (int i = 0; i < this.sqlSplit.getSqlCollection().length; ++i)
 				{
-					ex = this.sqlSplit.getSqlCollection()[i].toString().trim();
-					this.sqlSplit.getAction(ex);
-					this.sqlSplit.parse(ex);
-					Log.v("Sql", ex);
+                    sql = this.sqlSplit.getSqlCollection()[i].toString().trim();
+					this.sqlSplit.getAction(sql);
+					this.sqlSplit.parse(sql);
+					Log.v("Sql", sql);
 					if (this.sqlSplit.getAction().equals("Select") && this.sqlSplit.getTableName() != null)
 					{
 						Cursor cursor = this.execute(this.sqlSplit.getTableName(), this.sqlSplit.getColumns(), this.sqlSplit.getSelection(), this.sqlSplit.getGroupBy(), this.sqlSplit.getHaving(), this.sqlSplit.getOrderBy(), charcode);
@@ -134,7 +134,7 @@ public class Database
 					}
 					if (this.sqlSplit.getAction().equals("Join"))
 					{
-						Cursor cursor = this.db.rawQuery(this.sqlSplit.getSql(),null);
+						Cursor cursor = this.db.rawQuery(sql,null);
 						if (cursor != null && cursor.getCount() > 0 && !cursor.isClosed())
 						{
 							this.indexer.loadDataSource(cursor);
@@ -155,7 +155,7 @@ public class Database
 					}
 					else
 					{
-						this.db.execSQL(ex);
+						this.db.execSQL(sql);
 					}
 				}
 
