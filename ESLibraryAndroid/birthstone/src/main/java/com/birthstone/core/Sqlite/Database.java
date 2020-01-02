@@ -133,7 +133,7 @@ public class Database
 							}
 						}
 					}
-					if (this.sqlSplit.getAction().equals("Join"))
+					else if (this.sqlSplit.getAction().equals("Join"))
 					{
 						Cursor cursor = this.db.rawQuery(sql,null);
 						if (cursor != null && cursor.getCount() > 0 && !cursor.isClosed())
@@ -218,7 +218,7 @@ public class Database
 							}
 						}
 					}
-					if (this.sqlSplit.getAction().equals("Join"))
+					else if (this.sqlSplit.getAction().equals("Join"))
 					{
 						Cursor cursor = this.db.rawQuery(sql,null);
 						if (cursor != null && cursor.getCount() > 0 && !cursor.isClosed())
