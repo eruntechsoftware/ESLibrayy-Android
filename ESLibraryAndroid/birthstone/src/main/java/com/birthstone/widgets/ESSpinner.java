@@ -144,7 +144,7 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 						dataTable = rs;
 						if(adapter == null)
 						{
-							adapter = new SpinnerItemAdapter((Context) mActivity, dataTable);
+							adapter = new SpinnerItemAdapter(ESSpinner.this.getContext(), dataTable);
 							setAdapter(adapter);
 						}
 						else
