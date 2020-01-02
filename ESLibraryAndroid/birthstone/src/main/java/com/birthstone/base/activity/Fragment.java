@@ -122,6 +122,7 @@ public class Fragment extends android.support.v4.app.Fragment implements IChildV
 		this.mContainer = container;
 		this.mSavedInstanceState = savedInstanceState;
 		ViewInjectUtils.inject(this);
+		initView();
 		return mView;
 	}
 
@@ -135,7 +136,6 @@ public class Fragment extends android.support.v4.app.Fragment implements IChildV
 				StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
 				StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().penaltyLog().penaltyDeath().build());
 			}
-			initView();
 		}
 		catch(Exception ex)
 		{
@@ -452,6 +452,8 @@ public class Fragment extends android.support.v4.app.Fragment implements IChildV
 		}
 		return false;
 	}
+
+
 
 	/**
 	 * 设置权限代码
