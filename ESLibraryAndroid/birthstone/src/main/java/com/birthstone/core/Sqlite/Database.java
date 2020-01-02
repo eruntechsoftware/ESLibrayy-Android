@@ -113,7 +113,8 @@ public class Database
 					Log.v("Sql", sql);
 					if (this.sqlSplit.getAction().equals("Select") && this.sqlSplit.getTableName() != null)
 					{
-						Cursor cursor = this.execute(this.sqlSplit.getTableName(), this.sqlSplit.getColumns(), this.sqlSplit.getSelection(), this.sqlSplit.getGroupBy(), this.sqlSplit.getHaving(), this.sqlSplit.getOrderBy(), charcode);
+						//Cursor cursor = this.execute(this.sqlSplit.getTableName(), this.sqlSplit.getColumns(), this.sqlSplit.getSelection(), this.sqlSplit.getGroupBy(), this.sqlSplit.getHaving(), this.sqlSplit.getOrderBy(), charcode);
+						Cursor cursor = this.db.rawQuery(sql,null);
 						if (cursor != null && cursor.getCount() > 0 && !cursor.isClosed())
 						{
 							this.indexer.loadDataSource(cursor);
@@ -183,7 +184,7 @@ public class Database
 		try
 		{
 			this.sqlSplit.setDatas((DataCollection) null);
-			String ex = "";
+			String sql = "";
 			if (this.sqlSplit.readSql(fileName))
 			{
 				this.lock.lock();
@@ -192,12 +193,13 @@ public class Database
 
 				for (int i = 0; i < this.sqlSplit.getSqlCollection().length; ++i)
 				{
-					ex = this.sqlSplit.getSqlCollection()[i].toString().trim();
-					this.sqlSplit.getAction(ex);
-					this.sqlSplit.parse(ex);
+					sql = this.sqlSplit.getSqlCollection()[i].toString().trim();
+					this.sqlSplit.getAction(sql);
+					this.sqlSplit.parse(sql);
 					if (this.sqlSplit.getAction().equals("Select") && this.sqlSplit.getTableName() != null)
 					{
-						Cursor cursor = this.execute(this.sqlSplit.getTableName(), this.sqlSplit.getColumns(), this.sqlSplit.getSelection(), this.sqlSplit.getGroupBy(), this.sqlSplit.getHaving(), this.sqlSplit.getOrderBy(), charcode);
+						//Cursor cursor = this.execute(this.sqlSplit.getTableName(), this.sqlSplit.getColumns(), this.sqlSplit.getSelection(), this.sqlSplit.getGroupBy(), this.sqlSplit.getHaving(), this.sqlSplit.getOrderBy(), charcode);
+						Cursor cursor = this.db.rawQuery(sql,null);
 						if (cursor != null && cursor.getCount() > 0 && !cursor.isClosed())
 						{
 							this.indexer.loadDataSource(cursor);
@@ -216,10 +218,32 @@ public class Database
 							}
 						}
 					}
+					if (this.sqlSplit.getAction().equals("Join"))
+					{
+						Cursor cursor = this.db.rawQuery(sql,null);
+						if (cursor != null && cursor.getCount() > 0 && !cursor.isClosed())
+						{
+							this.indexer.loadDataSource(cursor);
+							if (charcode != null && !charcode.equals(""))
+							{
+								table = this.indexer.getAllData(charcode);
+							}
+							else
+							{
+								table = this.indexer.getAllData();
+							}
+
+							if (cursor != null)
+							{
+								cursor.close();
+							}
+						}
+					}
 					else
 					{
-						this.db.execSQL(this.sqlSplit.getSqlCollection()[i].toString().trim());
+						this.db.execSQL(sql);
 					}
+
 				}
 
 				this.db.setTransactionSuccessful();
@@ -246,7 +270,7 @@ public class Database
 		try
 		{
 			this.sqlSplit.setDatas(datas);
-			String ex = "";
+			String sql = "";
 			if (this.sqlSplit.readSql(fileName))
 			{
 				this.lock.lock();
@@ -255,17 +279,18 @@ public class Database
 
 				for (int i = 0; i < this.sqlSplit.getSqlCollection().length; ++i)
 				{
-					ex = this.sqlSplit.getSqlCollection()[i].toString().trim();
-					this.sqlSplit.getAction(ex);
-					this.sqlSplit.parse(ex);
-					Log.v("Sql", ex);
+					sql = this.sqlSplit.getSqlCollection()[i].toString().trim();
+					this.sqlSplit.getAction(sql);
+					this.sqlSplit.parse(sql);
+					Log.v("Sql", sql);
 					if (this.sqlSplit.getAction().equals("Select") && this.sqlSplit.getTableName() != null)
 					{
-						cursor = this.execute(this.sqlSplit.getTableName(), this.sqlSplit.getColumns(), this.sqlSplit.getSelection(), this.sqlSplit.getGroupBy(), this.sqlSplit.getHaving(), this.sqlSplit.getOrderBy(), (String) null);
+						cursor = this.db.rawQuery(sql,null);
+						//cursor = this.execute(this.sqlSplit.getTableName(), this.sqlSplit.getColumns(), this.sqlSplit.getSelection(), this.sqlSplit.getGroupBy(), this.sqlSplit.getHaving(), this.sqlSplit.getOrderBy(), (String) null);
 					}
 					else
 					{
-						this.db.execSQL(ex);
+						this.db.execSQL(sql);
 					}
 				}
 
