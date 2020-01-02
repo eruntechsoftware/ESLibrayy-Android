@@ -111,13 +111,13 @@ public class SqlParserToos
 	{
 		try
 		{
-			if (Sql.toUpperCase().contains("SELECT"))
-			{
-				this.action = "Select";
-			}
 			if (Sql.toUpperCase().contains("JOIN"))
 			{
 				this.action = "Join";
+			}
+			else if (Sql.toUpperCase().contains("SELECT"))
+			{
+				this.action = "Select";
 			}
 			else
 			{
