@@ -2,29 +2,27 @@ package com.birthstone.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+
 import com.birthstone.R;
 import com.birthstone.base.activity.Activity;
 import com.birthstone.base.event.OnItemSelectIndexChangeListener;
 import com.birthstone.base.helper.InitializeHelper;
-import com.birthstone.base.parse.CollectController;
+import com.birthstone.base.helper.AsyncTaskSQL;
 import com.birthstone.core.helper.DataType;
 import com.birthstone.core.helper.StringToArray;
 import com.birthstone.core.interfaces.*;
 import com.birthstone.core.parse.Data;
 import com.birthstone.core.parse.DataCollection;
 import com.birthstone.core.parse.DataTable;
-import com.birthstone.core.Sqlite.SQLiteDatabase;
 
 import java.util.LinkedList;
 
@@ -118,7 +116,7 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 		{
 			if(mAutomatic)
 			{
-				new BindDataThread().start();
+				bind();
 			}
 		}
 		catch(Exception ex)
@@ -134,7 +132,41 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 	{
 		try
 		{
-			new BindDataThread().start();
+			new AsyncTaskSQL(this.getContext(),mSql,this.mActivity.collect(mSign)){
+
+				/**
+				 * 执行成功后的方法
+				 */
+				public void onSuccess(DataTable rs) throws Exception
+				{
+					try
+					{
+						dataTable = rs;
+						if(adapter == null)
+						{
+							adapter = new SpinnerItemAdapter((Context) mActivity, dataTable);
+							setAdapter(adapter);
+						}
+						else
+						{
+							adapter.notifyDataSetChanged();
+						}
+					}
+					catch(Exception ex)
+					{
+						Log.v("ExecuteHandleMessage", ex.getMessage());
+					}
+				}
+
+				/**
+				 * 执行失败后的处理方法
+				 */
+				public void onFail () throws Exception
+				{
+
+				}
+
+			}.execute();
 		}
 		catch(Exception ex)
 		{
@@ -143,55 +175,6 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 		}
 
 	}
-
-	/**
-	 * 数据源绑定处理线程
-	 */
-	class BindDataThread extends Thread
-	{
-		public void run()
-		{
-			Message msg = new Message();
-			if(Looper.myLooper() == null)
-			{
-				Looper.prepare();
-			}
-			if(true)
-			{
-				msg.what = 1;
-				handler.sendMessage(msg);
-			}
-			Looper.loop();
-		}
-	}
-
-	/**
-	 * 接收数据，并将数据绑定到适配器
-	 **/
-	Handler handler = new Handler()
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			try
-			{
-				if(adapter == null)
-				{
-					adapter = new SpinnerItemAdapter((Context) mActivity, dataTable);
-					setAdapter(adapter);
-				}
-				else
-				{
-					adapter.notifyDataSetChanged();
-				}
-			}
-			catch(Exception ex)
-			{
-				Log.v("ExecuteHandleMessage", ex.getMessage());
-			}
-		}
-	};
-
 
 
 	/**
@@ -245,7 +228,7 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 		{
 			if(data.getValue() != null)
 			{
-				setDefaultValue(data.getValue().toString());
+				setSpinnerItemSelectedByValue(this,data.getValue().toString());
 			}
 		}
 	}
@@ -289,57 +272,6 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 	{
 	}
 
-	private void startSwap(final int index, final int index2)
-	{
-		new Thread()
-		{
-			public void run()
-			{
-				Message msg = new Message();
-				if(Looper.myLooper() == null)
-				{
-					Looper.prepare();
-				}
-				if(true)
-				{
-					msg.arg1 = index;
-					msg.arg2 = index2;
-					msg.what = 2;
-					handler.sendMessage(msg);
-				}
-				Looper.loop();
-			}
-		}.start();
-	}
-
-	private void startSwap(final String operno)
-	{
-		try
-		{
-			new Thread()
-			{
-				public void run()
-				{
-					Message msg = new Message();
-					if(Looper.myLooper() == null)
-					{
-						Looper.prepare();
-					}
-					if(setDefaultText(operno))
-					{
-						msg.what = 2;
-						handler.sendMessage(msg);
-					}
-					Looper.loop();
-				}
-			}.start();
-		}
-		catch(Exception ex)
-		{
-			Log.e("startSwap", ex.getMessage());
-		}
-	}
-
 	private boolean setDefaultText(String mDefaultValue)
 	{
 
@@ -358,12 +290,19 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 		return false;
 	}
 
-	/**
-	 * 设置选中下标
-	 */
-	public void setSelection(int position)
+	private void setSpinnerItemSelectedByValue(Spinner spinner, String value)
 	{
-		startSwap(0, position);
+		SpinnerAdapter apsAdapter= spinner.getAdapter(); //得到SpinnerAdapter对象
+		int k= apsAdapter.getCount();
+		for(int i=0;i<k;i++)
+		{
+			if(value.equals(apsAdapter.getItem(i).toString()))
+			{
+//                spinner.setSelection(i,true);// 默认选中项
+				spinner.setSelection(i);// 默认选中项
+				break;
+			}
+		}
 	}
 
 	/**
@@ -408,11 +347,6 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 	public void setSelectText(Object selectText)
 	{
 		this.mSelectText = mSelectText;
-	}
-
-	public void setDefaultValue(String value)
-	{
-		startSwap(value);
 	}
 
 	public String getDisplayValue()
