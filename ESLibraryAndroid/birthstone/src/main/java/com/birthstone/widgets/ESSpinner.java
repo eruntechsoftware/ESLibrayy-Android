@@ -153,7 +153,7 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 							{
 								temp.get(mDisplayValue).setValue(mDefault_text);
 								temp.get(mBindValue).setValue(-100);
-								dataTable.add(temp);
+								dataTable.add(0,temp);
 							}
 						}
 						if(adapter == null)
@@ -210,10 +210,10 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 					{
 						temp.get(mDisplayValue).setValue(mDefault_text);
 						temp.get(mBindValue).setValue(-100);
-						dataTable.add(temp);
+						dataTable.add(0,temp);
 					}
 				}
-				
+
 				adapter = new SpinnerItemAdapter(activity, dataTable);
 				this.setAdapter(adapter);
 
