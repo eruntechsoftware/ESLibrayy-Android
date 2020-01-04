@@ -17,7 +17,7 @@
               android:singleLine="true"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
               android:ellipsize="marquee"
                 android:textSize="14sp"
               android:textColor="@color/es_black"
