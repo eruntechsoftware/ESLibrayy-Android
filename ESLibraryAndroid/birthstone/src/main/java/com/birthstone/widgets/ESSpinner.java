@@ -1,5 +1,6 @@
 package com.birthstone.widgets;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import com.birthstone.R;
 import com.birthstone.base.activity.Activity;
@@ -26,8 +28,8 @@ import com.birthstone.core.parse.DataTable;
 
 import java.util.LinkedList;
 
-
-public class ESSpinner extends android.widget.Spinner implements ICollectible, IReleasable, IDataInitialize, ICellTitleStyleRequire, IDataQuery, AdapterView.OnItemSelectedListener
+@SuppressLint("AppCompatCustomView")
+public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDataInitialize, ICellTitleStyleRequire, IDataQuery, AdapterView.OnItemSelectedListener
 {
 	protected DataType mDataType;
 	protected Boolean mIsRequired;
@@ -484,8 +486,9 @@ public class ESSpinner extends android.widget.Spinner implements ICollectible, I
 			convertView = _LayoutInflater.inflate(R.layout.es_simple_spinner_item, null);
 			if(convertView != null)
 			{
-				//				TextView Tv1=(TextView)convertView.findViewById(R.id.text1);
-				//				Tv11.setText(mList.get(position).getPersonName());
+				TextView textView = (TextView)convertView.findViewById(R.id.text1);
+				textView.setText(dataTable.get(position).get(mDisplayValue).getStringValue());
+				//RadioButton checkbox = (RadioButton)convertView.findViewById(R.id.checkbox);
 			}
 			return convertView;
 		}
