@@ -42,6 +42,7 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 	protected String mName;
 	protected String mDisplayValue;
 	protected String mBindValue;
+	protected String mDefault_text;
 	protected String mSql;
 	protected Boolean mAutomatic = true;
 	protected Object mSelectValue = "";
@@ -70,6 +71,7 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 			mDisplayValue = a.getString(R.styleable.ESSpinner_displayValue);
 
 			mBindValue = a.getString(R.styleable.ESSpinner_bindValue);
+			mDefault_text = a.getString(R.styleable.ESSpinner_default_text);
 			mSql = a.getString(R.styleable.ESSpinner_sql);
 			mIsRequired = a.getBoolean(R.styleable.ESSpinner_isRequired, false);
 			mCollectSign = a.getString(R.styleable.ESSpinner_collectSign);
@@ -144,6 +146,16 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 					try
 					{
 						dataTable = rs;
+						if(dataTable!=null && mDefault_text!=null)
+						{
+							DataCollection temp = (DataCollection) dataTable.get(0).clone();
+							if(temp!=null)
+							{
+								temp.get(mDisplayValue).setValue(mDefault_text);
+								temp.get(mBindValue).setValue(-100);
+								dataTable.add(temp);
+							}
+						}
 						if(adapter == null)
 						{
 							adapter = new SpinnerItemAdapter(ESSpinner.this.getContext(), dataTable);
@@ -191,6 +203,17 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 		{
 			if(dataTable!=null)
 			{
+				if(dataTable!=null && mDefault_text!=null)
+				{
+					DataCollection temp = (DataCollection) dataTable.get(0).clone();
+					if(temp!=null)
+					{
+						temp.get(mDisplayValue).setValue(mDefault_text);
+						temp.get(mBindValue).setValue(-100);
+						dataTable.add(temp);
+					}
+				}
+				
 				adapter = new SpinnerItemAdapter(activity, dataTable);
 				this.setAdapter(adapter);
 
@@ -276,7 +299,6 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 
 	private boolean setDefaultText(String mDefaultValue)
 	{
-
 		if(dataTable != null)
 		{
 			int size = dataTable.size();
