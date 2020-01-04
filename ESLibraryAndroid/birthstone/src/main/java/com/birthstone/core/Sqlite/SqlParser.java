@@ -21,6 +21,7 @@ public class SqlParser {
     private String conditions;
     private String groupCols;
     private String orderCols;
+    
 
     public SqlParser(String sql) {
         this.sql = sql.trim();

@@ -162,6 +162,7 @@ public class Database
 
 				this.db.setTransactionSuccessful();
 			}
+
 		}
 		catch(Exception var11)
 		{

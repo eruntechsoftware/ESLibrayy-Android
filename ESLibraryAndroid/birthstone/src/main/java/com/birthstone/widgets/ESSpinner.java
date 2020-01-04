@@ -484,6 +484,7 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 			LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
 			DataCollection row = dataTable.get(position);
 			convertView = _LayoutInflater.inflate(R.layout.es_simple_spinner_item, null);
+
 			if(convertView != null)
 			{
 				TextView textView = (TextView)convertView.findViewById(R.id.text1);
