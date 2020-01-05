@@ -49,6 +49,7 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 	protected String mSelectText = "";
 	protected DataTable mDataTable;
 	protected String mCharCode;
+	private float mItem_text_size;
 
 	protected String mDefaultValue = "";
 	protected String mNameSpace = "http://schemas.android.com/res/com.birthStone.widgets";
@@ -82,6 +83,7 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 			}
 			mEmpty2Null = a.getBoolean(R.styleable.ESSpinner_empty2Null, true);
 			mIsEmpty = a.getBoolean(R.styleable.ESSpinner_isEmpty, true);
+			mItem_text_size = a.getDimensionPixelSize(R.styleable.ESSpinner_item_text_size,12);
 			mAutomatic = a.getBoolean(R.styleable.ESSpinner_automatic, true);
 			mDataType = DataType.String;
 			this.setOnItemSelectedListener(this);
@@ -444,6 +446,14 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 		return mName;
 	}
 
+	public float getItem_text_size() {
+		return mItem_text_size;
+	}
+
+	public void setItem_text_size(float item_text_size) {
+		this.mItem_text_size = item_text_size;
+	}
+
 	@Override
 	public Object getChildView()
 	{
@@ -511,6 +521,7 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 			{
 				TextView textView = (TextView)convertView.findViewById(R.id.text1);
 				textView.setText(dataTable.get(position).get(mDisplayValue).getStringValue());
+				textView.setTextSize(mItem_text_size);
 				//RadioButton checkbox = (RadioButton)convertView.findViewById(R.id.checkbox);
 			}
 			return convertView;

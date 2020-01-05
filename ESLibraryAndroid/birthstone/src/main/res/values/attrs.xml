@@ -88,6 +88,7 @@
     <attr name="image_uri" format="string"></attr>
 
     <attr name="default_text" format="string"></attr>
+    <attr name="item_text_size" format="dimension"></attr>
 
     <declare-styleable name="ESActionLoadPage">
         <!--数据类型-->
@@ -198,6 +199,7 @@
         <attr name="bindValue"></attr>
         <attr name="isEmpty"></attr>
         <attr name="default_text"></attr>
+        <attr name="item_text_size"></attr>
     </declare-styleable>
 
     <declare-styleable name="ESTextBox">
