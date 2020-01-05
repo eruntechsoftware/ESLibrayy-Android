@@ -289,7 +289,7 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 
 		if(ESSpinner.this.mOnItemSelectIndexChangeListener != null)
 		{
-			ESSpinner.this.mOnItemSelectIndexChangeListener.selectIndexChange(mSelectValue.toString());
+			ESSpinner.this.mOnItemSelectIndexChangeListener.selectIndexChange(mSelectValue.toString(),mSelectText);
 		}
 	}
 
