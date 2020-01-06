@@ -73,27 +73,40 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	{
 		public void onCheckedChanged(android.widget.RadioGroup group, int checkedId)
 		{
-			RadioButton radioButton;
+
+			View view;
 			int size = group.getChildCount();
 			//ѭа
 			for(int i=0; i<size; i++)
 			{
 				//ʵ
-				radioButton = (RadioButton)group.getChildAt(i);
-				//жǷѡеİ
-				if(radioButton.getId() == checkedId)
+				view = group.getChildAt(i);
+				if(view instanceof RadioButton)
 				{
-					//ʵѡа
-					mSelectedRadioButton = (RadioButton)group.getChildAt(i);
-					radioButton.setChecked(true);
-					//ѡаֵ
-					mSelectItemValue = radioButton.getTag();
-					mSelectItemText = radioButton.getText();
-					Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
+					RadioButton radioButton = (RadioButton) view;
+					if (radioButton.getId() == checkedId)
+					{
+						//ʵѡа
+						mSelectedRadioButton = (RadioButton) group.getChildAt(i);
+						radioButton.setChecked(true);
+						//ѡаֵ
+						mSelectItemValue = radioButton.getTag();
+						mSelectItemText = radioButton.getText();
+						Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
+					}
+					else {
+						radioButton.setChecked(false);
+					}
 				}
-				else
+				if(view instanceof ESSpinner)
 				{
-					radioButton.setChecked(false);
+					ESSpinner spinner = (ESSpinner)view;
+					if(spinner.getId()==checkedId)
+					{
+						mSelectItemValue = spinner.getSelectValue();
+						mSelectItemText = spinner.getSelectText();
+						Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
+					}
 				}
 			}
 			//Ϊnullִ
@@ -134,16 +147,29 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 		{
 			if(data != null)
 			{
+				View  view;
 				int size = this.getChildCount();
 				for(int i = 0; i < size; i++)
 				{
-					RadioButton radioButton = (RadioButton) this.getChildAt(i);
-					if(radioButton != null)
+					view = this.getChildAt(i);
+					if(view instanceof RadioButton)
 					{
-						if(radioButton.getTag().toString().equals(data.getValue().toString()))
+						RadioButton radioButton = (RadioButton) view;
+						if (radioButton != null)
 						{
-							radioButton.setTag(data.getValue().toString());
-							radioButton.setChecked(true);
+							if (radioButton.getTag().toString().equals(data.getValue().toString()))
+							{
+								radioButton.setTag(data.getValue().toString());
+								radioButton.setChecked(true);
+							}
+						}
+					}
+					if(view instanceof ESSpinner)
+					{
+						ESSpinner spinner = (ESSpinner) view;
+						if (spinner != null)
+						{
+							spinner.release(dataName,data);
 						}
 					}
 				}
