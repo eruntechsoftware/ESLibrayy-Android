@@ -255,7 +255,7 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 		{
 			if(data.getValue() != null)
 			{
-				setSpinnerItemSelectedByValue(this,data.getValue().toString());
+				setItemSelectedByValue(data.getValue().toString());
 			}
 		}
 	}
@@ -316,16 +316,16 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 		return false;
 	}
 
-	private void setSpinnerItemSelectedByValue(Spinner spinner, String value)
+	public void setItemSelectedByValue(String value)
 	{
-		SpinnerAdapter apsAdapter= spinner.getAdapter(); //得到SpinnerAdapter对象
+		SpinnerAdapter apsAdapter= this.getAdapter(); //得到SpinnerAdapter对象
 		int k= apsAdapter.getCount();
 		for(int i=0;i<k;i++)
 		{
 			if(value.equals(apsAdapter.getItem(i).toString()))
 			{
 //                spinner.setSelection(i,true);// 默认选中项
-				spinner.setSelection(i);// 默认选中项
+				this.setSelection(i);// 默认选中项
 				break;
 			}
 		}

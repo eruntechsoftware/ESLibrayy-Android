@@ -166,10 +166,11 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 					}
 					if(view instanceof ESSpinner)
 					{
+
 						ESSpinner spinner = (ESSpinner) view;
 						if (spinner != null)
 						{
-							spinner.release(dataName,data);
+							spinner.setItemSelectedByValue(data.getStringValue());
 						}
 					}
 				}
