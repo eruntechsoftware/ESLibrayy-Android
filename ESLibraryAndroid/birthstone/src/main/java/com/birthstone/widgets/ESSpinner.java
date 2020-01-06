@@ -19,6 +19,7 @@ import com.birthstone.base.activity.Activity;
 import com.birthstone.base.event.OnItemSelectIndexChangeListener;
 import com.birthstone.base.helper.InitializeHelper;
 import com.birthstone.base.helper.AsyncTaskSQL;
+import com.birthstone.core.Sqlite.SQLiteDatabase;
 import com.birthstone.core.helper.DataType;
 import com.birthstone.core.helper.StringToArray;
 import com.birthstone.core.interfaces.*;
@@ -56,6 +57,7 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 	protected DataTable dataTable = new DataTable();
 	//	protected Object[] displayArray = null;
 	//	protected Object[] valueArray = null;
+	private SQLiteDatabase mSqlDb;
 	protected SpinnerItemAdapter adapter;
 	protected OnItemSelectIndexChangeListener mOnItemSelectIndexChangeListener;
 
@@ -138,51 +140,84 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 	{
 		try
 		{
-			new AsyncTaskSQL(this.getContext(),mSql,this.mActivity.collect(mSign)){
+			if(mSqlDb==null)
+			{
+				mSqlDb = new SQLiteDatabase(this.getContext());
+			}
+			dataTable = mSqlDb.executeTable(mSql,this.mActivity.collect(mSign));
 
-				/**
-				 * 执行成功后的方法
-				 */
-				public void onSuccess(DataTable rs) throws Exception
+			try
+			{
+				if(dataTable!=null && mDefault_text!=null)
 				{
-					try
+					DataCollection temp = (DataCollection) dataTable.get(0).clone();
+					if(temp!=null)
 					{
-						dataTable = rs;
-						if(dataTable!=null && mDefault_text!=null)
-						{
-							DataCollection temp = (DataCollection) dataTable.get(0).clone();
-							if(temp!=null)
-							{
-								temp.get(mDisplayValue).setValue(mDefault_text);
-								temp.get(mBindValue).setValue(-100);
-								dataTable.add(0,temp);
-							}
-						}
-						if(adapter == null)
-						{
-							adapter = new SpinnerItemAdapter(ESSpinner.this.getContext(), dataTable);
-							setAdapter(adapter);
-						}
-						else
-						{
-							adapter.notifyDataSetChanged();
-						}
-					}
-					catch(Exception ex)
-					{
-						Log.v("ExecuteHandleMessage", ex.getMessage());
+						temp.get(mDisplayValue).setValue(mDefault_text);
+						temp.get(mBindValue).setValue(-100);
+						dataTable.add(0,temp);
 					}
 				}
-
-				/**
-				 * 执行失败后的处理方法
-				 */
-				public void onFail () throws Exception
+				if(adapter == null)
 				{
-
+					adapter = new SpinnerItemAdapter(ESSpinner.this.getContext(), dataTable);
+					setAdapter(adapter);
 				}
+				else
+				{
+					adapter.notifyDataSetChanged();
+				}
+			}
+			catch(Exception ex)
+			{
+				Log.v("ExecuteHandleMessage", ex.getMessage());
+			}
 
-			}.execute();
+//			new AsyncTaskSQL(this.getContext(),mSql,this.mActivity.collect(mSign)){
+//
+//				/**
+//				 * 执行成功后的方法
+//				 */
+//				public void onSuccess(DataTable rs) throws Exception
+//				{
+//					try
+//					{
+//						dataTable = rs;
+//						if(dataTable!=null && mDefault_text!=null)
+//						{
+//							DataCollection temp = (DataCollection) dataTable.get(0).clone();
+//							if(temp!=null)
+//							{
+//								temp.get(mDisplayValue).setValue(mDefault_text);
+//								temp.get(mBindValue).setValue(-100);
+//								dataTable.add(0,temp);
+//							}
+//						}
+//						if(adapter == null)
+//						{
+//							adapter = new SpinnerItemAdapter(ESSpinner.this.getContext(), dataTable);
+//							setAdapter(adapter);
+//						}
+//						else
+//						{
+//							adapter.notifyDataSetChanged();
+//						}
+//					}
+//					catch(Exception ex)
+//					{
+//						Log.v("ExecuteHandleMessage", ex.getMessage());
+//					}
+//				}
+//
+//				/**
+//				 * 执行失败后的处理方法
+//				 */
+//				public void onFail () throws Exception
+//				{
+//
+//				}
+//
+//			}.execute();
 		}
 		catch(Exception ex)
 		{
@@ -318,14 +353,6 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 
 	public void setItemSelectedByValue(String value)
 	{
-		try
-		{
-			Thread.sleep(70);
-		}
-		catch(InterruptedException e)
-		{
-			e.printStackTrace();
-		}
 		SpinnerAdapter apsAdapter= this.getAdapter(); //得到SpinnerAdapter对象
 		int k= apsAdapter.getCount();
 		for(int i=0;i<k;i++)
