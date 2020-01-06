@@ -353,11 +353,11 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 
 	public void setItemSelectedByValue(String value)
 	{
-		SpinnerAdapter apsAdapter= this.getAdapter(); //得到SpinnerAdapter对象
-		int k= apsAdapter.getCount();
+
+		int k= dataTable.size();
 		for(int i=0;i<k;i++)
 		{
-			if(value.equals(apsAdapter.getItem(i).toString()))
+			if(value.equals(dataTable.get(i).get(mBindValue).getStringValue().trim()))
 			{
 //                spinner.setSelection(i,true);// 默认选中项
 				this.setSelection(i);// 默认选中项
