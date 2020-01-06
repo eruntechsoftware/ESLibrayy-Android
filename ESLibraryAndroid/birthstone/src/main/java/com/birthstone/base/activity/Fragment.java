@@ -152,6 +152,7 @@ public class Fragment extends android.support.v4.app.Fragment implements IChildV
 		{
 			initalizeNavigationBar();
 			initViewWithActivity();
+			initDataWithView();
 			release();
 			initDataWithView();
 			initFunctionProtectedWithView();

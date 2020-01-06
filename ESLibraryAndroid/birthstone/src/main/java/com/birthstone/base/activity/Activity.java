@@ -204,6 +204,7 @@ public class Activity extends android.app.Activity implements IUINavigationBar, 
         try
         {
             initViewWithActivity();
+            initDataWithView();
             release();
             initDataWithView();
             initFunctionProtectedWithView();
