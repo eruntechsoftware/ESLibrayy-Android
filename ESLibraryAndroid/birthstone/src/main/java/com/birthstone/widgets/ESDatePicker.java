@@ -108,7 +108,7 @@ public class ESDatePicker extends android.widget.DatePicker implements ICollecti
         Date date = Calendar.getInstance().getTime();
         this.init(date.getYear(), date.getMonth(), date.getDay(), ChangedListener);
         if (mActivity != null) {
-            String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
+            String classnameString = this.getContext().getPackageName() + ".R$id";
             mName = InitializeHelper.getName(classnameString, getId());
         }
     }

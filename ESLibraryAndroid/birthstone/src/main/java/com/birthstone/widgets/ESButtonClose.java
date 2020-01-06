@@ -69,7 +69,7 @@ public class ESButtonClose extends ESButton implements IDataInitialize, IFunctio
 	public void dataInitialize()
 	{
 		if (mActivity != null) {
-			String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
+			String classnameString = this.getContext().getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 		}
 	}

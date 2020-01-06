@@ -1,7 +1,9 @@
 package com.birthstone.base.parse;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.birthstone.base.activity.Fragment;
 import com.birthstone.base.security.ControlSearcher;
 import com.birthstone.core.interfaces.IChildView;
 import com.birthstone.core.interfaces.IControlSearcherHandler;
@@ -17,7 +19,11 @@ public class InitializeController implements IControlSearcherHandler
 
 	public InitializeController(IChildView childView )
 	{
-		this.childView = childView;
+		if(childView instanceof Fragment)
+		{
+			this.childView = childView;
+		}
+
 	}
 
 	public void initialize() throws Exception
@@ -43,6 +49,7 @@ public class InitializeController implements IControlSearcherHandler
 			if(obj instanceof IDataInitialize)
 			{
 				IDataInitialize Initidata = (IDataInitialize) obj;
+
 				Initidata.setChildView(childView);
 				Initidata.dataInitialize();
 			}

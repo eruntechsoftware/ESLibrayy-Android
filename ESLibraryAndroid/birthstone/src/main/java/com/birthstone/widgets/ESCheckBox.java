@@ -64,7 +64,7 @@ public class ESCheckBox extends android.widget.CheckBox implements ICollectible,
 	{
 		if(mActivity != null)
 		{
-			String classnameString = ((Context)mActivity).getPackageName() + ".R$id";
+			String classnameString = this.getContext().getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 		}
 	}
