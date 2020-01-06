@@ -189,7 +189,6 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity im
 		try
 		{
 			initViewWithActivity();
-			initDataWithView();
 			release();
 			initDataWithView();
 			initFunctionProtectedWithView();

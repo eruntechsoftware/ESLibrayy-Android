@@ -318,6 +318,14 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 
 	public void setItemSelectedByValue(String value)
 	{
+		try
+		{
+			Thread.sleep(70);
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
 		SpinnerAdapter apsAdapter= this.getAdapter(); //得到SpinnerAdapter对象
 		int k= apsAdapter.getCount();
 		for(int i=0;i<k;i++)
