@@ -227,37 +227,6 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 		return !isEmpty;
 	}
 
-	public void clearCheck()
-	{
-		int size = this.getChildCount();
-		View view;
-		for(int i=0; i<size; i++)
-		{
-			view = this.getChildAt(i);
-			if(view instanceof RadioButton)
-			{
-				RadioButton radioButton = (RadioButton) view;
-				radioButton.setChecked(false);
-			}
-		}
-	}
-
-	public void clearOtherCheck()
-	{
-		int size = this.getChildCount();
-		View view;
-		for(int i=0; i<size; i++)
-		{
-			view = this.getChildAt(i);
-			if(view instanceof ESSpinner)
-			{
-				ESSpinner spinner = (ESSpinner)view;
-				spinner.setSelection(0);
-			}
-		}
-	}
-
-
 	/**
 	 * 提示校验错误
 	 * **/
@@ -276,13 +245,6 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 		// ַ
 		// this.setWidth((int) mPaint.measureText(TipText));
 		canvas.drawText(mTipText, 8, this.getHeight() / 2 + 5, mPaint);
-	}
-
-	@Override
-	public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener)
-	{
-		this.onCheckedChangeListener = onCheckedChangeListener;
-
 	}
 
 	public Object getChildView()
