@@ -88,7 +88,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 					{
 						//ʵѡа
 						mSelectedRadioButton = (RadioButton) group.getChildAt(i);
-						radioButton.setChecked(true);
+						radioButton.setChecked(!radioButton.isChecked());
 						//ѡаֵ
 						mSelectItemValue = radioButton.getTag();
 						mSelectItemText = radioButton.getText();
@@ -276,6 +276,13 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 		// ַ
 		// this.setWidth((int) mPaint.measureText(TipText));
 		canvas.drawText(mTipText, 8, this.getHeight() / 2 + 5, mPaint);
+	}
+
+	@Override
+	public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener)
+	{
+		this.onCheckedChangeListener = onCheckedChangeListener;
+
 	}
 
 	public Object getChildView()
