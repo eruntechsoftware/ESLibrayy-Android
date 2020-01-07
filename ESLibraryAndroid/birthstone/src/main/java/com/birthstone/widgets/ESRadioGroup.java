@@ -238,12 +238,6 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 			{
 				RadioButton radioButton = (RadioButton) view;
 				radioButton.setChecked(false);
-
-			}
-			if(view instanceof ESSpinner)
-			{
-				ESSpinner spinner = (ESSpinner)view;
-				spinner.setSelection(0);
 			}
 		}
 	}
