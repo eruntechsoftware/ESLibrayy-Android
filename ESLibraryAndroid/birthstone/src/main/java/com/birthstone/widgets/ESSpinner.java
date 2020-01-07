@@ -366,6 +366,7 @@ public class ESSpinner extends Spinner implements ICollectible, IReleasable, IDa
 		}
 	}
 
+
 	/**
 	 * 获取选中值
 	 *
