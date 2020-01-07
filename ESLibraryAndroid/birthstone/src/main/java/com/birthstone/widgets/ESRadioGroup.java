@@ -88,7 +88,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 					{
 						//ʵѡа
 						mSelectedRadioButton = (RadioButton) group.getChildAt(i);
-						radioButton.setChecked(!radioButton.isChecked());
+						//radioButton.setChecked(!radioButton.isChecked());
 						//ѡаֵ
 						mSelectItemValue = radioButton.getTag();
 						mSelectItemText = radioButton.getText();
