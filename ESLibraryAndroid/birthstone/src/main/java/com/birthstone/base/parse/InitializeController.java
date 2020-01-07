@@ -19,11 +19,7 @@ public class InitializeController implements IControlSearcherHandler
 
 	public InitializeController(IChildView childView )
 	{
-		if(childView instanceof Fragment)
-		{
-			this.childView = childView;
-		}
-
+		this.childView = childView;
 	}
 
 	public void initialize() throws Exception
