@@ -227,6 +227,40 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 		return !isEmpty;
 	}
 
+	/**
+	 * 设置选中值
+	 * */
+	public void setChecked(Object value)
+	{
+		int size = this.getChildCount();
+		View view;
+		for(int i=0; i<size; i++)
+		{
+			view = this.getChildAt(i);
+			if(view instanceof RadioButton)
+			{
+				RadioButton radioButton = (RadioButton) view;
+				if(radioButton.getTag().toString().equals(value.toString()))
+				{
+					radioButton.setChecked(true);
+				}
+				else
+				{
+					radioButton.setChecked(false);
+				}
+			}
+			if(view instanceof ESSpinner)
+			{
+
+				ESSpinner spinner = (ESSpinner) view;
+				if (spinner != null)
+				{
+					spinner.setItemSelectedByValue(value.toString());
+				}
+			}
+		}
+	}
+
 	public void clearAllCheck()
 	{
 		clearCheckBoxCheck();
