@@ -73,46 +73,53 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	{
 		public void onCheckedChanged(android.widget.RadioGroup group, int checkedId)
 		{
-
-			View view;
-			int size = group.getChildCount();
-			//ѭа
-			for(int i=0; i<size; i++)
+			if(isEnabled()==false || isClickable()==false)
 			{
-				//ʵ
-				view = group.getChildAt(i);
-				if(view instanceof RadioButton)
-				{
-					RadioButton radioButton = (RadioButton) view;
-					if (radioButton.getId() == checkedId)
-					{
-						//ʵѡа
-						mSelectedRadioButton = (RadioButton) group.getChildAt(i);
-						//radioButton.setChecked(!radioButton.isChecked());
-						//ѡаֵ
-						mSelectItemValue = radioButton.getTag();
-						mSelectItemText = radioButton.getText();
-						Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
-					}
-					else {
-						radioButton.setChecked(false);
-					}
-				}
-				if(view instanceof ESSpinner)
-				{
-					ESSpinner spinner = (ESSpinner)view;
-					if(spinner.getId()==checkedId)
-					{
-						mSelectItemValue = spinner.getSelectValue();
-						mSelectItemText = spinner.getSelectText();
-						Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
-					}
-				}
+				return;
 			}
-			//Ϊnullִ
-			if(getOnCheckedChangedListener() != null)
+			else
 			{
-				onCheckedChangedListener.onCheckedChanged(mSelectedRadioButton);
+				View view;
+				int size = group.getChildCount();
+				//ѭа
+				for (int i = 0; i < size; i++)
+				{
+					//ʵ
+					view = group.getChildAt(i);
+					if (view instanceof RadioButton)
+					{
+						RadioButton radioButton = (RadioButton) view;
+						if (radioButton.getId() == checkedId)
+						{
+							//ʵѡа
+							mSelectedRadioButton = (RadioButton) group.getChildAt(i);
+							//radioButton.setChecked(!radioButton.isChecked());
+							//ѡаֵ
+							mSelectItemValue = radioButton.getTag();
+							mSelectItemText = radioButton.getText();
+							Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
+						}
+						else
+						{
+							radioButton.setChecked(false);
+						}
+					}
+					if (view instanceof ESSpinner)
+					{
+						ESSpinner spinner = (ESSpinner) view;
+						if (spinner.getId() == checkedId)
+						{
+							mSelectItemValue = spinner.getSelectValue();
+							mSelectItemText = spinner.getSelectText();
+							Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
+						}
+					}
+				}
+				//Ϊnullִ
+				if (getOnCheckedChangedListener() != null)
+				{
+					onCheckedChangedListener.onCheckedChanged(mSelectedRadioButton);
+				}
 			}
 		}
 	};
