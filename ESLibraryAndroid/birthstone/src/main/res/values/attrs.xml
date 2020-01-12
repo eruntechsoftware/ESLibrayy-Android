@@ -87,6 +87,7 @@
 
     <attr name="image_uri" format="string"></attr>
 
+    <attr name="multiple" format="boolean"></attr>
     <attr name="default_text" format="string"></attr>
     <attr name="item_text_size" format="dimension"></attr>
 
@@ -170,6 +171,7 @@
         <attr name="empty2Null"></attr>
         <attr name="message"></attr>
         <attr name="collectSign"></attr>
+        <attr name="multiple"></attr>
         <!--状态ViewID-->
         <attr name="stateHiddenId"></attr>
         <!--希望显示状态的值-->

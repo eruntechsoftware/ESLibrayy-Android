@@ -33,13 +33,13 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	private Boolean mEmpty2Null = true;
 	protected String mStateHiddenId;
 	protected String mWantedStateValue;
+	protected boolean multiple;
 	protected ModeType mModeType;
 	private IChildView mActivity;
 	protected String mMessage = "";
 	private String mName;
 	private Object mSelectItemValue = null;
 	private Object mSelectItemText = null;
-	private String mTipText = "";
 	private RadioButton mSelectedRadioButton;
 	private OnCheckedChangedListener onCheckedChangedListener;
 	public String mNameSpace = "http://schemas.android.com/res/com.birthStone.widgets";
@@ -55,10 +55,12 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 			this.mDataType = DataTypeHelper.valueOf(a.getInt(R.styleable.ESRadioGroup_dataType,0));
 			this.mIsRequired = a.getBoolean(R.styleable.ESRadioGroup_isRequired,false);
 			this.mEmpty2Null = a.getBoolean(R.styleable.ESRadioGroup_empty2Null, true);
+			this.multiple = a.getBoolean(R.styleable.ESRadioGroup_multiple, false);
 			this.mMessage = a.getString(R.styleable.ESRadioGroup_message);
 			this.mCollectSign = a.getString(R.styleable.ESRadioGroup_collectSign);
 			this.mStateHiddenId = a.getString(R.styleable.ESRadioGroup_stateHiddenId);
 			this.mWantedStateValue = a.getString(R.styleable.ESRadioGroup_wantedStateValue);
+
 			this.mModeType = ModeTypeHelper.valueOf(a.getInt(R.styleable.ESRadioGroup_modeType, 0));
 			this.setOnCheckedChangeListener(onCheckedChangeListener);
 			a.recycle();
@@ -73,55 +75,50 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	{
 		public void onCheckedChanged(android.widget.RadioGroup group, int checkedId)
 		{
-			if(isEnabled()==false || isClickable()==false)
+			View view;
+			int size = group.getChildCount();
+			for (int i = 0; i < size; i++)
 			{
-				return;
-			}
-			else
-			{
-				View view;
-				int size = group.getChildCount();
-				//ѭа
-				for (int i = 0; i < size; i++)
+				//ʵ
+				view = group.getChildAt(i);
+				if (view instanceof RadioButton)
 				{
-					//ʵ
-					view = group.getChildAt(i);
-					if (view instanceof RadioButton)
+					RadioButton radioButton = (RadioButton) view;
+					if (radioButton.getId() == checkedId)
 					{
-						RadioButton radioButton = (RadioButton) view;
-						if (radioButton.getId() == checkedId)
-						{
-							//ʵѡа
-							mSelectedRadioButton = (RadioButton) group.getChildAt(i);
-							//radioButton.setChecked(!radioButton.isChecked());
-							//ѡаֵ
-							mSelectItemValue = radioButton.getTag();
-							mSelectItemText = radioButton.getText();
-							Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
-						}
-						else
+
+						mSelectedRadioButton = (RadioButton) group.getChildAt(i);
+						//radioButton.setChecked(!radioButton.isChecked());
+						mSelectItemValue = radioButton.getTag();
+						mSelectItemText = radioButton.getText();
+						Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
+					}
+					else
+					{
+						if(!multiple)
 						{
 							radioButton.setChecked(false);
 						}
 					}
-					if (view instanceof ESSpinner)
+				}
+				if (view instanceof ESSpinner)
+				{
+					ESSpinner spinner = (ESSpinner) view;
+					if (spinner.getId() == checkedId)
 					{
-						ESSpinner spinner = (ESSpinner) view;
-						if (spinner.getId() == checkedId)
-						{
-							mSelectItemValue = spinner.getSelectValue();
-							mSelectItemText = spinner.getSelectText();
-							Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
-						}
+						mSelectItemValue = spinner.getSelectValue();
+						mSelectItemText = spinner.getSelectText();
+						Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
 					}
 				}
-				//Ϊnullִ
-				if (getOnCheckedChangedListener() != null)
-				{
-					onCheckedChangedListener.onCheckedChanged(mSelectedRadioButton);
-				}
+			}
+
+			if (getOnCheckedChangedListener() != null)
+			{
+				onCheckedChangedListener.onCheckedChanged(mSelectedRadioButton);
 			}
 		}
+
 	};
 
 	/**
@@ -152,32 +149,67 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	{
 		try
 		{
-			if(data != null)
+			if (dataName.toUpperCase().equals(mName.toUpperCase()) && data != null)
 			{
-				View  view;
-				int size = this.getChildCount();
-				for(int i = 0; i < size; i++)
+				if (data != null)
 				{
-					view = this.getChildAt(i);
-					if(view instanceof RadioButton)
+					if(!multiple)
 					{
-						RadioButton radioButton = (RadioButton) view;
-						if (radioButton != null)
+						View view;
+						int size = this.getChildCount();
+						for (int i = 0; i < size; i++)
 						{
-							if (radioButton.getTag().toString().equals(data.getValue().toString()))
+							view = this.getChildAt(i);
+							if (view instanceof RadioButton)
 							{
-								radioButton.setTag(data.getValue().toString());
-								radioButton.setChecked(true);
+								RadioButton radioButton = (RadioButton) view;
+								if (radioButton != null)
+								{
+									if (radioButton.getTag().toString().equals(data.getValue().toString()))
+									{
+										radioButton.setTag(data.getValue().toString());
+										radioButton.setChecked(true);
+									}
+								}
+							}
+							if (view instanceof ESSpinner)
+							{
+
+								ESSpinner spinner = (ESSpinner) view;
+								if (spinner != null)
+								{
+									spinner.setItemSelectedByValue(data.getStringValue());
+								}
 							}
 						}
 					}
-					if(view instanceof ESSpinner)
+					else
 					{
-
-						ESSpinner spinner = (ESSpinner) view;
-						if (spinner != null)
+						//多选的情况，全部用逗号分隔
+						String[] values = data.getStringValue().split(",");
+						if(values.length>0)
 						{
-							spinner.setItemSelectedByValue(data.getStringValue());
+							for(String v:values)
+							{
+								View view;
+								int size = this.getChildCount();
+								for (int i = 0; i < size; i++)
+								{
+									view = this.getChildAt(i);
+									if (view instanceof RadioButton)
+									{
+										RadioButton radioButton = (RadioButton) view;
+										if (radioButton != null)
+										{
+											if (radioButton.getTag().toString().equals(v))
+											{
+												radioButton.setTag(v);
+												radioButton.setChecked(true);
+											}
+										}
+									}
+								}
+							}
 						}
 					}
 				}
@@ -196,12 +228,38 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	public DataCollection collect()
 	{
 		DataCollection datas = new DataCollection();
-		if(mSelectItemValue == null && mEmpty2Null.equals(true))
+		if(!multiple)
 		{
-			datas.add(new Data(this.mName, null, mDataType));
+			if (mSelectItemValue == null && mEmpty2Null.equals(true))
+			{
+				datas.add(new Data(this.mName, null, mDataType));
+			}
+			else
+			{
+				datas.add(new Data(mName, mSelectItemValue, mDataType));
+			}
 		}
 		else
 		{
+			StringBuffer stringBuffer = new StringBuffer(200);
+			View view;
+			int size = this.getChildCount();
+			for (int i = 0; i < size; i++)
+			{
+				view = this.getChildAt(i);
+				if (view instanceof RadioButton)
+				{
+					RadioButton radioButton = (RadioButton) view;
+					if (radioButton != null && radioButton.isChecked()==true)
+					{
+						stringBuffer.append(radioButton.getTag()).append(",");
+					}
+				}
+			}
+			if(stringBuffer.length()>0)
+			{
+				mSelectItemValue = stringBuffer.substring(0, stringBuffer.length() - 1);
+			}
 			datas.add(new Data(mName, mSelectItemValue, mDataType));
 		}
 		return datas;
@@ -223,6 +281,10 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 				{
 					//空的，什么也没选
 					isEmpty=true;
+				}
+				else
+				{
+					isEmpty=false;
 				}
 			}
 			invalidate();
@@ -313,18 +375,6 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 //		ToastHelper.toastShow(this.getContext(), getHint().toString());
 	}
 
-	protected void onDraw(Canvas canvas)
-	{
-		super.onDraw(canvas);
-		Paint mPaint = new Paint();
-		mPaint.setColor(Color.RED);
-
-		mPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-		// ַ
-		// this.setWidth((int) mPaint.measureText(TipText));
-		canvas.drawText(mTipText, 8, this.getHeight() / 2 + 5, mPaint);
-	}
-
 	public Object getChildView()
 	{
 		return mActivity;
@@ -360,13 +410,46 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 		return mIsRequired;
 	}
 
-	@Override
-	public Boolean getIsEmpty() {
-		return isEmpty;
+	public boolean isMultiple()
+	{
+		return multiple;
+	}
+
+	public void setMultiple(boolean multiple)
+	{
+		this.multiple = multiple;
 	}
 
 	@Override
-	public void message() {
+	public Boolean getIsEmpty() {
+		try
+		{
+			if(mIsRequired)
+			{
+				//如果没选中，返回-1
+				if(this.getSelectItemValue()!=null)
+				{
+					//空的，什么也没选
+					isEmpty=true;
+				}
+				else
+				{
+					isEmpty=false;
+				}
+			}
+		}
+		catch(Exception ex)
+		{
+			Log.e("Validator", ex.getMessage());
+		}
+		return isEmpty;
+	}
+
+	/**
+	 * 提示校验错误
+	 * **/
+	public void message()
+	{
 		ToastHelper.toastShow(this.getContext(),mMessage);
 	}
 
@@ -413,16 +496,6 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	public void setSelectItemText(Object selectItemText)
 	{
 		this.mSelectItemText = selectItemText;
-	}
-
-	public String getTipText()
-	{
-		return mTipText;
-	}
-
-	public void setTipText(String tipText)
-	{
-		this.mTipText = tipText;
 	}
 
 	public String getNameSpace()
