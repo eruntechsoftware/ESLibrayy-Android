@@ -9,7 +9,10 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.birthstone.R;
 import com.birthstone.base.activity.Activity;
@@ -24,7 +27,7 @@ import com.birthstone.core.helper.ModeTypeHelper;
 
 import java.util.LinkedList;
 
-public class ESRadioGroup extends android.widget.RadioGroup implements ICollectible, IValidatible, IReleasable, IStateProtected, ICellTitleStyleRequire, IDataInitialize
+public class ESRadioGroup extends android.widget.RadioGroup implements RadioGroup.OnCheckedChangeListener, ICollectible, IValidatible, IReleasable, IStateProtected, ICellTitleStyleRequire, IDataInitialize
 {
 
 	private DataType mDataType;
@@ -40,7 +43,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	private String mName;
 	private Object mSelectItemValue = null;
 	private Object mSelectItemText = null;
-	private RadioButton mSelectedRadioButton;
+	private CompoundButton mSelectedButton;
 	private OnCheckedChangedListener onCheckedChangedListener;
 	public String mNameSpace = "http://schemas.android.com/res/com.birthStone.widgets";
 	private boolean isEmpty;
@@ -62,7 +65,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 			this.mWantedStateValue = a.getString(R.styleable.ESRadioGroup_wantedStateValue);
 
 			this.mModeType = ModeTypeHelper.valueOf(a.getInt(R.styleable.ESRadioGroup_modeType, 0));
-			this.setOnCheckedChangeListener(onCheckedChangeListener);
+			this.setOnCheckedChangeListener(this);
 			a.recycle();
 		}
 		catch(Exception ex)
@@ -71,55 +74,74 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 		}
 	}
 
-	OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener()
+	public void onCheckedChanged(android.widget.RadioGroup group, int checkedId)
 	{
-		public void onCheckedChanged(android.widget.RadioGroup group, int checkedId)
+		View view;
+		int size = group.getChildCount();
+		for (int i = 0; i < size; i++)
 		{
-			View view;
-			int size = group.getChildCount();
-			for (int i = 0; i < size; i++)
+			//ʵ
+			view = group.getChildAt(i);
+			if (view instanceof RadioButton)
 			{
-				//ʵ
-				view = group.getChildAt(i);
-				if (view instanceof RadioButton)
+				RadioButton radioButton = (RadioButton) view;
+				if (radioButton.getId() == checkedId)
 				{
-					RadioButton radioButton = (RadioButton) view;
-					if (radioButton.getId() == checkedId)
-					{
 
-						mSelectedRadioButton = (RadioButton) group.getChildAt(i);
-						//radioButton.setChecked(!radioButton.isChecked());
-						mSelectItemValue = radioButton.getTag();
-						mSelectItemText = radioButton.getText();
-						Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
-					}
-					else
-					{
-						if(!multiple)
-						{
-							radioButton.setChecked(false);
-						}
-					}
+					mSelectedButton = radioButton;
+					//radioButton.setChecked(!radioButton.isChecked());
+					mSelectItemValue = radioButton.getTag();
+					mSelectItemText = radioButton.getText();
+					Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
 				}
-				if (view instanceof ESSpinner)
+				else
 				{
-					ESSpinner spinner = (ESSpinner) view;
-					if (spinner.getId() == checkedId)
+					if (!multiple)
 					{
-						mSelectItemValue = spinner.getSelectValue();
-						mSelectItemText = spinner.getSelectText();
-						Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
+						radioButton.setChecked(false);
 					}
 				}
 			}
 
-			if (getOnCheckedChangedListener() != null)
+			if (view instanceof CheckBox)
 			{
-				onCheckedChangedListener.onCheckedChanged(mSelectedRadioButton);
+				CheckBox mCheckBox = (CheckBox) view;
+				if (mCheckBox.getId() == checkedId)
+				{
+
+					mSelectedButton = mCheckBox;
+					mSelectedButton.setChecked(true);
+					//radioButton.setChecked(!radioButton.isChecked());
+					mSelectItemValue = mCheckBox.getTag();
+					mSelectItemText = mCheckBox.getText();
+					Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
+				}
+				else
+				{
+					if (!multiple)
+					{
+						mCheckBox.setChecked(false);
+					}
+				}
 			}
+
+			if (view instanceof ESSpinner)
+			{
+				ESSpinner spinner = (ESSpinner) view;
+				if (spinner.getId() == checkedId)
+				{
+					mSelectItemValue = spinner.getSelectValue();
+					mSelectItemText = spinner.getSelectText();
+					Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
+				}
+			}
+
 		}
-
-	};
+		if (getOnCheckedChangedListener() != null)
+		{
+			onCheckedChangedListener.onCheckedChanged(mSelectedButton);
+		}
+	}
 
 	/**
 	 *
@@ -160,9 +182,9 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 						for (int i = 0; i < size; i++)
 						{
 							view = this.getChildAt(i);
-							if (view instanceof RadioButton)
+							if (view instanceof CompoundButton)
 							{
-								RadioButton radioButton = (RadioButton) view;
+								CompoundButton radioButton = (CompoundButton) view;
 								if (radioButton != null)
 								{
 									if (radioButton.getTag().toString().equals(data.getValue().toString()))
@@ -196,9 +218,9 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 								for (int i = 0; i < size; i++)
 								{
 									view = this.getChildAt(i);
-									if (view instanceof RadioButton)
+									if (view instanceof CompoundButton)
 									{
-										RadioButton radioButton = (RadioButton) view;
+										CompoundButton radioButton = (CompoundButton) view;
 										if (radioButton != null)
 										{
 											if (radioButton.getTag().toString().equals(v))
@@ -247,9 +269,9 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 			for (int i = 0; i < size; i++)
 			{
 				view = this.getChildAt(i);
-				if (view instanceof RadioButton)
+				if (view instanceof CompoundButton)
 				{
-					RadioButton radioButton = (RadioButton) view;
+					CompoundButton radioButton = (CompoundButton) view;
 					if (radioButton != null && radioButton.isChecked()==true)
 					{
 						stringBuffer.append(radioButton.getTag()).append(",");
@@ -306,9 +328,9 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 		for(int i=0; i<size; i++)
 		{
 			view = this.getChildAt(i);
-			if(view instanceof RadioButton)
+			if(view instanceof CompoundButton)
 			{
-				RadioButton radioButton = (RadioButton) view;
+				CompoundButton radioButton = (CompoundButton) view;
 				if(radioButton.getTag().toString().equals(value.toString()))
 				{
 					radioButton.setChecked(true);
@@ -343,9 +365,9 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 		for(int i=0; i<size; i++)
 		{
 			view = this.getChildAt(i);
-			if(view instanceof RadioButton)
+			if(view instanceof CompoundButton)
 			{
-				RadioButton radioButton = (RadioButton) view;
+				CompoundButton radioButton = (CompoundButton) view;
 				radioButton.setChecked(false);
 			}
 		}
@@ -554,9 +576,9 @@ public class ESRadioGroup extends android.widget.RadioGroup implements ICollecti
 	}
 	
 
-	public RadioButton getSelectedRadioButton()
+	public CompoundButton getSelectedButton()
 	{
-		return mSelectedRadioButton;
+		return mSelectedButton;
 	}
 
 	/**
