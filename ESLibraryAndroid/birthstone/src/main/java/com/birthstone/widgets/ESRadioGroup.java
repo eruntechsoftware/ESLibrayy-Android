@@ -449,7 +449,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 			if(mIsRequired)
 			{
 				//如果没选中，返回-1
-				if(this.getSelectItemValue()!=null)
+				if(this.getCheckedRadioButtonId()<0)
 				{
 					//空的，什么也没选
 					isEmpty=true;
