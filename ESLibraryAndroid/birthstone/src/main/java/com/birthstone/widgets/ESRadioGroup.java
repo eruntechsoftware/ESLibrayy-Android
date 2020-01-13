@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -76,70 +77,61 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 
 	public void onCheckedChanged(android.widget.RadioGroup group, int checkedId)
 	{
-		View view;
-		int size = group.getChildCount();
-		for (int i = 0; i < size; i++)
-		{
-			//ʵ
-			view = group.getChildAt(i);
-			if (view instanceof RadioButton)
-			{
-				RadioButton radioButton = (RadioButton) view;
-				if (radioButton.getId() == checkedId)
-				{
+		checkedChangedChildView(this,checkedId);
 
-					mSelectedButton = radioButton;
-					//radioButton.setChecked(!radioButton.isChecked());
-					mSelectItemValue = radioButton.getTag();
-					mSelectItemText = radioButton.getText();
-					Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
-				}
-				else
+	}
+
+	private void checkedChangedChildView(View parentView,int checkedId)
+	{
+		if(parentView!=null)
+		{
+			if(parentView instanceof ViewGroup)
+			{
+				ViewGroup viewGroup = (ViewGroup)parentView;
+				int size = viewGroup.getChildCount();
+				View childView;
+				for(int i=0;i<size; i++)
 				{
-					if (!multiple)
+					childView = this.getChildAt(i);
+					if(childView instanceof ViewGroup)
 					{
-						radioButton.setChecked(false);
+						checkedChangedChildView(childView,checkedId);
+					}
+
+					RadioButton radioButton = (RadioButton) childView;
+					if (radioButton.getId() == checkedId)
+					{
+						mSelectedButton = radioButton;
+						//radioButton.setChecked(!radioButton.isChecked());
+						mSelectItemValue = radioButton.getTag();
+						mSelectItemText = radioButton.getText();
+						Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
+						if (getOnCheckedChangedListener() != null)
+						{
+							onCheckedChangedListener.onCheckedChanged(mSelectedButton);
+						}
+					}
+					else
+					{
+						if (!multiple)
+						{
+							radioButton.setChecked(false);
+						}
+					}
+					if(childView instanceof ESSpinner)
+					{
+
+						ESSpinner spinner = (ESSpinner) childView;
+						if (spinner.getId() == checkedId)
+						{
+							mSelectItemValue = spinner.getSelectValue();
+							mSelectItemText = spinner.getSelectText();
+							Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
+						}
 					}
 				}
 			}
 
-			if (view instanceof CheckBox)
-			{
-				CheckBox mCheckBox = (CheckBox) view;
-				if (mCheckBox.getId() == checkedId)
-				{
-
-					mSelectedButton = mCheckBox;
-					mSelectedButton.setChecked(true);
-					//radioButton.setChecked(!radioButton.isChecked());
-					mSelectItemValue = mCheckBox.getTag();
-					mSelectItemText = mCheckBox.getText();
-					Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
-				}
-				else
-				{
-					if (!multiple)
-					{
-						mCheckBox.setChecked(false);
-					}
-				}
-			}
-
-			if (view instanceof ESSpinner)
-			{
-				ESSpinner spinner = (ESSpinner) view;
-				if (spinner.getId() == checkedId)
-				{
-					mSelectItemValue = spinner.getSelectValue();
-					mSelectItemText = spinner.getSelectText();
-					Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
-				}
-			}
-
-		}
-		if (getOnCheckedChangedListener() != null)
-		{
-			onCheckedChangedListener.onCheckedChanged(mSelectedButton);
 		}
 	}
 
@@ -213,24 +205,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 						{
 							for(String v:values)
 							{
-								View view;
-								int size = this.getChildCount();
-								for (int i = 0; i < size; i++)
-								{
-									view = this.getChildAt(i);
-									if (view instanceof CompoundButton)
-									{
-										CompoundButton radioButton = (CompoundButton) view;
-										if (radioButton != null)
-										{
-											if (radioButton.getTag().toString().equals(v))
-											{
-												radioButton.setTag(v);
-												radioButton.setChecked(true);
-											}
-										}
-									}
-								}
+								releaseChildView(v,this);
 							}
 						}
 					}
@@ -241,7 +216,47 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 		{
 			Log.e("RadioGroup", ex.getMessage());
 		}
+	}
 
+	private void releaseChildView(String value,View parentView)
+	{
+		if(parentView!=null)
+		{
+			if(parentView instanceof ViewGroup)
+			{
+				ViewGroup viewGroup = (ViewGroup)parentView;
+				int size = viewGroup.getChildCount();
+				View childView;
+				for(int i=0;i<size; i++)
+				{
+					childView = this.getChildAt(i);
+					if(childView instanceof ViewGroup)
+					{
+						releaseChildView(value,childView);
+					}
+					if (childView instanceof CompoundButton)
+					{
+						CompoundButton radioButton = (CompoundButton) childView;
+						if (radioButton != null)
+						{
+							if (radioButton.getTag().toString().equals(value))
+							{
+								radioButton.setTag(value);
+								radioButton.setChecked(true);
+							}
+						}
+					}
+					if(childView instanceof ESSpinner)
+					{
+						ESSpinner spinner = (ESSpinner) childView;
+						if (spinner != null)
+						{
+							spinner.setItemSelectedByValue(value);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -263,28 +278,53 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 		}
 		else
 		{
-			StringBuffer stringBuffer = new StringBuffer(200);
-			View view;
-			int size = this.getChildCount();
-			for (int i = 0; i < size; i++)
+			String value = collectChildView(this);
+			if(value.length()>0)
 			{
-				view = this.getChildAt(i);
-				if (view instanceof CompoundButton)
-				{
-					CompoundButton radioButton = (CompoundButton) view;
-					if (radioButton != null && radioButton.isChecked()==true)
-					{
-						stringBuffer.append(radioButton.getTag()).append(",");
-					}
-				}
-			}
-			if(stringBuffer.length()>0)
-			{
-				mSelectItemValue = stringBuffer.substring(0, stringBuffer.length() - 1);
+				mSelectItemValue = value.substring(0, value.length() - 1);
 			}
 			datas.add(new Data(mName, mSelectItemValue, mDataType));
 		}
 		return datas;
+	}
+
+	private String collectChildView(View parentView)
+	{
+		StringBuffer stringBuffer = new StringBuffer(200);
+		if(parentView!=null)
+		{
+			if(parentView instanceof ViewGroup)
+			{
+				ViewGroup viewGroup = (ViewGroup)parentView;
+				int size = viewGroup.getChildCount();
+				View childView;
+				for(int i=0;i<size; i++)
+				{
+					childView = this.getChildAt(i);
+					if(childView instanceof ViewGroup)
+					{
+						stringBuffer.append(collectChildView(childView));
+					}
+					if(childView instanceof CompoundButton)
+					{
+						CompoundButton radioButton = (CompoundButton) childView;
+						if (radioButton != null && radioButton.isChecked()==true)
+						{
+							stringBuffer.append(radioButton.getTag()).append(",");
+						}
+					}
+					if(childView instanceof ESSpinner)
+					{
+						ESSpinner spinner = (ESSpinner) childView;
+						if (spinner != null)
+						{
+							stringBuffer.append(spinner.getSelectValue()).append(",");
+						}
+					}
+				}
+			}
+		}
+		return stringBuffer.toString();
 	}
 
 	/** 
@@ -323,68 +363,90 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 	 * */
 	public void setChecked(Object value)
 	{
-		int size = this.getChildCount();
-		View view;
-		for(int i=0; i<size; i++)
-		{
-			view = this.getChildAt(i);
-			if(view instanceof CompoundButton)
-			{
-				CompoundButton radioButton = (CompoundButton) view;
-				if(radioButton.getTag().toString().equals(value.toString()))
-				{
-					radioButton.setChecked(true);
-				}
-				else
-				{
-					radioButton.setChecked(false);
-				}
-			}
-			if(view instanceof ESSpinner)
-			{
+		setChecked(value,this);
+	}
 
-				ESSpinner spinner = (ESSpinner) view;
-				if (spinner != null)
+	private void setChecked(Object value,View parentView)
+	{
+		if(parentView!=null)
+		{
+			if(parentView instanceof ViewGroup)
+			{
+				ViewGroup viewGroup = (ViewGroup)parentView;
+				int size = viewGroup.getChildCount();
+				View childView;
+				for(int i=0;i<size; i++)
 				{
-					spinner.setItemSelectedByValue(value.toString());
+					childView = this.getChildAt(i);
+					if(childView instanceof ViewGroup)
+					{
+						setChecked(value,childView);
+					}
+					if(childView instanceof CompoundButton)
+					{
+						CompoundButton radioButton = (CompoundButton) childView;
+						if(radioButton.getTag().toString().equals(value.toString()))
+						{
+							radioButton.setChecked(true);
+						}
+						else
+						{
+							radioButton.setChecked(false);
+						}
+					}
+					if(childView instanceof ESSpinner)
+					{
+
+						ESSpinner spinner = (ESSpinner) childView;
+						if (spinner != null)
+						{
+							spinner.setItemSelectedByValue(value.toString());
+						}
+					}
 				}
 			}
+
 		}
 	}
 
 	public void clearAllCheck()
 	{
-		clearCheckBoxCheck();
-		clearOtherViewCheck();
+		clearCheck(this);
 	}
 
-	public void clearCheckBoxCheck()
+	private void clearCheck(View parentView)
 	{
-		int size = this.getChildCount();
-		View view;
-		for(int i=0; i<size; i++)
+		if(parentView!=null)
 		{
-			view = this.getChildAt(i);
-			if(view instanceof CompoundButton)
+			if(parentView instanceof ViewGroup)
 			{
-				CompoundButton radioButton = (CompoundButton) view;
-				radioButton.setChecked(false);
-			}
-		}
-	}
+				ViewGroup viewGroup = (ViewGroup)parentView;
+				int size = viewGroup.getChildCount();
+				View childView;
+				for(int i=0;i<size; i++)
+				{
+					childView = this.getChildAt(i);
+					if(childView instanceof ViewGroup)
+					{
+						clearCheck(childView);
+					}
+					if(childView instanceof CompoundButton)
+					{
+						CompoundButton radioButton = (CompoundButton) childView;
+						radioButton.setChecked(false);
+					}
+					if(childView instanceof ESSpinner)
+					{
 
-	public void clearOtherViewCheck()
-	{
-		int size = this.getChildCount();
-		View view;
-		for(int i=0; i<size; i++)
-		{
-			view = this.getChildAt(i);
-			if(view instanceof ESSpinner)
-			{
-				ESSpinner spinner = (ESSpinner)view;
-				spinner.setSelection(0);
+						ESSpinner spinner = (ESSpinner) childView;
+						if (spinner != null)
+						{
+							spinner.setSelection(0);
+						}
+					}
+				}
 			}
+
 		}
 	}
 
@@ -469,32 +531,51 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 
 	public int getCheckedButtonId()
 	{
-		int id=-1;
-		int size = this.getChildCount();
-		View view;
-		for(int i=0; i<size; i++)
-		{
-			view = this.getChildAt(i);
-			if(view instanceof CompoundButton)
-			{
-				CompoundButton radioButton = (CompoundButton) view;
-				if(radioButton.isChecked())
-				{
-					id=radioButton.getId();
-				}
-			}
-			if(view instanceof ESSpinner)
-			{
+		int id;
+		id = getCheckedId(this);
+		return id;
+	}
 
-				ESSpinner spinner = (ESSpinner) view;
-				if(spinner.getSelectValue()!=null)
+	private int getCheckedId(View parentView)
+	{
+		int id = -1;
+		if(parentView!=null)
+		{
+			if(parentView instanceof ViewGroup)
+			{
+				ViewGroup viewGroup = (ViewGroup)parentView;
+				int size = viewGroup.getChildCount();
+				View childView;
+				for(int i=0;i<size; i++)
 				{
-					id=spinner.getId();
+					childView = this.getChildAt(i);
+					if(childView instanceof ViewGroup)
+					{
+						id = getCheckedId(childView);
+					}
+					if(childView instanceof CompoundButton)
+					{
+						CompoundButton radioButton = (CompoundButton) childView;
+						if(radioButton.isChecked())
+						{
+							id=radioButton.getId();
+						}
+					}
+					if(childView instanceof ESSpinner)
+					{
+
+						ESSpinner spinner = (ESSpinner) childView;
+						if(spinner.getSelectValue()!=null)
+						{
+							id=spinner.getId();
+						}
+					}
 				}
 			}
 		}
 		return id;
 	}
+
 	/**
 	 * 提示校验错误
 	 * **/
