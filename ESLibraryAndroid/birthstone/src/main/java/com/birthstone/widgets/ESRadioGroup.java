@@ -299,7 +299,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 			if(mIsRequired)
 			{
 				//如果没选中，返回-1
-				if(this.getCheckedRadioButtonId() <= 0)
+				if(this.getCheckedButtonId() <= 0)
 				{
 					//空的，什么也没选
 					isEmpty=true;
@@ -449,7 +449,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 			if(mIsRequired)
 			{
 				//如果没选中，返回-1
-				if(this.getCheckedRadioButtonId()<0)
+				if(getCheckedButtonId()<0)
 				{
 					//空的，什么也没选
 					isEmpty=true;
@@ -467,6 +467,34 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 		return isEmpty;
 	}
 
+	public int getCheckedButtonId()
+	{
+		int id=-1;
+		int size = this.getChildCount();
+		View view;
+		for(int i=0; i<size; i++)
+		{
+			view = this.getChildAt(i);
+			if(view instanceof CompoundButton)
+			{
+				CompoundButton radioButton = (CompoundButton) view;
+				if(radioButton.isChecked())
+				{
+					id=radioButton.getId();
+				}
+			}
+			if(view instanceof ESSpinner)
+			{
+
+				ESSpinner spinner = (ESSpinner) view;
+				if(spinner.getSelectValue()!=null)
+				{
+					id=spinner.getId();
+				}
+			}
+		}
+		return id;
+	}
 	/**
 	 * 提示校验错误
 	 * **/
