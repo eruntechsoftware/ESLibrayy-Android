@@ -237,7 +237,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				View childView;
 				for(int i=0;i<size; i++)
 				{
-					childView = this.getChildAt(i);
+					childView = viewGroup.getChildAt(i);
 					if (childView instanceof CompoundButton)
 					{
 						CompoundButton radioButton = (CompoundButton) childView;
@@ -310,7 +310,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				View childView;
 				for(int i=0;i<size; i++)
 				{
-					childView = this.getChildAt(i);
+					childView = viewGroup.getChildAt(i);
 
 					if(childView instanceof CompoundButton)
 					{
@@ -390,7 +390,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				View childView;
 				for(int i=0;i<size; i++)
 				{
-					childView = this.getChildAt(i);
+					childView = viewGroup.getChildAt(i);
 
 					if(childView instanceof CompoundButton)
 					{
@@ -441,7 +441,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				View childView;
 				for(int i=0;i<size; i++)
 				{
-					childView = this.getChildAt(i);
+					childView = viewGroup.getChildAt(i);
 
 					if(childView instanceof CompoundButton)
 					{
