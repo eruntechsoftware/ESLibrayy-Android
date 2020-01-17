@@ -38,6 +38,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 	protected String mStateHiddenId;
 	protected String mWantedStateValue;
 	protected boolean multiple;
+	protected String check_tag;
 	protected ModeType mModeType;
 	private IChildView mActivity;
 	protected String mMessage = "";
@@ -60,6 +61,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 			this.mIsRequired = a.getBoolean(R.styleable.ESRadioGroup_isRequired,false);
 			this.mEmpty2Null = a.getBoolean(R.styleable.ESRadioGroup_empty2Null, true);
 			this.multiple = a.getBoolean(R.styleable.ESRadioGroup_multiple, false);
+			this.check_tag = a.getString(R.styleable.ESRadioGroup_check_tag);
 			this.mMessage = a.getString(R.styleable.ESRadioGroup_message);
 			this.mCollectSign = a.getString(R.styleable.ESRadioGroup_collectSign);
 			this.mStateHiddenId = a.getString(R.styleable.ESRadioGroup_stateHiddenId);
@@ -149,7 +151,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 			String classnameString = this.getContext().getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
 
-			initChecked(this);
+			setChecked(check_tag);
 		}
 	}
 
@@ -158,37 +160,6 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 		LinkedList<String> list = new LinkedList<String>();
 		list.add(mName);
 		return list;
-	}
-
-	private void initChecked(View parentView)
-	{
-		if(parentView!=null)
-		{
-			if(parentView instanceof ViewGroup)
-			{
-				ViewGroup viewGroup = (ViewGroup)parentView;
-				int size = viewGroup.getChildCount();
-				View childView;
-				for(int i=0;i<size; i++)
-				{
-					childView = this.getChildAt(i);
-
-					if(childView instanceof CompoundButton)
-					{
-						CompoundButton radioButton = (CompoundButton) childView;
-						if (radioButton != null && radioButton.isChecked()==true)
-						{
-							radioButton.setChecked(true);
-						}
-						continue;
-					}
-					else if(childView instanceof ViewGroup)
-					{
-						initChecked(childView);
-					}
-				}
-			}
-		}
 	}
 
 	/**
@@ -658,6 +629,16 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 	public void setEmpty2Null(Boolean empty2Null)
 	{
 		this.mEmpty2Null = empty2Null;
+	}
+
+	public String getCheck_tag()
+	{
+		return check_tag;
+	}
+
+	public void setCheck_tag(String check_tag)
+	{
+		this.check_tag = check_tag;
 	}
 
 	public Object getSelectItemValue()
