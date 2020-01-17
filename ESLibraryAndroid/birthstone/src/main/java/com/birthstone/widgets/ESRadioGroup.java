@@ -93,31 +93,6 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				for(int i=0;i<size; i++)
 				{
 					childView = this.getChildAt(i);
-					if(childView instanceof ViewGroup)
-					{
-						checkedChangedChildView(childView,checkedId);
-					}
-
-					RadioButton radioButton = (RadioButton) childView;
-					if (radioButton.getId() == checkedId)
-					{
-						mSelectedButton = radioButton;
-						//radioButton.setChecked(!radioButton.isChecked());
-						mSelectItemValue = radioButton.getTag();
-						mSelectItemText = radioButton.getText();
-						Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
-						if (getOnCheckedChangedListener() != null)
-						{
-							onCheckedChangedListener.onCheckedChanged(mSelectedButton);
-						}
-					}
-					else
-					{
-						if (!multiple)
-						{
-							radioButton.setChecked(false);
-						}
-					}
 					if(childView instanceof ESSpinner)
 					{
 
@@ -128,6 +103,35 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 							mSelectItemText = spinner.getSelectText();
 							Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
 						}
+						continue;
+					}
+					if(childView instanceof CompoundButton)
+					{
+						CompoundButton radioButton = (CompoundButton) childView;
+						if (radioButton.getId() == checkedId)
+						{
+							mSelectedButton = radioButton;
+							//radioButton.setChecked(!radioButton.isChecked());
+							mSelectItemValue = radioButton.getTag();
+							mSelectItemText = radioButton.getText();
+							Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
+							if (getOnCheckedChangedListener() != null)
+							{
+								onCheckedChangedListener.onCheckedChanged(mSelectedButton);
+							}
+						}
+						else
+						{
+							if (!multiple)
+							{
+								radioButton.setChecked(false);
+							}
+						}
+						continue;
+					}
+					else if(childView instanceof ViewGroup)
+					{
+						checkedChangedChildView(childView,checkedId);
 					}
 				}
 			}
@@ -230,10 +234,6 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				for(int i=0;i<size; i++)
 				{
 					childView = this.getChildAt(i);
-					if(childView instanceof ViewGroup)
-					{
-						releaseChildView(value,childView);
-					}
 					if (childView instanceof CompoundButton)
 					{
 						CompoundButton radioButton = (CompoundButton) childView;
@@ -245,6 +245,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 								radioButton.setChecked(true);
 							}
 						}
+						continue;
 					}
 					if(childView instanceof ESSpinner)
 					{
@@ -253,6 +254,11 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 						{
 							spinner.setItemSelectedByValue(value);
 						}
+						continue;
+					}
+					else if(childView instanceof ViewGroup)
+					{
+						releaseChildView(value,childView);
 					}
 				}
 			}
@@ -301,10 +307,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				for(int i=0;i<size; i++)
 				{
 					childView = this.getChildAt(i);
-					if(childView instanceof ViewGroup)
-					{
-						stringBuffer.append(collectChildView(childView));
-					}
+
 					if(childView instanceof CompoundButton)
 					{
 						CompoundButton radioButton = (CompoundButton) childView;
@@ -312,6 +315,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 						{
 							stringBuffer.append(radioButton.getTag()).append(",");
 						}
+						continue;
 					}
 					if(childView instanceof ESSpinner)
 					{
@@ -320,6 +324,11 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 						{
 							stringBuffer.append(spinner.getSelectValue()).append(",");
 						}
+						continue;
+					}
+					else if(childView instanceof ViewGroup)
+					{
+						stringBuffer.append(collectChildView(childView));
 					}
 				}
 			}
@@ -378,10 +387,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				for(int i=0;i<size; i++)
 				{
 					childView = this.getChildAt(i);
-					if(childView instanceof ViewGroup)
-					{
-						setChecked(value,childView);
-					}
+
 					if(childView instanceof CompoundButton)
 					{
 						CompoundButton radioButton = (CompoundButton) childView;
@@ -393,6 +399,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 						{
 							radioButton.setChecked(false);
 						}
+						continue;
 					}
 					if(childView instanceof ESSpinner)
 					{
@@ -402,6 +409,11 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 						{
 							spinner.setItemSelectedByValue(value.toString());
 						}
+						continue;
+					}
+					else if(childView instanceof ViewGroup)
+					{
+						setChecked(value,childView);
 					}
 				}
 			}
@@ -426,14 +438,12 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				for(int i=0;i<size; i++)
 				{
 					childView = this.getChildAt(i);
-					if(childView instanceof ViewGroup)
-					{
-						clearCheck(childView);
-					}
+
 					if(childView instanceof CompoundButton)
 					{
 						CompoundButton radioButton = (CompoundButton) childView;
 						radioButton.setChecked(false);
+						continue;
 					}
 					if(childView instanceof ESSpinner)
 					{
@@ -443,6 +453,11 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 						{
 							spinner.setSelection(0);
 						}
+						continue;
+					}
+					else if(childView instanceof ViewGroup)
+					{
+						clearCheck(childView);
 					}
 				}
 			}
@@ -549,10 +564,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				for(int i=0;i<size; i++)
 				{
 					childView = this.getChildAt(i);
-					if(childView instanceof ViewGroup)
-					{
-						id = getCheckedId(childView);
-					}
+
 					if(childView instanceof CompoundButton)
 					{
 						CompoundButton radioButton = (CompoundButton) childView;
@@ -560,6 +572,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 						{
 							id=radioButton.getId();
 						}
+						continue;
 					}
 					if(childView instanceof ESSpinner)
 					{
@@ -569,6 +582,11 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 						{
 							id=spinner.getId();
 						}
+						continue;
+					}
+					else if(childView instanceof ViewGroup)
+					{
+						id = getCheckedId(childView);
 					}
 				}
 			}
