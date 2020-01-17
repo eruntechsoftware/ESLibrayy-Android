@@ -148,6 +148,8 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 		{
 			String classnameString = this.getContext().getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
+
+			initChecked(this);
 		}
 	}
 
@@ -156,6 +158,37 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 		LinkedList<String> list = new LinkedList<String>();
 		list.add(mName);
 		return list;
+	}
+
+	private void initChecked(View parentView)
+	{
+		if(parentView!=null)
+		{
+			if(parentView instanceof ViewGroup)
+			{
+				ViewGroup viewGroup = (ViewGroup)parentView;
+				int size = viewGroup.getChildCount();
+				View childView;
+				for(int i=0;i<size; i++)
+				{
+					childView = this.getChildAt(i);
+
+					if(childView instanceof CompoundButton)
+					{
+						CompoundButton radioButton = (CompoundButton) childView;
+						if (radioButton != null && radioButton.isChecked()==true)
+						{
+							radioButton.setChecked(true);
+						}
+						continue;
+					}
+					else if(childView instanceof ViewGroup)
+					{
+						initChecked(childView);
+					}
+				}
+			}
+		}
 	}
 
 	/**
