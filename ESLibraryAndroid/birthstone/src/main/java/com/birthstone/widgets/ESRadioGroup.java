@@ -74,8 +74,6 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 
 			this.mModeType = ModeTypeHelper.valueOf(a.getInt(R.styleable.ESRadioGroup_modeType, 0));
 			this.setOnCheckedChangeListener(this);
-
-			initChildViews(this);
 			a.recycle();
 		}
 		catch(Exception ex)
@@ -137,7 +135,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 		{
 			String classnameString = this.getContext().getPackageName() + ".R$id";
 			mName = InitializeHelper.getName(classnameString, getId());
-
+			initChildViews(this);
 			setChecked(check_tag);
 		}
 	}
@@ -385,7 +383,6 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 					}
 				}
 			}
-
 		}
 	}
 
