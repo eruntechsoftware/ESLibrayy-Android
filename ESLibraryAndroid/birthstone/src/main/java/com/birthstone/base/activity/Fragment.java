@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.birthstone.R;
 import com.birthstone.annotation.ViewInjectUtils;
 import com.birthstone.base.helper.ActivityHelper;
+import com.birthstone.base.helper.AsyncTaskView;
 import com.birthstone.base.helper.ReleaseHelper;
 import com.birthstone.base.helper.StatusBarUtil;
 import com.birthstone.base.parse.*;
@@ -151,11 +152,12 @@ public class Fragment extends android.support.v4.app.Fragment implements IChildV
 		try
 		{
 			initalizeNavigationBar();
-			initViewWithActivity();
-			release();
-			initDataWithView();
-			initFunctionProtectedWithView();
-			initStateControlWithView();
+			new AsyncTaskView(this.getContext(), this).execute();
+//			initViewWithActivity();
+//			release();
+//			initDataWithView();
+//			initFunctionProtectedWithView();
+//			initStateControlWithView();
 		}
 		catch(Exception ex)
 		{
@@ -407,7 +409,7 @@ public class Fragment extends android.support.v4.app.Fragment implements IChildV
 	/**
 	 * 设置权限状态
 	 */
-	private void initFunctionProtectedWithView()
+	public void initFunctionProtectedWithView()
 	{
 		try
 		{

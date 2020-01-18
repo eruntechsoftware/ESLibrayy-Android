@@ -11,6 +11,17 @@ import java.util.List;
  */
 public interface IChildView
 {
+
+    /*
+     * 初始化Activity
+     * */
+    public void initViewWithActivity();
+
+    public void release();
+    public void initDataWithView();
+    public void initFunctionProtectedWithView();
+    public void initStateControlWithView();
+
     public List<View> getViews();
 
     public DataCollection collect(String sign);

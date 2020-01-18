@@ -188,11 +188,12 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity im
 	{
 		try
 		{
-			initViewWithActivity();
-			release();
-			initDataWithView();
-			initFunctionProtectedWithView();
-			initStateControlWithView();
+			new AsyncTaskView(this,this).execute();
+//			initViewWithActivity();
+//			release();
+//			initDataWithView();
+//			initFunctionProtectedWithView();
+//			initStateControlWithView();
 		}
 		catch(Exception ex)
 		{
@@ -290,7 +291,7 @@ public class FragmentActivity extends android.support.v4.app.FragmentActivity im
 	/*
 	 * 发布数据集到当前屏幕
 	 * */
-	private void release()
+	public void release()
 	{
 		ReleaseHelper releaseHelper;
 		try

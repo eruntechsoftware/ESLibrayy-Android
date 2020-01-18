@@ -19,6 +19,7 @@ import com.birthstone.R;
 import com.birthstone.annotation.ViewInjectUtils;
 import com.birthstone.base.helper.ActivityHelper;
 import com.birthstone.base.helper.ActivityManager;
+import com.birthstone.base.helper.AsyncTaskView;
 import com.birthstone.base.helper.FragmentActivityManager;
 import com.birthstone.base.helper.FragmentManager;
 import com.birthstone.base.helper.ReleaseHelper;
@@ -203,11 +204,12 @@ public class Activity extends android.app.Activity implements IUINavigationBar, 
     {
         try
         {
-            initViewWithActivity();
-            release();
-            initDataWithView();
-            initFunctionProtectedWithView();
-            initStateControlWithView();
+//            initViewWithActivity();
+//            release();
+//            initDataWithView();
+//            initFunctionProtectedWithView();
+//            initStateControlWithView();
+            new AsyncTaskView(this,this).execute();
 
         }
         catch (Exception ex)
@@ -450,7 +452,7 @@ public class Activity extends android.app.Activity implements IUINavigationBar, 
     /**
      * 设置权限状态
      */
-    private void initFunctionProtectedWithView ()
+    public void initFunctionProtectedWithView ()
     {
         try
         {
