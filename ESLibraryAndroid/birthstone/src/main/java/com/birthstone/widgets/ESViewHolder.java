@@ -93,6 +93,36 @@ public class ESViewHolder extends RecyclerView.ViewHolder implements IChildView
     }
 
     @Override
+    public void initViewWithActivity()
+    {
+        
+    }
+
+    @Override
+    public void release()
+    {
+
+    }
+
+    @Override
+    public void initDataWithView()
+    {
+
+    }
+
+    @Override
+    public void initFunctionProtectedWithView()
+    {
+
+    }
+
+    @Override
+    public void initStateControlWithView()
+    {
+
+    }
+
+    @Override
     public List<View> getViews ()
     {
         return views;

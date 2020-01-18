@@ -110,6 +110,36 @@ public class ESDialog extends Dialog implements IChildView
         views.add(view);
     }
 
+    @Override
+    public void initViewWithActivity()
+    {
+
+    }
+
+    @Override
+    public void release()
+    {
+
+    }
+
+    @Override
+    public void initDataWithView()
+    {
+
+    }
+
+    @Override
+    public void initFunctionProtectedWithView()
+    {
+
+    }
+
+    @Override
+    public void initStateControlWithView()
+    {
+
+    }
+
     /**
      *获取当前弹出框的所有View
      * **/
