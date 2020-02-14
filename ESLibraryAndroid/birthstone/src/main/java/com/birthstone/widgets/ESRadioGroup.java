@@ -409,6 +409,13 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 		}
 	}
 
+	/**
+	 * 设置默认选中的值
+	 * */
+	public void checkDefault()
+	{
+		this.setChecked(this.check_tag);
+	}
 
 	/**
 	 * 提示校验错误

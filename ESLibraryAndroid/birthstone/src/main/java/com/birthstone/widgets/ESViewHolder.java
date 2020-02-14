@@ -95,7 +95,7 @@ public class ESViewHolder extends RecyclerView.ViewHolder implements IChildView
     @Override
     public void initViewWithActivity()
     {
-        
+
     }
 
     @Override
