@@ -339,7 +339,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 	{
 		if(views!=null && views.containsKey(value.toString()))
 		{
-			View view = views.get(value);
+			View view = views.get(value.toString());
 			if(view instanceof CompoundButton)
 			{
 				CompoundButton compoundButton = (CompoundButton)view;
