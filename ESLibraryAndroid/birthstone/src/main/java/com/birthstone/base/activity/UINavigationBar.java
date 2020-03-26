@@ -3,6 +3,7 @@ package com.birthstone.base.activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.view.View;
@@ -205,7 +206,10 @@ public class UINavigationBar extends RelativeLayout implements View.OnClickListe
 	{
 		if(mRelativeLayout!=null)
 		{
-			mRelativeLayout.setBackground(background);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+			{
+				mRelativeLayout.setBackground(background);
+			}
 		}
 	}
 

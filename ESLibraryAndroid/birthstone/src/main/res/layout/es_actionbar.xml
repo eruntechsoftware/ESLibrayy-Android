@@ -21,7 +21,7 @@
           android:layout_centerVertical="true"
           android:padding="16dp"
           android:tint="#fff"
-          android:src="@drawable/es_icon_back"
+          android:src="@drawable/es_icon_white"
           android:visibility="gone"/>
 
         <TextView
