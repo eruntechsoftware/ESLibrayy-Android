@@ -122,6 +122,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				}
 			}
 		}
+		collectChildView(this);
 	}
 
 
@@ -271,8 +272,8 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 
 	private String collectChildView(View parentView)
 	{
-		StringBuffer stringBuffer = new StringBuffer(200);
-
+		StringBuffer stringBufferValue = new StringBuffer(200);
+		StringBuffer stringBufferText = new StringBuffer(200);
 		for(View childView : views.values())
 		{
 			if(childView instanceof CompoundButton)
@@ -280,7 +281,8 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				CompoundButton radioButton = (CompoundButton) childView;
 				if (radioButton != null && radioButton.isChecked()==true)
 				{
-					stringBuffer.append(radioButton.getTag()).append(",");
+					stringBufferValue.append(radioButton.getTag()).append(",");
+					stringBufferText.append(radioButton.getText()).append(",");
 				}
 				continue;
 			}
@@ -289,14 +291,16 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				ESSpinner spinner = (ESSpinner) childView;
 				if (spinner != null)
 				{
-					stringBuffer.append(spinner.getSelectValue()).append(",");
+					stringBufferValue.append(spinner.getSelectValue()).append(",");
 				}
 				continue;
 			}
 		}
-		if(stringBuffer.length()>0)
+		if(stringBufferValue.length()>0)
 		{
-			return stringBuffer.substring(0,stringBuffer.length()-1);
+			mSelectItemValue = stringBufferValue.substring(0,stringBufferValue.length()-1);
+			mSelectItemText = stringBufferText.substring(0,stringBufferText.length()-1);
+			return mSelectItemValue.toString();
 		}
 		return "";
 	}
