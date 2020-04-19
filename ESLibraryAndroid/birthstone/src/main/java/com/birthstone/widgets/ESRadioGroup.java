@@ -287,8 +287,14 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				CompoundButton radioButton = (CompoundButton) childView;
 				if (radioButton != null && radioButton.isChecked()==true)
 				{
-					stringBufferValue.append(radioButton.getTag()).append(",");
-					stringBufferText.append(radioButton.getText()).append(",");
+					if(!radioButton.getTag().toString().trim().equals(""))
+					{
+						stringBufferValue.append(radioButton.getTag()).append(",");
+					}
+					if(!radioButton.getText().toString().trim().equals(""))
+					{
+						stringBufferText.append(radioButton.getText()).append(",");
+					}
 				}
 				continue;
 			}
