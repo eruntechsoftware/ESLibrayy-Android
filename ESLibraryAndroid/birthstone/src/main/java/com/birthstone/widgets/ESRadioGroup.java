@@ -266,11 +266,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 		}
 		else
 		{
-			String value = collectChildView(this);
-			if(value.length()>0)
-			{
-				mSelectItemValue = value.substring(0, value.length() - 1);
-			}
+			collectChildView(this);
 			datas.add(new Data(mName, mSelectItemValue, mDataType));
 		}
 		return datas;
