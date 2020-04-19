@@ -110,7 +110,13 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 					Log.v("value", String.valueOf(mSelectItemText + ":::::" + mSelectItemValue));
 					if (getOnCheckedChangedListener() != null)
 					{
-						onCheckedChangedListener.onCheckedChanged(mSelectedButton);
+						this.post(new Runnable(){
+							@Override
+							public void run()
+							{
+								onCheckedChangedListener.onCheckedChanged(mSelectedButton);
+							}
+						});
 					}
 				}
 				else
