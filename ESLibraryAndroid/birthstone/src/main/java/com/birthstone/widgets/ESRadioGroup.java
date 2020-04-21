@@ -46,6 +46,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 	private IChildView mActivity;
 	protected String mMessage = "";
 	private String mName;
+	private String mSeparator="!";
 	private Object mSelectItemValue = null;
 	private Object mSelectItemText = null;
 	private CompoundButton mSelectedButton;
@@ -73,6 +74,11 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 			this.mWantedStateValue = a.getString(R.styleable.ESRadioGroup_wantedStateValue);
 
 			this.mModeType = ModeTypeHelper.valueOf(a.getInt(R.styleable.ESRadioGroup_modeType, 0));
+			this.mSeparator = a.getString(R.styleable.ESRadioGroup_separator);
+			if(mSeparator==null || mSeparator.trim().equals(""))
+			{
+				mSeparator="!";
+			}
 			this.setOnCheckedChangeListener(this);
 			a.recycle();
 		}
@@ -200,7 +206,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 					else
 					{
 						//多选的情况，全部用逗号分隔
-						String[] values = data.getStringValue().split(",");
+						String[] values = data.getStringValue().split(mSeparator);
 						if(values.length>0)
 						{
 							for(String v:values)
@@ -285,11 +291,11 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				{
 					if(!radioButton.getTag().toString().trim().equals(""))
 					{
-						stringBufferValue.append(radioButton.getTag()).append(",");
+						stringBufferValue.append(radioButton.getTag()).append(mSeparator);
 					}
 					if(!radioButton.getText().toString().trim().equals(""))
 					{
-						stringBufferText.append(radioButton.getText()).append(",");
+						stringBufferText.append(radioButton.getText()).append(mSeparator);
 					}
 				}
 				continue;
@@ -299,7 +305,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				ESSpinner spinner = (ESSpinner) childView;
 				if (spinner != null && !spinner.getSelectValue().trim().equals(""))
 				{
-					stringBufferValue.append(spinner.getSelectValue()).append(",");
+					stringBufferValue.append(spinner.getSelectValue()).append(mSeparator);
 				}
 				continue;
 			}
@@ -641,6 +647,16 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 		{
 			this.setVisibility(View.GONE);
 		}
+	}
+
+	public String getSeparator()
+	{
+		return mSeparator;
+	}
+
+	public void setSeparator(String mSeparator)
+	{
+		this.mSeparator = mSeparator;
 	}
 
 	public void setModeType(ModeType modeType)

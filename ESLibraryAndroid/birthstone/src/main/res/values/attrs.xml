@@ -180,6 +180,8 @@
         <attr name="wantedStateValue"></attr>
         <!--条件类型-->
         <attr name="modeType"></attr>
+        <!--分隔符-->
+        <attr name="separator"></attr>
     </declare-styleable>
 
     <declare-styleable name="ESSpinner">
