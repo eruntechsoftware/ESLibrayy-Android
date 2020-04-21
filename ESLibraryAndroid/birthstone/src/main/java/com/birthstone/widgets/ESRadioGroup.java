@@ -306,6 +306,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 				if (spinner != null && !spinner.getSelectValue().trim().equals(""))
 				{
 					stringBufferValue.append(spinner.getSelectValue()).append(mSeparator);
+					stringBufferText.append(spinner.getSelectText()).append(mSeparator);
 				}
 				continue;
 			}
