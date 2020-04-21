@@ -586,6 +586,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 
 	public Object getSelectItemValue()
 	{
+		collectChildView(this);
 		return mSelectItemValue;
 	}
 
@@ -596,6 +597,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 
 	public Object getSelectItemText()
 	{
+		collectChildView(this);
 		return mSelectItemText;
 	}
 
