@@ -303,7 +303,7 @@ public class ESRadioGroup extends android.widget.RadioGroup implements RadioGrou
 			if(childView instanceof ESSpinner)
 			{
 				ESSpinner spinner = (ESSpinner) childView;
-				if (spinner != null && !spinner.getSelectValue().trim().equals(""))
+				if (spinner != null && !spinner.getSelectValue().trim().equals("") &&!spinner.getSelectValue().trim().equals("-100"))
 				{
 					stringBufferValue.append(spinner.getSelectValue()).append(mSeparator);
 					stringBufferText.append(spinner.getSelectText()).append(mSeparator);

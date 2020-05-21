@@ -1,6 +1,8 @@
 package com.birthstone.base.activity;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -169,10 +171,11 @@ public class UINavigationBar extends RelativeLayout implements View.OnClickListe
 		mIvLeft.setImageResource( LEFT_IMAGE_RESID);
 		mIvLeft.setOnClickListener(this);
 
-		Drawable icon = getResources().getDrawable(LEFT_IMAGE_RESID);
-		Drawable tintIcon = DrawableCompat.wrap(icon);
-		DrawableCompat.setTintList(tintIcon, getResources().getColorStateList(LEFT_IMAGE_TINT_COLOR));
-		mIvLeft.setImageDrawable(tintIcon);
+		Drawable icon = getResources().getDrawable(LEFT_IMAGE_RESID).mutate();
+//		Drawable tintIcon = DrawableCompat.wrap(icon);
+		DrawableCompat.setTintList(icon, getResources().getColorStateList(LEFT_IMAGE_TINT_COLOR));
+
+		mIvLeft.setImageDrawable(icon);
 
 		mTvLeft = (TextView) findViewById(R.id.tv_left);
 		mTvLeft.setTextColor(BUTTON_TEXT_COLOR);
